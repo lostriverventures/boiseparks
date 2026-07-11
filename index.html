@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boise Parks for Families — Playground, Splash Pad & Shade Finder</title>
+  <meta name="description" content="Every Boise park, rated for parents: 57 playgrounds, 8 splash pads & fountains, year-round restrooms, shade ratings and an interactive map with filters. Built from official City of Boise data.">
+  <link rel="canonical" href="https://boiseparks.com/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Boise Parks for Families — Playground, Splash Pad & Shade Finder">
+  <meta property="og:description" content="Every Boise park, rated for parents: playgrounds, splash pads, restrooms, shade and an interactive map with filters.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://boiseparks.com/">
+  <meta name="geo.region" content="US-ID">
+  <meta name="geo.placename" content="Boise">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"Boise Parks","alternateName":"boiseparks.com","url":"https://boiseparks.com/","description":"The parent's guide to every park in Boise: playgrounds, splash pads, restrooms, shade and an interactive map."}
+  </script>
+</head>
+<body class="bg-cream font-sans text-ink">
+
+<header class="sticky top-0 z-40 border-b border-meadow/15 bg-cream/90 backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
+    <a href="/" class="flex items-center gap-2.5">
+      <img src="/favicon.svg" alt="" class="h-8 w-8">
+      <span class="font-display text-lg font-bold text-meadow-deep">boise<span class="text-meadow">parks</span>.com</span>
+    </a>
+    <nav class="flex items-center gap-4 text-sm font-medium text-bark">
+      <a href="#map" class="hover:text-meadow-deep">Map</a>
+      <a href="#best-of" class="hidden sm:block hover:text-meadow-deep">Best of</a>
+      <a href="#faq" class="hidden sm:block hover:text-meadow-deep">FAQ</a>
+      <a href="#parks" class="rounded-full bg-meadow px-3.5 py-1.5 text-white hover:bg-meadow-dark">All parks</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Title band -->
+<section class="border-b border-meadow/15 bg-meadow-light/60">
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:py-10">
+    <h1 class="font-display text-3xl font-bold leading-tight text-meadow-deep sm:text-[2.6rem]">Every Boise park, <span class="text-meadow">rated for parents.</span></h1>
+    <p class="mt-2.5 max-w-2xl text-[15.5px] leading-relaxed text-ink/80">Playground equipment and ages, splash pads, restrooms (and whether they're open in winter), real shade ratings from the city's tree inventory — all on one filterable map. Built from official City of Boise data.</p>
+    <div class="mt-4 flex flex-wrap gap-2 text-[13px] font-semibold">
+      <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🌳 94 parks</span>
+      <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🛝 57 playgrounds</span>
+      <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">💦 8 splash pads &amp; fountains</span>
+      <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🚻 24 year-round restrooms</span>
+    </div>
+  </div>
+</section>
+
+<!-- Filter bar -->
+<div id="filterbar" class="sticky top-[57px] z-30 border-b border-meadow/15 bg-cream/95 backdrop-blur">
+  <div class="mx-auto max-w-7xl px-4 py-3">
+    <div class="flex flex-wrap items-center gap-2">
+      <input id="q" type="search" placeholder="Search parks…" autocomplete="off"
+             class="w-40 grow rounded-xl border border-meadow/25 bg-white px-3.5 py-2 text-sm outline-none placeholder:text-bark/50 focus:border-meadow sm:w-56 sm:grow-0">
+      <select id="area" class="rounded-xl border border-meadow/25 bg-white px-3 py-2 text-sm focus:border-meadow">
+        <option value="all">All areas</option>
+        <option value="North River">North &amp; NW Boise</option>
+        <option value="Downtown">Downtown</option>
+        <option value="Central Bench">Central Bench</option>
+        <option value="West Bench">West Boise</option>
+        <option value="Southeast">Southeast Boise</option>
+      </select>
+      <select id="sort" class="rounded-xl border border-meadow/25 bg-white px-3 py-2 text-sm focus:border-meadow">
+        <option value="name">A → Z</option>
+        <option value="acres">Biggest first</option>
+        <option value="shade">Shadiest first</option>
+        <option value="newpg">Newest playground</option>
+        <option value="dist">Nearest to me</option>
+      </select>
+      <button id="locate" title="Sort by distance from your location" class="rounded-xl border border-meadow/25 bg-white px-3 py-2 text-sm font-medium text-meadow-deep hover:bg-meadow-light">📍 Near me</button>
+      <button id="reset" class="ml-auto hidden rounded-xl px-3 py-2 text-sm font-semibold text-sun hover:bg-sun-light">Reset</button>
+    </div>
+    <div id="chips" class="mt-2.5 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"></div>
+  </div>
+</div>
+
+<!-- Map + list -->
+<main id="parks" class="mx-auto max-w-7xl px-4 pb-4 pt-5">
+  <div class="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,46%)]">
+    <div id="map" class="order-1 h-[46vh] min-h-[320px] rounded-2xl border border-meadow/20 shadow-card lg:order-2 lg:sticky lg:top-36 lg:h-[calc(100vh-10.5rem)]"></div>
+    <div class="order-2 lg:order-1">
+      <div class="mb-3 flex items-baseline justify-between">
+        <p class="text-sm font-semibold text-meadow-deep"><span id="count">94</span> parks</p>
+        <p class="text-[12px] text-bark">Data: City of Boise · July 2026</p>
+      </div>
+      <div id="cards" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"></div>
+      <p id="empty" class="hidden rounded-2xl border border-meadow/15 bg-white px-5 py-10 text-center text-sm text-bark">No parks match those filters — try removing one. <button class="font-semibold text-meadow underline" onclick="resetFilters()">Reset all</button></p>
+    </div>
+  </div>
+</main>
+
+<!-- Best of -->
+<section id="best-of" class="mx-auto max-w-7xl px-4 py-12">
+  <h2 class="font-display text-2xl font-bold text-meadow-deep sm:text-3xl">The shortlists</h2>
+  <p class="mt-1.5 text-[15px] text-ink/75">Straight from the data — good starting points if you don't want to browse all 94.</p>
+  <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
+      <h3 class="font-display text-lg font-bold text-sky">💦 Water play</h3>
+      <p class="mt-1 text-[12.5px] text-bark">Memorial Day–Labor Day</p>
+      <ul class="mt-3 space-y-1.5 text-[14px] font-medium">
+        <li><a class="hover:text-meadow" href="/parks/comba-park/">Comba Park <span class="text-bark/70 font-normal">· splash pad</span></a></li>
+        <li><a class="hover:text-meadow" href="/parks/molenaar-park/">Molenaar Park <span class="text-bark/70 font-normal">· splash pad</span></a></li>
+        <li><a class="hover:text-meadow" href="/parks/borah-park/">Borah Park <span class="text-bark/70 font-normal">· spray pad + pool</span></a></li>
+        <li><a class="hover:text-meadow" href="/parks/ann-morrison-park/">Ann Morrison Park <span class="text-bark/70 font-normal">· fountain</span></a></li>
+        <li><a class="hover:text-meadow" href="/parks/esther-simplot-park/">Esther Simplot Park <span class="text-bark/70 font-normal">· swim ponds</span></a></li>
+      </ul>
+      <button class="mt-4 text-[13px] font-semibold text-meadow underline" onclick="applyPreset('water')">Show all on map →</button>
+    </div>
+    <div class="rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
+      <h3 class="font-display text-lg font-bold text-meadow">🌳 Leafiest playgrounds</h3>
+      <p class="mt-1 text-[12.5px] text-bark">Real shade on hot afternoons</p>
+      <ul class="mt-3 space-y-1.5 text-[14px] font-medium">
+        <li><a class="hover:text-meadow" href="/parks/julia-davis-park/">Julia Davis Park</a></li>
+        <li><a class="hover:text-meadow" href="/parks/camels-back-park/">Camel's Back Park</a></li>
+        <li><a class="hover:text-meadow" href="/parks/kristin-armstrong-municipal-park/">Kristin Armstrong Municipal</a></li>
+        <li><a class="hover:text-meadow" href="/parks/manitou-park/">Manitou Park</a></li>
+        <li><a class="hover:text-meadow" href="/parks/sunset-park/">Sunset Park</a></li>
+      </ul>
+      <button class="mt-4 text-[13px] font-semibold text-meadow underline" onclick="applyPreset('leafy')">Show all on map →</button>
+    </div>
+    <div class="rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
+      <h3 class="font-display text-lg font-bold text-sun">🆕 Newest playgrounds</h3>
+      <p class="mt-1 text-[12.5px] text-bark">Rebuilt in the last few years</p>
+      <ul class="mt-3 space-y-1.5 text-[14px] font-medium">
+        <li><a class="hover:text-meadow" href="/parks/charles-f-mcdevitt-youth-sports-complex/">McDevitt Complex <span class="text-bark/70 font-normal">· 2026</span></a></li>
+        <li><a class="hover:text-meadow" href="/parks/veterans-memorial-park/">Veterans Memorial <span class="text-bark/70 font-normal">· 2025</span></a></li>
+        <li><a class="hover:text-meadow" href="/parks/fairview-park/">Fairview Park <span class="text-bark/70 font-normal">· 2025</span></a></li>
+        <li><a class="hover:text-meadow" href="/parks/castle-hills-park/">Castle Hills Park <span class="text-bark/70 font-normal">· 2025</span></a></li>
+        <li><a class="hover:text-meadow" href="/parks/primrose-park/">Primrose Park <span class="text-bark/70 font-normal">· 2024</span></a></li>
+      </ul>
+      <button class="mt-4 text-[13px] font-semibold text-meadow underline" onclick="applyPreset('newpg')">Show all on map →</button>
+    </div>
+    <div class="rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
+      <h3 class="font-display text-lg font-bold text-meadow-deep">♿ Accessible playgrounds</h3>
+      <p class="mt-1 text-[12.5px] text-bark">Bonded-rubber surfacing, 23 citywide</p>
+      <ul class="mt-3 space-y-1.5 text-[14px] font-medium">
+        <li><a class="hover:text-meadow" href="/parks/cassia-park/">Cassia Park <span class="text-bark/70 font-normal">· We-Go-Round</span></a></li>
+        <li><a class="hover:text-meadow" href="/parks/camels-back-park/">Camel's Back Park</a></li>
+        <li><a class="hover:text-meadow" href="/parks/terry-day-park/">Terry Day Park</a></li>
+        <li><a class="hover:text-meadow" href="/parks/ann-morrison-park/">Ann Morrison Park</a></li>
+        <li><a class="hover:text-meadow" href="/parks/hobble-creek-park/">Hobble Creek Park</a></li>
+      </ul>
+      <button class="mt-4 text-[13px] font-semibold text-meadow underline" onclick="applyPreset('accessible')">Show all on map →</button>
+    </div>
+  </div>
+</section>
+
+<!-- Methodology -->
+<section id="about" class="border-y border-meadow/15 bg-white">
+  <div class="mx-auto max-w-7xl px-4 py-12">
+    <h2 class="font-display text-2xl font-bold text-meadow-deep sm:text-3xl">Where this data comes from</h2>
+    <div class="mt-5 grid gap-6 text-[14.5px] leading-relaxed text-ink/85 sm:grid-cols-3">
+      <div>
+        <h3 class="font-bold text-meadow-deep">Official city sources</h3>
+        <p class="mt-1.5">Park boundaries, amenities, playground equipment, ages and surfacing come from <a class="underline hover:text-meadow" href="https://opendata.cityofboise.org/" rel="noopener">City of Boise open GIS data</a> and <a class="underline hover:text-meadow" href="https://www.cityofboise.org/departments/parks-and-recreation/" rel="noopener">Boise Parks and Recreation</a> pages, pulled July 2026.</p>
+      </div>
+      <div>
+        <h3 class="font-bold text-meadow-deep">Shade ratings</h3>
+        <p class="mt-1.5">We rate shade by crunching the city's tree inventory — every managed park tree and its trunk size — into tree cover per acre. <em>Leafy</em> means dense mature canopy; <em>full sun</em> means pack hats. It's a good proxy, not a promise.</p>
+      </div>
+      <div>
+        <h3 class="font-bold text-meadow-deep">Restroom status</h3>
+        <p class="mt-1.5">Winter status follows the city's <a class="underline hover:text-meadow" href="https://www.cityofboise.org/departments/parks-and-recreation/park-restrooms/" rel="noopener">park restroom list</a>: heated buildings stay open year-round; the rest are winterized, some with portable toilets as backup.</p>
+      </div>
+    </div>
+    <p class="mt-6 text-[13px] text-bark">boiseparks.com is an independent guide and isn't affiliated with the City of Boise. Amenities change — if today's outing hinges on one thing (a restroom, a splash pad being on), check the park's official city page first.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="mx-auto max-w-4xl px-4 py-12">
+  <h2 class="font-display text-2xl font-bold text-meadow-deep sm:text-3xl">Questions parents actually ask</h2>
+  <div class="mt-6 divide-y divide-meadow/10 rounded-2xl border border-meadow/15 bg-white px-6 shadow-card">
+    <details class="group py-4">
+      <summary class="cursor-pointer list-none font-semibold text-meadow-deep marker:content-none">Which Boise parks have splash pads?</summary>
+      <p class="mt-2 text-[14.5px] leading-relaxed text-ink/85">True splash pads are at <a class="underline" href="/parks/comba-park/">Comba Park</a> and <a class="underline" href="/parks/molenaar-park/">Molenaar Park</a>, and Borah Park has a drop-in spray pad. Ann Morrison Park and Grove Plaza have interactive fountains kids can run through, and Bowler, Fairview and Franklin parks have button-activated misters. All run Memorial Day through Labor Day.</p>
+    </details>
+    <details class="group py-4">
+      <summary class="cursor-pointer list-none font-semibold text-meadow-deep marker:content-none">Which park restrooms stay open in winter?</summary>
+      <p class="mt-2 text-[14.5px] leading-relaxed text-ink/85">24 parks have heated restrooms open year-round, including Julia Davis, Ann Morrison, Camel's Back, Esther Simplot, Veterans Memorial, Terry Day, Bowler, Hobble Creek and Redwood parks. Everything else is winterized roughly October through April; about 30 parks keep a portable toilet through winter. Use the "Year-round restrooms" filter to see the full list.</p>
+    </details>
+    <details class="group py-4">
+      <summary class="cursor-pointer list-none font-semibold text-meadow-deep marker:content-none">What are the best Boise playgrounds for toddlers?</summary>
+      <p class="mt-2 text-[14.5px] leading-relaxed text-ink/85">52 parks have equipment sized for ages 2–5. Standouts: Camel's Back Park (rubber surfacing under mature shade), Cassia Park (2020 rebuild with an accessible We-Go-Round spinner), Molenaar Park (2021 playground plus splash pad) and Veterans Memorial Park (brand-new 2025 playground). Filter by "Toddler equipment" to see them all.</p>
+    </details>
+    <details class="group py-4">
+      <summary class="cursor-pointer list-none font-semibold text-meadow-deep marker:content-none">Which playgrounds work for kids who use wheelchairs or strollers?</summary>
+      <p class="mt-2 text-[14.5px] leading-relaxed text-ink/85">23 Boise playgrounds have bonded-rubber surfacing that works for mobility devices (versus wood chips), and 14 of those were designed for accessibility. Cassia, Camel's Back, Terry Day, Ann Morrison and Hobble Creek are good starting points — use the "Accessible playground" filter for the rest.</p>
+    </details>
+    <details class="group py-4">
+      <summary class="cursor-pointer list-none font-semibold text-meadow-deep marker:content-none">Do any Boise parks have swimming?</summary>
+      <p class="mt-2 text-[14.5px] leading-relaxed text-ink/85">City-run outdoor pools sit inside <a class="underline" href="/parks/borah-park/">Borah</a>, <a class="underline" href="/parks/fairmont-park/">Fairmont</a> and <a class="underline" href="/parks/ivywild-park/">Ivywild</a> parks (Ivywild has a toddler pool and slides). For open-water swimming, <a class="underline" href="/parks/esther-simplot-park/">Esther Simplot Park</a>'s ponds allow swimming and wading with beach-style edges — pack water shoes.</p>
+    </details>
+    <details class="group py-4">
+      <summary class="cursor-pointer list-none font-semibold text-meadow-deep marker:content-none">Are park picnic shelters first-come or reservable?</summary>
+      <p class="mt-2 text-[14.5px] leading-relaxed text-ink/85">Both exist. Parks marked "reservable" here take bookings through <a class="underline" href="https://www.cityofboise.org/departments/parks-and-recreation/" rel="noopener">Boise Parks and Recreation</a> — popular ones (Julia Davis, Ann Morrison, Kristin Armstrong Municipal) book out for summer weekends. Shelters at parks like Manitou and Sunset are first-come, first-served.</p>
+    </details>
+  </div>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Which Boise parks have splash pads?","acceptedAnswer":{"@type":"Answer","text":"True splash pads are at Comba Park and Molenaar Park, and Borah Park has a drop-in spray pad. Ann Morrison Park and Grove Plaza have interactive fountains, and Bowler, Fairview and Franklin parks have misters. All run Memorial Day through Labor Day."}},
+    {"@type":"Question","name":"Which Boise park restrooms stay open in winter?","acceptedAnswer":{"@type":"Answer","text":"24 Boise parks have heated restrooms open year-round, including Julia Davis, Ann Morrison, Camel's Back, Esther Simplot, Veterans Memorial, Terry Day, Bowler, Hobble Creek and Redwood parks. Other park restrooms are winterized roughly October through April."}},
+    {"@type":"Question","name":"What are the best Boise playgrounds for toddlers?","acceptedAnswer":{"@type":"Answer","text":"52 Boise parks have playground equipment sized for ages 2–5. Standouts include Camel's Back Park, Cassia Park, Molenaar Park and Veterans Memorial Park, which has a brand-new 2025 playground."}},
+    {"@type":"Question","name":"Which Boise playgrounds are wheelchair accessible?","acceptedAnswer":{"@type":"Answer","text":"23 Boise playgrounds have bonded-rubber surfacing suitable for mobility devices, and 14 were designed for accessibility, including Cassia, Camel's Back, Terry Day, Ann Morrison and Hobble Creek parks."}},
+    {"@type":"Question","name":"Do any Boise parks have swimming?","acceptedAnswer":{"@type":"Answer","text":"City-run outdoor pools sit inside Borah, Fairmont and Ivywild parks. Esther Simplot Park's ponds allow open-water swimming and wading with beach-style edges."}},
+    {"@type":"Question","name":"Are Boise park picnic shelters reservable?","acceptedAnswer":{"@type":"Answer","text":"Some shelters are reservable through Boise Parks and Recreation, while others, like those at Manitou and Sunset parks, are first-come, first-served."}}
+  ]}
+  </script>
+</section>
+
+<footer class="border-t border-meadow/15 bg-meadow-deep py-10 text-sm text-white/80">
+  <div class="mx-auto max-w-7xl px-4">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      <div class="max-w-md">
+        <p class="font-display text-base font-bold text-white">boiseparks.com</p>
+        <p class="mt-2">The parent's guide to every park in Boise — playgrounds, splash pads, restrooms, shade and more, built from official City of Boise data.</p>
+      </div>
+      <div class="text-white/70">
+        <p>Park data: <a class="underline hover:text-white" href="https://opendata.cityofboise.org/" rel="noopener">City of Boise Open Data</a> &amp; <a class="underline hover:text-white" href="https://www.cityofboise.org/departments/parks-and-recreation/" rel="noopener">Boise Parks and Recreation</a>.</p>
+        <p class="mt-1">Not affiliated with the City of Boise. Details can change — check the city page before you count on a specific amenity.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Detail modal -->
+<div id="modal" class="fixed inset-0 z-[1100] hidden items-end justify-center sm:items-center" role="dialog" aria-modal="true">
+  <div id="modal-backdrop" class="absolute inset-0 bg-meadow-deep/50 backdrop-blur-sm"></div>
+  <div id="modal-panel" class="relative max-h-[92vh] w-full overflow-y-auto rounded-t-3xl bg-cream shadow-lift sm:max-w-2xl sm:rounded-3xl"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/js/parks-data.js"></script>
+<script>
+'use strict';
+const P = window.BOISE_PARKS;
+const $ = id => document.getElementById(id);
+
+// ---------- filter definitions ----------
+const CHIPS = [
+  ['playground','🛝 Playground', p => !!p.playground],
+  ['toddler','🧸 Toddler equipment', p => p.playground && p.playground.toddler],
+  ['water','💦 Splash pad / water', p => !!p.water || p.pool],
+  ['restroom','🚻 Restrooms', p => p.restroom !== 'none'],
+  ['rrYear','🔥 Year-round restrooms', p => p.restroom === 'year-round'],
+  ['leafy','🌳 Leafy shade', p => p.shade === 'leafy'],
+  ['shelter','⛱️ Picnic shelter', p => p.shelter],
+  ['accessible','♿ Accessible playground', p => p.playground && (p.playground.rubberSurface || p.playground.ada)],
+  ['greenbelt','🚴 Greenbelt access', p => p.greenbelt],
+  ['fishing','🎣 Fishing', p => p.fishing],
+  ['dog','🐕 Dog off-leash', p => p.dogPark],
+  ['sports','🏀 Courts & fields', p => p.courts.length || p.fields.length],
+];
+const CHIP_FN = Object.fromEntries(CHIPS.map(c => [c[0], c[2]]));
+const state = { q:'', area:'all', sort:'name', chips:new Set(), loc:null };
+
+const RR = {
+  'year-round': ['🚻 Restrooms open year-round','text-meadow-deep bg-meadow-light'],
+  'seasonal+portable': ['🚻 Seasonal restrooms · winter portable','text-sky bg-sky-light'],
+  'seasonal': ['🚻 Seasonal restrooms (closed winter)','text-sky bg-sky-light'],
+  'none': ['🚫 No restrooms','text-bark bg-stone-100'],
+};
+const SHADE = { leafy:'🌳 Leafy', some:'🌤️ Some shade', 'full-sun':'☀️ Full sun' };
+
+function badges(p){
+  const b=[];
+  if(p.playground){
+    let ages = p.playground.toddler && p.playground.bigKid ? '2–12' : p.playground.toddler ? '2–5' : p.playground.bigKid ? '5–12' : '';
+    b.push('🛝 Playground'+(ages?' · ages '+ages:''));
+  }
+  if(p.water) b.push('💦 '+p.water.type);
+  if(p.pool) b.push('🏊 Pool');
+  b.push(SHADE[p.shade]);
+  if(p.shelter) b.push('⛱️ Shelter');
+  if(p.greenbelt) b.push('🚴 Greenbelt');
+  if(p.fishing) b.push('🎣 Fishing');
+  if(p.dogPark) b.push('🐕 Off-leash');
+  if(p.playground && p.playground.rubberSurface) b.push('♿ Rubber surface');
+  return b;
+}
+const escHtml = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const dirUrl = p => 'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(p.name+', '+p.address+', Boise, ID '+p.zip);
+const dist = (a,b,c,d) => { const r=Math.PI/180, x=(c-a)*r, y=(d-b)*r*Math.cos((a+c)/2*r); return Math.sqrt(x*x+y*y)*3958.8; };
+
+// ---------- map ----------
+const map = L.map('map', { scrollWheelZoom: true }).setView([43.6135,-116.23], 12);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>', maxZoom:19,
+}).addTo(map);
+const markerLayer = L.layerGroup().addTo(map);
+const markers = {};
+function markerColor(p){ return p.water||p.pool ? '#0369A1' : p.playground ? '#2E7D32' : '#8A8073'; }
+function buildMarkers(list){
+  markerLayer.clearLayers();
+  for(const p of list){
+    const m = L.circleMarker([p.lat,p.lon],{
+      radius: Math.max(6, Math.min(13, 4+Math.sqrt(p.acres||1)*1.15)),
+      color:'#fff', weight:1.5, fillColor:markerColor(p), fillOpacity:.92,
+    });
+    m.bindPopup('<b style="color:#14532D">'+escHtml(p.name)+'</b><br>'+badges(p).slice(0,4).join(' · ')+
+      '<br><a href="javascript:showPark(\''+p.slug+'\')" style="color:#2E7D32;font-weight:600">Details →</a>');
+    m.addTo(markerLayer); markers[p.slug]=m;
+  }
+}
+
+// ---------- rendering ----------
+function filtered(){
+  let list = P.filter(p => {
+    if(state.area!=='all' && p.area!==state.area) return false;
+    if(state.q && !p.name.toLowerCase().includes(state.q)) return false;
+    for(const c of state.chips) if(!CHIP_FN[c](p)) return false;
+    return true;
+  });
+  const s=state.sort;
+  if(s==='name') list.sort((a,b)=>a.name.localeCompare(b.name));
+  if(s==='acres') list.sort((a,b)=>b.acres-a.acres);
+  if(s==='shade') list.sort((a,b)=>({'leafy':0,'some':1,'full-sun':2}[a.shade]-{'leafy':0,'some':1,'full-sun':2}[b.shade]) || b.trees-a.trees);
+  if(s==='newpg') list.sort((a,b)=>((b.playground&&b.playground.newestYear)||0)-((a.playground&&a.playground.newestYear)||0));
+  if(s==='dist' && state.loc) list.sort((a,b)=>dist(state.loc[0],state.loc[1],a.lat,a.lon)-dist(state.loc[0],state.loc[1],b.lat,b.lon));
+  return list;
+}
+
+function card(p){
+  const img = p.img
+    ? '<img src="'+escHtml(p.img)+'" alt="'+escHtml(p.name)+'" loading="lazy" class="h-36 w-full rounded-t-2xl object-cover" onerror="this.outerHTML=\'<div class=&quot;flex h-36 w-full items-center justify-center rounded-t-2xl bg-meadow-light text-4xl&quot;>🌳</div>\'">'
+    : '<div class="flex h-36 w-full items-center justify-center rounded-t-2xl bg-meadow-light text-4xl">🌳</div>';
+  const rr = RR[p.restroom];
+  const note = p.tip || p.desc;
+  const d = state.sort==='dist' && state.loc ? '<span class="font-semibold text-sky">'+dist(state.loc[0],state.loc[1],p.lat,p.lon).toFixed(1)+' mi</span> · ' : '';
+  return '<article class="card-lift cursor-pointer overflow-hidden rounded-2xl border border-meadow/15 bg-white shadow-card" onclick="showPark(\''+p.slug+'\')">'
+    + img
+    + '<div class="p-4">'
+    + '<div class="flex items-start justify-between gap-2"><h3 class="font-display text-[17px] font-bold leading-snug text-meadow-deep">'+escHtml(p.name)+'</h3>'
+    + '<button class="shrink-0 rounded-lg border border-meadow/25 px-2 py-1 text-[11px] font-semibold text-meadow-deep hover:bg-meadow-light" onclick="event.stopPropagation();panTo(\''+p.slug+'\')">Map</button></div>'
+    + '<p class="mt-0.5 text-[12.5px] text-bark">'+d+p.acres+' acres · '+escHtml(p.area)+'</p>'
+    + '<div class="mt-2 flex flex-wrap gap-1">'+badges(p).slice(0,5).map(x=>'<span class="pill bg-meadow-light text-meadow-deep">'+x+'</span>').join('')+'</div>'
+    + '<p class="pill mt-2 '+rr[1]+'">'+rr[0]+'</p>'
+    + (note ? '<p class="clamp-2 mt-2 text-[13px] leading-relaxed text-ink/75">'+escHtml(note)+'</p>' : '')
+    + '</div></article>';
+}
+
+function render(){
+  const list = filtered();
+  $('count').textContent = list.length;
+  $('cards').innerHTML = list.map(card).join('');
+  $('empty').classList.toggle('hidden', list.length>0);
+  buildMarkers(list);
+  const anyFilter = state.q||state.area!=='all'||state.chips.size;
+  $('reset').classList.toggle('hidden', !anyFilter);
+}
+
+// ---------- chips UI ----------
+$('chips').innerHTML = CHIPS.map(([k,label]) =>
+  '<button class="chip" data-chip="'+k+'" aria-pressed="false">'+label+'</button>').join('');
+$('chips').addEventListener('click', e => {
+  const b = e.target.closest('[data-chip]'); if(!b) return;
+  const k = b.dataset.chip;
+  state.chips.has(k) ? state.chips.delete(k) : state.chips.add(k);
+  b.setAttribute('aria-pressed', state.chips.has(k));
+  render();
+});
+$('q').addEventListener('input', e => { state.q = e.target.value.trim().toLowerCase(); render(); });
+$('area').addEventListener('change', e => { state.area = e.target.value; render(); });
+$('sort').addEventListener('change', e => {
+  state.sort = e.target.value;
+  if(state.sort==='dist' && !state.loc) locate(); else render();
+});
+$('locate').addEventListener('click', locate);
+$('reset').addEventListener('click', resetFilters);
+
+function resetFilters(){
+  state.q=''; state.area='all'; state.chips.clear(); state.sort='name';
+  $('q').value=''; $('area').value='all'; $('sort').value='name';
+  document.querySelectorAll('[data-chip]').forEach(b=>b.setAttribute('aria-pressed','false'));
+  render();
+}
+function locate(){
+  if(!navigator.geolocation) return;
+  navigator.geolocation.getCurrentPosition(pos => {
+    state.loc=[pos.coords.latitude,pos.coords.longitude];
+    state.sort='dist'; $('sort').value='dist';
+    L.circleMarker(state.loc,{radius:7,color:'#fff',weight:2,fillColor:'#D97706',fillOpacity:1}).addTo(map).bindPopup('You are here');
+    map.setView(state.loc, 13);
+    render();
+  }, () => { $('sort').value=state.sort==='dist'?'name':state.sort; if(state.sort==='dist')state.sort='name'; render(); });
+}
+function applyPreset(kind){
+  resetFilters();
+  if(kind==='water'){ state.chips.add('water'); }
+  if(kind==='leafy'){ state.chips.add('leafy'); state.chips.add('playground'); }
+  if(kind==='newpg'){ state.chips.add('playground'); state.sort='newpg'; $('sort').value='newpg'; }
+  if(kind==='accessible'){ state.chips.add('accessible'); }
+  document.querySelectorAll('[data-chip]').forEach(b=>b.setAttribute('aria-pressed', state.chips.has(b.dataset.chip)));
+  render();
+  document.getElementById('parks').scrollIntoView({behavior:'smooth'});
+}
+function panTo(slug){
+  const p = P.find(x=>x.slug===slug); if(!p) return;
+  map.setView([p.lat,p.lon], 15);
+  if(markers[slug]) markers[slug].openPopup();
+  if(window.innerWidth<1024) $('map').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ---------- modal ----------
+function showPark(slug){
+  const p = P.find(x=>x.slug===slug); if(!p) return;
+  const pg = p.playground;
+  const rr = RR[p.restroom];
+  let pgHtml='';
+  if(pg){
+    const bits=[];
+    const ages = pg.toddler && pg.bigKid ? 'toddlers (2–5) and big kids (5–12)' : pg.toddler ? 'toddlers (2–5)' : pg.bigKid ? 'big kids (5–12)' : null;
+    if(ages) bits.push('Equipment for '+ages);
+    if(pg.features.length) bits.push(pg.features.join(', '));
+    if(pg.surface) bits.push(pg.surface+' surfacing'+(pg.rubberSurface?' — stroller & wheelchair friendly':''));
+    if(pg.newestYear) bits.push('newest structure installed '+pg.newestYear);
+    pgHtml = '<div class="mt-4 rounded-2xl bg-meadow-light px-4 py-3"><p class="text-[13px] font-bold text-meadow-deep">🛝 Playground</p><p class="mt-1 text-[13.5px] leading-relaxed text-ink/85">'+escHtml(bits.join(' · '))+'</p></div>';
+  }
+  const water = p.water ? '<div class="mt-3 rounded-2xl bg-sky-light px-4 py-3"><p class="text-[13px] font-bold text-sky">💦 '+escHtml(p.water.type)+'</p><p class="mt-1 text-[13.5px] text-ink/85">'+escHtml(p.water.hours)+'</p></div>' : '';
+  $('modal-panel').innerHTML =
+    (p.img?'<img src="'+escHtml(p.img)+'" alt="'+escHtml(p.name)+'" class="h-52 w-full object-cover sm:rounded-t-3xl" onerror="this.remove()">':'')
+    + '<button class="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1.5 text-sm font-bold text-meadow-deep shadow" onclick="closeModal()" aria-label="Close">✕</button>'
+    + '<div class="p-6">'
+    + '<h2 class="font-display text-2xl font-bold text-meadow-deep">'+escHtml(p.name)+'</h2>'
+    + '<p class="mt-1 text-[13.5px] text-bark">'+escHtml(p.address)+', Boise · '+p.acres+' acres · '+escHtml(p.area)+'</p>'
+    + '<div class="mt-3 flex flex-wrap gap-1.5">'+badges(p).map(x=>'<span class="pill bg-meadow-light text-meadow-deep">'+x+'</span>').join('')+'<span class="pill '+rr[1]+'">'+rr[0]+'</span></div>'
+    + (p.tip?'<div class="mt-4 rounded-2xl border border-sun/40 bg-sun-light px-4 py-3"><p class="text-[12px] font-bold uppercase tracking-wide text-sun">Parent notes</p><p class="mt-1 text-[14px] leading-relaxed">'+escHtml(p.tip)+'</p></div>':'')
+    + pgHtml + water
+    + (p.desc?'<p class="mt-4 text-[14px] leading-relaxed text-ink/85">'+escHtml(p.desc)+'</p>':'')
+    + '<div class="mt-5 grid gap-2 sm:grid-cols-3">'
+    + '<a href="/parks/'+p.slug+'/" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-meadow-dark">Full details</a>'
+    + '<a href="'+dirUrl(p)+'" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">Directions</a>'
+    + (p.cityUrl?'<a href="'+escHtml(p.cityUrl)+'" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">City page</a>':'')
+    + '</div></div>';
+  $('modal').classList.remove('hidden'); $('modal').classList.add('flex');
+  document.body.classList.add('modal-open');
+  history.replaceState(null,'','?park='+p.slug+'#map');
+}
+function closeModal(){
+  $('modal').classList.add('hidden'); $('modal').classList.remove('flex');
+  document.body.classList.remove('modal-open');
+  history.replaceState(null,'',location.pathname+'#map');
+}
+$('modal-backdrop').addEventListener('click', closeModal);
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+// ---------- boot ----------
+render();
+const deepLink = new URLSearchParams(location.search).get('park');
+if(deepLink && P.some(x=>x.slug===deepLink)){ showPark(deepLink); panTo(deepLink); }
+</script>
+</body>
+</html>

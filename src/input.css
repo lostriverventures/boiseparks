@@ -1,0 +1,36 @@
+/*
+ * Source stylesheet for Tailwind. Don't run tailwindcss directly — run the
+ * project build, which generates park pages, compiles this file AND
+ * regenerates the sitemap:  ./build.sh
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+body { -webkit-font-smoothing: antialiased; }
+section[id], main[id] { scroll-margin-top: 6.5rem; }
+
+/* Card hover lift */
+.card-lift { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.card-lift:hover { transform: translateY(-3px); box-shadow: 0 12px 32px -12px rgba(20,83,45,0.32); }
+
+/* Filter chips */
+.chip { @apply inline-flex items-center gap-1.5 rounded-full border border-meadow/25 bg-white px-3 py-1.5 text-[13px] font-medium text-meadow-deep cursor-pointer select-none whitespace-nowrap; transition: all .15s ease; }
+.chip:hover { @apply border-meadow bg-meadow-light; }
+.chip[aria-pressed="true"] { @apply bg-meadow text-white border-meadow; }
+
+/* Amenity badge pills on cards */
+.pill { @apply inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11.5px] font-medium leading-4; }
+
+/* Leaflet popup styling */
+.leaflet-popup-content-wrapper { border-radius: 12px; font-family: Inter, sans-serif; box-shadow: 0 12px 32px -12px rgba(20,83,45,0.4); }
+.leaflet-popup-content { margin: 12px 14px; font-size: 13px; line-height: 1.45; }
+.leaflet-container { font-family: Inter, sans-serif; }
+
+/* Modal */
+.modal-open { overflow: hidden; }
+
+/* line clamp for descriptions */
+.clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
