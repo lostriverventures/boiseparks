@@ -70,6 +70,7 @@
       </select>
       <select id="sort" class="rounded-xl border border-meadow/25 bg-white px-3 py-2 text-sm focus:border-meadow">
         <option value="name">A → Z</option>
+        <option value="score">Top rated</option>
         <option value="acres">Biggest first</option>
         <option value="shade">Shadiest first</option>
         <option value="newpg">Newest playground</option>
@@ -157,7 +158,7 @@
 <section id="about" class="border-y border-meadow/15 bg-white">
   <div class="mx-auto max-w-7xl px-4 py-12">
     <h2 class="font-display text-2xl font-bold text-meadow-deep sm:text-3xl">Where this data comes from</h2>
-    <div class="mt-5 grid gap-6 text-[14.5px] leading-relaxed text-ink/85 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="mt-5 grid gap-6 text-[14.5px] leading-relaxed text-ink/85 sm:grid-cols-2 lg:grid-cols-3">
       <div>
         <h3 class="font-bold text-meadow-deep">Official city sources</h3>
         <p class="mt-1.5">Park boundaries, amenities, playground equipment, ages and surfacing come from <a class="underline hover:text-meadow" href="https://opendata.cityofboise.org/" rel="noopener">City of Boise open GIS data</a> and <a class="underline hover:text-meadow" href="https://www.cityofboise.org/departments/parks-and-recreation/" rel="noopener">Boise Parks and Recreation</a> pages, pulled July 2026.</p>
@@ -173,6 +174,10 @@
       <div>
         <h3 class="font-bold text-meadow-deep">Parking</h3>
         <p class="mt-1.5">Lot vs. street-parking calls were made by cross-checking OpenStreetMap parking data against aerial imagery for every park, plus the city's own notes where published. Shared lots (schools, complexes) are flagged as such.</p>
+      </div>
+      <div>
+        <h3 class="font-bold text-meadow-deep">Parent Score</h3>
+        <p class="mt-1.5">A 0–10 measure of how easy a visit is with kids, computed only from the data above: playground quality (3), restrooms (2), shade (1.5), water play (1), parking (1), shelter (0.5) and extras (1). Every park shows its full breakdown — no vibes, no sponsorships. Star ratings you leave are saved only on your device.</p>
       </div>
     </div>
     <p class="mt-6 text-[13px] text-bark">boiseparks.com is an independent guide and isn't affiliated with the City of Boise. Amenities change — if today's outing hinges on one thing (a restroom, a splash pad being on), check the park's official city page first.</p>
@@ -243,7 +248,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mripln49"></script>
+<script src="/js/parks-data.js?v=mripx5t7"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
@@ -253,6 +258,7 @@ const $ = id => document.getElementById(id);
 const CHIPS = [
   ['playground','🛝 Playground', p => !!p.playground],
   ['toddler','🧸 Toddler equipment', p => p.playground && p.playground.toddler],
+  ['swings','🤸 Swings', p => p.playground && p.playground.features.includes('swings')],
   ['water','💦 Splash pad / water', p => !!p.water || p.pool],
   ['restroom','🚻 Restrooms', p => p.restroom !== 'none'],
   ['parkinglot','🅿️ Parking lot', p => p.parking && p.parking.type === 'lot'],
@@ -277,6 +283,17 @@ const RR = {
 const SHADE = { leafy:'🌳 Leafy', some:'🌤️ Some shade', 'full-sun':'☀️ Full sun' };
 const PARKING = { lot:'Dedicated parking lot', street:'Street parking — no dedicated lot', downtown:'Metered street parking & paid garages nearby' };
 const parkingText = p => p.parking ? (p.parking.note || PARKING[p.parking.type]) : null;
+const scoreClasses = s => s>=8 ? 'bg-meadow text-white' : s>=6 ? 'bg-meadow-light text-meadow-deep' : s>=4 ? 'bg-sun-light text-sun' : 'bg-stone-100 text-bark';
+const fmtScore = s => (s%1===0 ? s.toFixed(0) : s.toFixed(1));
+// per-device visitor ratings
+const RKEY='bp-ratings';
+const loadR = () => { try{ return JSON.parse(localStorage.getItem(RKEY))||{} }catch(e){ return {} } };
+const myRating = slug => loadR()[slug]||0;
+function setRating(slug,v){
+  const all=loadR();
+  if(all[slug]===v) delete all[slug]; else all[slug]=v;
+  localStorage.setItem(RKEY,JSON.stringify(all));
+}
 
 function badges(p){
   const b=[];
@@ -330,6 +347,7 @@ function filtered(){
   });
   const s=state.sort;
   if(s==='name') list.sort((a,b)=>a.name.localeCompare(b.name));
+  if(s==='score') list.sort((a,b)=>b.score-a.score || a.name.localeCompare(b.name));
   if(s==='acres') list.sort((a,b)=>b.acres-a.acres);
   if(s==='shade') list.sort((a,b)=>({'leafy':0,'some':1,'full-sun':2}[a.shade]-{'leafy':0,'some':1,'full-sun':2}[b.shade]) || b.trees-a.trees);
   if(s==='newpg') list.sort((a,b)=>((b.playground&&b.playground.newestYear)||0)-((a.playground&&a.playground.newestYear)||0));
@@ -348,8 +366,10 @@ function card(p){
     + img
     + '<div class="p-4">'
     + '<div class="flex items-start justify-between gap-2"><h3 class="font-display text-[17px] font-bold leading-snug text-meadow-deep">'+escHtml(p.name)+'</h3>'
-    + '<button class="shrink-0 rounded-lg border border-meadow/25 px-2 py-1 text-[11px] font-semibold text-meadow-deep hover:bg-meadow-light" onclick="event.stopPropagation();panTo(\''+p.slug+'\')">Map</button></div>'
-    + '<p class="mt-0.5 text-[12.5px] text-bark">'+d+p.acres+' acres · '+escHtml(p.area)+'</p>'
+    + '<div class="flex shrink-0 items-center gap-1.5">'
+    + '<span class="rounded-lg px-1.5 py-0.5 text-[12px] font-bold '+scoreClasses(p.score)+'" title="Parent Score">'+fmtScore(p.score)+'</span>'
+    + '<button class="rounded-lg border border-meadow/25 px-2 py-1 text-[11px] font-semibold text-meadow-deep hover:bg-meadow-light" onclick="event.stopPropagation();panTo(\''+p.slug+'\')">Map</button></div></div>'
+    + '<p class="mt-0.5 text-[12.5px] text-bark">'+d+p.acres+' acres · '+escHtml(p.area)+(myRating(p.slug)?' · <span class="font-semibold text-sun">★ '+myRating(p.slug)+' you</span>':'')+'</p>'
     + '<div class="mt-2 flex flex-wrap gap-1">'+badges(p).slice(0,5).map(x=>'<span class="pill bg-meadow-light text-meadow-deep">'+x+'</span>').join('')+'</div>'
     + '<p class="pill mt-2 '+rr[1]+'">'+rr[0]+'</p>'
     + (note ? '<p class="clamp-2 mt-2 text-[13px] leading-relaxed text-ink/75">'+escHtml(note)+'</p>' : '')
@@ -435,6 +455,18 @@ function showPark(slug){
   }
   const water = p.water ? '<div class="mt-3 rounded-2xl bg-sky-light px-4 py-3"><p class="text-[13px] font-bold text-sky">💦 '+escHtml(p.water.type)+'</p><p class="mt-1 text-[13.5px] text-ink/85">'+escHtml(p.water.hours)+'</p></div>' : '';
   const parkingRow = p.parking ? '<p class="mt-3 text-[13.5px] text-ink/85"><span class="font-semibold text-meadow-deep">🅿️ Parking:</span> '+escHtml(parkingText(p))+'</p>' : '';
+  const scoreBlock =
+    '<div class="mt-4 rounded-2xl border border-meadow/15 bg-white px-4 py-3">'
+    + '<div class="flex items-center justify-between gap-3"><p class="text-[13px] font-bold text-meadow-deep">Parent Score</p>'
+    + '<span class="rounded-lg px-2 py-0.5 text-[15px] font-bold '+scoreClasses(p.score)+'">'+fmtScore(p.score)+'<span class="text-[11px] font-semibold opacity-70">/10</span></span></div>'
+    + '<details class="mt-1"><summary class="cursor-pointer text-[12px] font-semibold text-meadow underline">Why this score?</summary>'
+    + '<ul class="mt-2 space-y-1 text-[12.5px] text-ink/85">'
+    + p.scoreBits.map(b=>'<li class="flex justify-between gap-2"><span>'+escHtml(b[0])+'</span><span class="font-semibold '+(b[1]===0?'text-bark/50':'text-meadow-deep')+'">'+fmtScore(b[1])+'<span class="font-normal text-bark/60">/'+fmtScore(b[2])+'</span></span></li>').join('')
+    + '</ul></details>'
+    + '<div class="mt-2 flex items-center gap-2 border-t border-meadow/10 pt-2"><span class="text-[12.5px] font-semibold text-meadow-deep">Your rating:</span>'
+    + '<span id="modal-stars" class="text-xl leading-none">'+starsHtml(p.slug)+'</span>'
+    + '<span class="text-[11px] text-bark">saved on this device</span></div>'
+    + '</div>';
   $('modal-panel').innerHTML =
     (p.img?'<img src="'+escHtml(p.img)+'" alt="'+escHtml(p.name)+'" class="h-52 w-full object-cover sm:rounded-t-3xl" onerror="this.remove()">':'')
     + '<button class="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1.5 text-sm font-bold text-meadow-deep shadow" onclick="closeModal()" aria-label="Close">✕</button>'
@@ -443,7 +475,7 @@ function showPark(slug){
     + '<p class="mt-1 text-[13.5px] text-bark">'+escHtml(p.address)+', Boise · '+p.acres+' acres · '+escHtml(p.area)+'</p>'
     + '<div class="mt-3 flex flex-wrap gap-1.5">'+badges(p).map(x=>'<span class="pill bg-meadow-light text-meadow-deep">'+x+'</span>').join('')+'<span class="pill '+rr[1]+'">'+rr[0]+'</span></div>'
     + (p.tip?'<div class="mt-4 rounded-2xl border border-sun/40 bg-sun-light px-4 py-3"><p class="text-[12px] font-bold uppercase tracking-wide text-sun">Parent notes</p><p class="mt-1 text-[14px] leading-relaxed">'+escHtml(p.tip)+'</p></div>':'')
-    + pgHtml + water + parkingRow
+    + pgHtml + water + parkingRow + scoreBlock
     + (p.desc?'<p class="mt-4 text-[14px] leading-relaxed text-ink/85">'+escHtml(p.desc)+'</p>':'')
     + '<div class="mt-5 grid gap-2 sm:grid-cols-3">'
     + '<a href="/parks/'+p.slug+'/" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-meadow-dark">Full details</a>'
@@ -453,6 +485,17 @@ function showPark(slug){
   $('modal').classList.remove('hidden'); $('modal').classList.add('flex');
   document.body.classList.add('modal-open');
   history.replaceState(null,'','?park='+p.slug+'#map');
+}
+function starsHtml(slug){
+  const r=myRating(slug); let h='';
+  for(let i=1;i<=5;i++) h+='<button type="button" onclick="rate(\''+slug+'\','+i+')" aria-label="'+i+' star'+(i>1?'s':'')+'" class="'+(i<=r?'text-sun':'text-bark/25')+'">★</button>';
+  return h;
+}
+function rate(slug,v){
+  setRating(slug,v);
+  const el=document.getElementById('modal-stars');
+  if(el) el.innerHTML=starsHtml(slug);
+  render(); // refresh "★ you" on cards
 }
 function closeModal(){
   $('modal').classList.add('hidden'); $('modal').classList.remove('flex');

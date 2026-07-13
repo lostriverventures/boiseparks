@@ -20,6 +20,36 @@ for (const p of parks) {
   if (parking[p.slug]) p.parking = parking[p.slug];
 }
 
+// ---------- Parent Score: transparent 0–10, computed only from the amenity data ----------
+function parentScore(p) {
+  const bits = [];
+  let s = 0, v = 0;
+  v = 0;
+  if (p.playground) {
+    v = 1.5;
+    if (p.playground.toddler && p.playground.bigKid) v += 0.5;   // both age ranges
+    if (p.playground.rubberSurface || p.playground.ada) v += 0.5; // accessible surfacing
+    if (p.playground.newestYear >= 2015) v += 0.5;                // recently updated
+  }
+  s += v; bits.push(['Playground', v, 3]);
+  v = { 'year-round': 2, 'seasonal+portable': 1.5, 'seasonal': 1, 'none': 0 }[p.restroom];
+  s += v; bits.push(['Restrooms', v, 2]);
+  v = { leafy: 1.5, some: 0.75, 'full-sun': 0 }[p.shade];
+  s += v; bits.push(['Shade', v, 1.5]);
+  v = (p.water || p.pool) ? 1 : 0;
+  s += v; bits.push(['Water play', v, 1]);
+  v = (p.shelter || p.reservable) ? 0.5 : 0;
+  s += v; bits.push(['Picnic shelter', v, 0.5]);
+  v = p.parking ? { lot: 1, downtown: 0.5, street: 0 }[p.parking.type] : 0;
+  s += v; bits.push(['Easy parking', v, 1]);
+  v = Math.min(1, 0.25 * ((p.greenbelt ? 1 : 0) + (p.fishing ? 1 : 0) + (p.openPlay ? 1 : 0) +
+      ((p.courts.length || p.fields.length) ? 1 : 0) + (p.extras.length ? 1 : 0)));
+  s += v; bits.push(['Extras (Greenbelt, fishing, courts…)', v, 1]);
+  p.score = Math.round(s * 10) / 10;
+  p.scoreBits = bits;
+}
+parks.forEach(parentScore);
+
 // ---------- js/parks-data.js ----------
 fs.mkdirSync(path.join(ROOT, 'js'), { recursive: true });
 fs.writeFileSync(
@@ -41,6 +71,8 @@ const RESTROOM_LABEL = {
 const SHADE_LABEL = { 'leafy': 'Leafy — lots of mature tree cover', 'some': 'Some shade — a mix of trees and open lawn', 'full-sun': 'Mostly full sun — pack hats and sunscreen' };
 const PARKING_LABEL = { lot: 'Dedicated parking lot', street: 'Street parking — no dedicated lot', downtown: 'Metered street parking & paid garages nearby' };
 const parkingText = p => p.parking ? (p.parking.note || PARKING_LABEL[p.parking.type]) : null;
+const scoreClasses = s => s >= 8 ? 'bg-meadow text-white' : s >= 6 ? 'bg-meadow-light text-meadow-deep' : s >= 4 ? 'bg-sun-light text-sun' : 'bg-stone-100 text-bark';
+const fmtScore = s => (s % 1 === 0 ? s.toFixed(0) : s.toFixed(1));
 
 function directionsUrl(p) {
   return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(`${p.name}, ${p.address}, Boise, ID ${p.zip}`);
@@ -195,6 +227,21 @@ ${header}
       <p class="mt-2 text-[13px] text-bark">Description from <a href="${esc(p.cityUrl || 'https://www.cityofboise.org/departments/parks-and-recreation/parks/')}" class="underline hover:text-meadow-deep" rel="noopener">Boise Parks and Recreation</a>.</p>` : ''}
     </div>
     <aside class="sm:col-span-2">
+      <div class="mb-4 rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
+        <div class="flex items-center justify-between gap-3">
+          <h2 class="font-display text-lg font-bold text-meadow-deep">Parent Score</h2>
+          <span class="rounded-xl px-2.5 py-1 text-lg font-bold ${scoreClasses(p.score)}">${fmtScore(p.score)}<span class="text-[12px] font-semibold opacity-70">/10</span></span>
+        </div>
+        <ul class="mt-3 space-y-1.5 text-[13px] text-ink/85">
+          ${p.scoreBits.map(([label, v, max]) => `<li class="flex items-baseline justify-between gap-2"><span>${esc(label)}</span><span class="font-semibold ${v === 0 ? 'text-bark/50' : 'text-meadow-deep'}">${fmtScore(v)}<span class="font-normal text-bark/60">/${fmtScore(max)}</span></span></li>`).join('\n          ')}
+        </ul>
+        <p class="mt-3 text-[12px] leading-snug text-bark">How easy a visit is with kids, computed from the amenity data — <a href="/#about" class="underline">methodology</a>.</p>
+        <div class="mt-3 border-t border-meadow/10 pt-3">
+          <p class="text-[13px] font-semibold text-meadow-deep">Your rating</p>
+          <div class="bp-stars mt-1 text-2xl leading-none" data-slug="${p.slug}" role="radiogroup" aria-label="Your rating"></div>
+          <p class="mt-1 text-[11.5px] text-bark">Tap to rate (tap again to clear) — saved on this device.</p>
+        </div>
+      </div>
       <div class="rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
         <h2 class="font-display text-lg font-bold text-meadow-deep">Everything here</h2>
         <ul class="mt-3 flex flex-wrap gap-1.5 text-[12.5px] font-medium">
@@ -210,6 +257,27 @@ ${header}
   </div>
 </main>
 ${footer}
+<script>
+(function(){
+  var KEY='bp-ratings';
+  function load(){ try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}} }
+  document.querySelectorAll('.bp-stars').forEach(function(el){
+    var slug=el.dataset.slug;
+    function draw(){
+      var r=load()[slug]||0, h='';
+      for(var i=1;i<=5;i++) h+='<button type="button" data-v="'+i+'" aria-label="'+i+' star'+(i>1?'s':'')+'" class="'+(i<=r?'text-sun':'text-bark/25')+' hover:scale-110" style="transition:transform .1s">★</button>';
+      el.innerHTML=h;
+    }
+    el.addEventListener('click',function(e){
+      var b=e.target.closest('[data-v]'); if(!b) return;
+      var all=load(), v=+b.dataset.v;
+      if(all[slug]===v) delete all[slug]; else all[slug]=v;
+      localStorage.setItem(KEY,JSON.stringify(all)); draw();
+    });
+    draw();
+  });
+})();
+</script>
 </body>
 </html>
 `;

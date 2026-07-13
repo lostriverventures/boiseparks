@@ -33,6 +33,13 @@ in it must be verifiable against the park's official city description.
 Shade ratings are computed as tree-diameter-inches per acre from the city tree
 inventory: `leafy` ≥ 90, `some` ≥ 25, else `full-sun`.
 
+`data/parking.json` holds per-park parking (lot/street/downtown), built by
+matching OSM parking features against park boundaries and verifying against
+aerial imagery. The **Parent Score** (0–10) is computed in `scripts/gen.js`
+purely from the amenity data (playground 3, restrooms 2, shade 1.5, water 1,
+parking 1, shelter 0.5, extras 1) with the breakdown shown on every park.
+Visitor star ratings are per-device (localStorage) — no backend.
+
 ## Deploy
 
 Static hosting (GitHub Pages works — `CNAME` is set to boiseparks.com).
