@@ -21,32 +21,46 @@ for (const p of parks) {
 }
 
 // ---------- Parent Score: transparent 0–10, computed only from the amenity data ----------
+// Philosophy: what actually makes a park good for kids is the playground, tree
+// cover, and open grass — plus restrooms. Those four are the CORE (max 9). Water
+// features, shelters and trails are nice-to-haves, so they're small BONUSES that
+// only ADD (capped at +1) and never drag a park down for lacking them. Parking is
+// logistics, not park quality, so it's shown separately and left out of the score.
+const round1 = n => Math.round(n * 10) / 10;
 function parentScore(p) {
-  const bits = [];
-  let s = 0, v = 0;
-  v = 0;
+  const core = [];
+  // Playground (max 3.5) — the #1 reason you take kids to a park
+  let v = 0;
   if (p.playground) {
-    v = 1.5;
-    if (p.playground.toddler && p.playground.bigKid) v += 0.5;   // both age ranges
+    v = 2;
+    if (p.playground.toddler && p.playground.bigKid) v += 0.5;    // equipment for both age ranges
     if (p.playground.rubberSurface || p.playground.ada) v += 0.5; // accessible surfacing
-    if (p.playground.newestYear >= 2015) v += 0.5;                // recently updated
+    if (p.playground.newestYear >= 2015) v += 0.5;                // built or rebuilt recently
   }
-  s += v; bits.push(['Playground', v, 3]);
-  v = { 'year-round': 2, 'seasonal+portable': 1.5, 'seasonal': 1, 'none': 0 }[p.restroom];
-  s += v; bits.push(['Restrooms', v, 2]);
-  v = { leafy: 1.5, some: 0.75, 'full-sun': 0 }[p.shade];
-  s += v; bits.push(['Shade', v, 1.5]);
-  v = (p.water || p.pool) ? 1 : 0;
-  s += v; bits.push(['Water play', v, 1]);
-  v = (p.shelter || p.reservable) ? 0.5 : 0;
-  s += v; bits.push(['Picnic shelter', v, 0.5]);
-  v = p.parking ? { lot: 1, downtown: 0.5, street: 0 }[p.parking.type] : 0;
-  s += v; bits.push(['Easy parking', v, 1]);
-  v = Math.min(1, 0.25 * ((p.greenbelt ? 1 : 0) + (p.fishing ? 1 : 0) + (p.openPlay ? 1 : 0) +
-      ((p.courts.length || p.fields.length) ? 1 : 0) + (p.extras.length ? 1 : 0)));
-  s += v; bits.push(['Extras (Greenbelt, fishing, courts…)', v, 1]);
-  p.score = Math.round(s * 10) / 10;
-  p.scoreBits = bits;
+  core.push(['Playground', v, 3.5]);
+  // Tree cover / shade (max 2.5) — comfort on a Boise summer afternoon
+  core.push(['Tree cover', { leafy: 2.5, some: 1.25, 'full-sun': 0 }[p.shade], 2.5]);
+  // Open grass & room to run (max 1.5)
+  core.push(['Open grass & room to run', p.openPlay ? 1.5 : 0, 1.5]);
+  // Restrooms (max 1.5)
+  core.push(['Restrooms', { 'year-round': 1.5, 'seasonal+portable': 1, 'seasonal': 0.75, 'none': 0 }[p.restroom], 1.5]);
+
+  // Bonuses — presence only, capped at +1, never a penalty
+  const bonusDefs = [
+    ['Splash pad / water', (p.water || p.pool), 0.5],
+    ['Picnic shelter', (p.shelter || p.reservable), 0.25],
+    ['Greenbelt / trails', p.greenbelt, 0.25],
+    ['Fishing', p.fishing, 0.25],
+    ['Sport courts & fields', (p.courts.length || p.fields.length), 0.25],
+  ];
+  const earned = bonusDefs.filter(b => b[1]);
+  const bonusRaw = earned.reduce((a, b) => a + b[2], 0);
+  const bonus = Math.min(1, bonusRaw);
+
+  const coreSum = core.reduce((a, b) => a + b[1], 0);
+  p.score = round1(Math.min(10, coreSum + bonus));
+  p.scoreRows = core.map(([label, got, max]) => ({ label, got, max }));
+  p.bonus = { got: round1(bonus), items: earned.map(b => b[0]) };
 }
 parks.forEach(parentScore);
 
@@ -233,9 +247,10 @@ ${header}
           <span class="rounded-xl px-2.5 py-1 text-lg font-bold ${scoreClasses(p.score)}">${fmtScore(p.score)}<span class="text-[12px] font-semibold opacity-70">/10</span></span>
         </div>
         <ul class="mt-3 space-y-1.5 text-[13px] text-ink/85">
-          ${p.scoreBits.map(([label, v, max]) => `<li class="flex items-baseline justify-between gap-2"><span>${esc(label)}</span><span class="font-semibold ${v === 0 ? 'text-bark/50' : 'text-meadow-deep'}">${fmtScore(v)}<span class="font-normal text-bark/60">/${fmtScore(max)}</span></span></li>`).join('\n          ')}
+          ${p.scoreRows.map(r => `<li class="flex items-baseline justify-between gap-2"><span>${esc(r.label)}</span><span class="font-semibold ${r.got === 0 ? 'text-bark/50' : 'text-meadow-deep'}">${fmtScore(r.got)}<span class="font-normal text-bark/60">/${fmtScore(r.max)}</span></span></li>`).join('\n          ')}
+          <li class="flex items-baseline justify-between gap-2 border-t border-meadow/10 pt-1.5"><span>Bonus features${p.bonus.items.length ? ` <span class="text-bark/60">(${esc(p.bonus.items.join(', '))})</span>` : ''}</span><span class="font-semibold ${p.bonus.got === 0 ? 'text-bark/50' : 'text-meadow-deep'}">+${fmtScore(p.bonus.got)}<span class="font-normal text-bark/60">/1</span></span></li>
         </ul>
-        <p class="mt-3 text-[12px] leading-snug text-bark">How easy a visit is with kids, computed from the amenity data — <a href="/#about" class="underline">methodology</a>.</p>
+        <p class="mt-3 text-[12px] leading-snug text-bark">How good a visit is with kids — playground, tree cover and grass count most; water, shelters and trails are bonuses; parking never counts against a park. <a href="/#about" class="underline">Methodology</a>.</p>
         <div class="mt-3 border-t border-meadow/10 pt-3">
           <p class="text-[13px] font-semibold text-meadow-deep">Your rating</p>
           <div class="bp-stars mt-1 text-2xl leading-none" data-slug="${p.slug}" role="radiogroup" aria-label="Your rating"></div>

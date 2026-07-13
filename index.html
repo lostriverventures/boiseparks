@@ -177,7 +177,7 @@
       </div>
       <div>
         <h3 class="font-bold text-meadow-deep">Parent Score</h3>
-        <p class="mt-1.5">A 0–10 measure of how easy a visit is with kids, computed only from the data above: playground quality (3), restrooms (2), shade (1.5), water play (1), parking (1), shelter (0.5) and extras (1). Every park shows its full breakdown — no vibes, no sponsorships. Star ratings you leave are saved only on your device.</p>
+        <p class="mt-1.5">A 0–10 measure of how good a park is for kids, computed only from the data above. What matters most drives the score: a <strong>core out of 9</strong> from the playground (3.5), tree cover (2.5), open grass to run on (1.5) and restrooms (1.5). Water features, shelters and trails are <strong>bonuses that only add</strong> (capped at +1) — a shady neighborhood park with a great playground and a lawn isn't marked down for lacking a splash pad. Parking is logistics, so it's shown but never counted against a park. Every park shows its full breakdown — no vibes, no sponsorships. Star ratings you leave are saved only on your device.</p>
       </div>
     </div>
     <p class="mt-6 text-[13px] text-bark">boiseparks.com is an independent guide and isn't affiliated with the City of Boise. Amenities change — if today's outing hinges on one thing (a restroom, a splash pad being on), check the park's official city page first.</p>
@@ -248,7 +248,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mripx5t7"></script>
+<script src="/js/parks-data.js?v=mrjlyjfo"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
@@ -461,8 +461,9 @@ function showPark(slug){
     + '<span class="rounded-lg px-2 py-0.5 text-[15px] font-bold '+scoreClasses(p.score)+'">'+fmtScore(p.score)+'<span class="text-[11px] font-semibold opacity-70">/10</span></span></div>'
     + '<details class="mt-1"><summary class="cursor-pointer text-[12px] font-semibold text-meadow underline">Why this score?</summary>'
     + '<ul class="mt-2 space-y-1 text-[12.5px] text-ink/85">'
-    + p.scoreBits.map(b=>'<li class="flex justify-between gap-2"><span>'+escHtml(b[0])+'</span><span class="font-semibold '+(b[1]===0?'text-bark/50':'text-meadow-deep')+'">'+fmtScore(b[1])+'<span class="font-normal text-bark/60">/'+fmtScore(b[2])+'</span></span></li>').join('')
-    + '</ul></details>'
+    + p.scoreRows.map(r=>'<li class="flex justify-between gap-2"><span>'+escHtml(r.label)+'</span><span class="font-semibold '+(r.got===0?'text-bark/50':'text-meadow-deep')+'">'+fmtScore(r.got)+'<span class="font-normal text-bark/60">/'+fmtScore(r.max)+'</span></span></li>').join('')
+    + '<li class="flex justify-between gap-2 border-t border-meadow/10 pt-1"><span>Bonus features'+(p.bonus.items.length?' <span class="text-bark/60">('+escHtml(p.bonus.items.join(', '))+')</span>':'')+'</span><span class="font-semibold '+(p.bonus.got===0?'text-bark/50':'text-meadow-deep')+'">+'+fmtScore(p.bonus.got)+'<span class="font-normal text-bark/60">/1</span></span></li>'
+    + '</ul><p class="mt-1.5 text-[11px] text-bark">Playground, tree cover &amp; grass count most. Parking doesn\'t affect the score.</p></details>'
     + '<div class="mt-2 flex items-center gap-2 border-t border-meadow/10 pt-2"><span class="text-[12.5px] font-semibold text-meadow-deep">Your rating:</span>'
     + '<span id="modal-stars" class="text-xl leading-none">'+starsHtml(p.slug)+'</span>'
     + '<span class="text-[11px] text-bark">saved on this device</span></div>'

@@ -36,9 +36,13 @@ inventory: `leafy` ≥ 90, `some` ≥ 25, else `full-sun`.
 `data/parking.json` holds per-park parking (lot/street/downtown), built by
 matching OSM parking features against park boundaries and verifying against
 aerial imagery. The **Parent Score** (0–10) is computed in `scripts/gen.js`
-purely from the amenity data (playground 3, restrooms 2, shade 1.5, water 1,
-parking 1, shelter 0.5, extras 1) with the breakdown shown on every park.
-Visitor star ratings are per-device (localStorage) — no backend.
+purely from the amenity data. A **core out of 9** — playground (3.5), tree
+cover (2.5), open grass (1.5), restrooms (1.5) — captures what makes a park
+good for kids. Water features, shelters and trails are **bonuses that only add,
+capped at +1**, so a park is never marked down for lacking them. Parking is
+deliberately excluded from the score (it's shown as info only). The full
+breakdown is displayed on every park. Visitor star ratings are per-device
+(localStorage) — no backend.
 
 ## Deploy
 
