@@ -30,6 +30,14 @@ lists inside it are hand-synced from the two city pages above — re-check those
 when refreshing. `data/tips.json` holds hand-written parent notes; every claim
 in it must be verifiable against the park's official city description.
 
+**No verbatim city prose is published.** The City of Boise `Park_Description` is
+their copyrighted text; we use it only as reference for writing our own original
+notes. The pipeline splits it into `data/city-descriptions.local.json` (git-ignored
+via `*.local.json`), and `scripts/gen.js` also strips any `desc` field before
+emitting the bundle — so no verbatim description ships in the site, the JS bundle,
+or the committed `data/parks.json`. Park pages instead link out to the official
+city page for the source write-up.
+
 Shade ratings are computed as tree-diameter-inches per acre from the city tree
 inventory: `leafy` ≥ 90, `some` ≥ 25, else `full-sun`.
 

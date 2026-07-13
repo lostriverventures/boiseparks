@@ -64,6 +64,11 @@ function parentScore(p) {
 }
 parks.forEach(parentScore);
 
+// The raw City of Boise Park_Description is kept in data/parks.json only as
+// source material for writing/verifying our own notes. It is never published:
+// strip it here so no verbatim city text ships in the bundle or on any page.
+parks.forEach(p => { delete p.desc; });
+
 // ---------- js/parks-data.js ----------
 fs.mkdirSync(path.join(ROOT, 'js'), { recursive: true });
 fs.writeFileSync(
@@ -145,7 +150,7 @@ for (const p of parks) {
   const url = `${SITE}/parks/${p.slug}/`;
   const pgBits = playgroundBits(p);
   const title = `${p.name} — Playground, Restrooms & Amenities | Boise Parks`;
-  const descText = p.tip || p.desc || `${p.name} in Boise, Idaho: amenities, playground details, restrooms and more.`;
+  const descText = p.tip || `${p.name} in Boise, Idaho: amenities, playground details, restrooms and more.`;
   const metaDesc = esc(descText.replace(/\s+/g, ' ').slice(0, 158));
 
   const amenities = [];
@@ -235,10 +240,8 @@ ${header}
       <ul class="mt-3 space-y-2 rounded-2xl border border-meadow/15 bg-white px-5 py-4 text-[14.5px] shadow-card">
         ${pgBits.map(b => `<li class="flex gap-2"><span class="text-meadow">✓</span> ${esc(b)}</li>`).join('\n        ')}
       </ul>` : `<p class="mt-8 rounded-2xl border border-meadow/15 bg-white px-5 py-4 text-[14.5px] text-bark shadow-card">No playground at this park.</p>`}
-      ${p.desc ? `
-      <h2 class="mt-8 font-display text-xl font-bold text-meadow-deep">About ${esc(p.name)}</h2>
-      <p class="mt-3 text-[15px] leading-relaxed text-ink/90">${esc(p.desc)}</p>
-      <p class="mt-2 text-[13px] text-bark">Description from <a href="${esc(p.cityUrl || 'https://www.cityofboise.org/departments/parks-and-recreation/parks/')}" class="underline hover:text-meadow-deep" rel="noopener">Boise Parks and Recreation</a>.</p>` : ''}
+      ${p.cityUrl ? `
+      <p class="mt-8 text-[13px] text-bark">For the city's official write-up and any current alerts, see the <a href="${esc(p.cityUrl)}" class="underline hover:text-meadow-deep" rel="noopener">${esc(p.name)} page at Boise Parks and Recreation</a>.</p>` : ''}
     </div>
     <aside class="sm:col-span-2">
       <div class="mb-4 rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">

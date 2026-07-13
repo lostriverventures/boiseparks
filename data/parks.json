@@ -9,7 +9,6 @@
   "area": "North River",
   "type": "Mini",
   "acres": 0.4,
-  "desc": "Aldape Park is a mini park located in East Boise.",
   "img": "https://www.cityofboise.org/media/2893/aldape_park_02.jpg?anchor=center&mode=crop&width=540&height=360&rnd=131969493570000000",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/aldape-park/",
   "playground": null,
@@ -39,7 +38,6 @@
   "area": "North River",
   "type": "Large Urban",
   "acres": 148.1,
-  "desc": "The 153-acre park features a distinctive spray fountain, bocce courts, disc golf course, horseshoe pits, outdoor gym, sand volleyball court, Together Treasure Valley Dog Island, playground, tennis courts, lighted softball diamonds, soccer, cricket and football fields and a reservable picnic shelter. Respect the wildlife in the park and please do not feed them.",
   "img": "https://cob.azureedge.net/cache/9/5/6/0/a/d/9560ad72d783875e74d1b2693e5502cf5ef7a784.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/ann-morrison-park/",
   "playground": {
@@ -58,7 +56,7 @@
   "restroom": "year-round",
   "water": {
    "type": "Interactive fountain",
-   "hours": "Sunrise\u2013sunset, Memorial Day\u2013Labor Day"
+   "hours": "Sunrise–sunset, Memorial Day–Labor Day"
   },
   "pool": false,
   "shade": "some",
@@ -98,7 +96,6 @@
   "area": "Southeast",
   "type": "Neighborhood",
   "acres": 7.5,
-  "desc": "Baggley Park amenities include Boise River Greenbelt access, tennis courts, basketball courts, open play areas, playground, restrooms and a sand volleyball court.",
   "img": "https://cob.azureedge.net/cache/c/2/6/d/4/2/c26d4265ec82c25f2354a862fd9678d1c4efe108.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/baggley-park/",
   "playground": {
@@ -146,7 +143,6 @@
   "area": "Southeast",
   "type": "Special Use",
   "acres": 2.2,
-  "desc": "Barber Observation Point is a 2-acre special use area in Southeast Boise. Amenities include a parking lot, walking path, interpretive signage and stunning views of the Barber Pool Conservation Area (BPCA).",
   "img": "https://cob.azureedge.net/cache/b/3/3/9/4/4/b33944015169adbaf7dbdd99c62a2a6cc71d17e0.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/barber-observation-point/",
   "playground": null,
@@ -176,7 +172,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 31.2,
-  "desc": "Bernardine Quinn Riverside Park is a 31-acre park and home to the popular 22-acre Quinn's Pond. Swimming, paddleboarding, kayaking and fishing are popular activities at the park. Amenities include fishing docks, walking paths, a pollinator garden, improved pond access and a shelter with seating. In Bernardine Quinn Riverside Park and Quinn's Pond, service animals welcome. No pets per city code. All alcoholic beverages including beer and wine are prohibited at this park.",
   "img": "https://cob.azureedge.net/cache/3/0/c/4/d/3/30c4d3c3e960286310021df5e8adbce625d90f33.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/bernardine-quinn-riverside-park/",
   "playground": null,
@@ -208,7 +203,6 @@
   "area": "North River",
   "type": "Neighborhood",
   "acres": 7.3,
-  "desc": "Boise Hills Park is a 7.3-acre park featuring a playground, open space, tennis court, basketball court, restroom, shade structure, Kristin Armstrong Children's Bike Trail, perimeter walking path and a naturalized play area.",
   "img": "https://cob.azureedge.net/cache/4/4/1/2/9/a/44129a1943a5cb0c24a6b39df269a1801343c488.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/boise-hills-park/",
   "playground": {
@@ -255,7 +249,6 @@
   "area": "Central Bench",
   "type": "Community",
   "acres": 11.4,
-  "desc": "Borah Park is a 13-acre site featuring an outdoor pool, splash pad, community garden, small picnic shelter, reservable picnic shelter, playground, open play areas, restrooms, chess tables and public art.",
   "img": "https://cob.azureedge.net/cache/b/d/c/1/1/b/bdc11bd0fb0210c62e1c761787da90a51e5a5d6f.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/borah-park/",
   "playground": {
@@ -274,7 +267,7 @@
   "restroom": "seasonal+portable",
   "water": {
    "type": "Spray pad",
-   "hours": "10 a.m.\u20138 p.m., Memorial Day\u2013Labor Day"
+   "hours": "10 a.m.–8 p.m., Memorial Day–Labor Day"
   },
   "pool": true,
   "shade": "some",
@@ -302,7 +295,6 @@
   "area": "Central Bench",
   "type": "Neighborhood",
   "acres": 2.7,
-  "desc": "Bowden Park is a 3-acre park located next to South Junior High School. Park features picnic tables, a playground, outdoor gym, a restroom and open play areas.\r\n\r\nBoise Parks and Recreation is committed to providing accessible and inclusive experiences for users of all abilities. The playground at Bowden Park includes Avalanche Inclusive Slide and Ten Spin and has bonded rubber surfacing for mobility device users. Take a video tour of this playground by clicking the button below.",
   "img": "https://cob.azureedge.net/cache/7/6/6/d/1/0/766d102dbbb242ae56f37034dd2f4fd37b62a1a6.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/bowden-park/",
   "playground": {
@@ -345,7 +337,6 @@
   "area": "Southeast",
   "type": "Community",
   "acres": 24.6,
-  "desc": "Bowler Park is a 24.62 acre park in Southeast Boise near Surprise Valley.\r\n\r\nAmenities include bocce courts, playground, fenced dog off-leash area, disc golf course, outdoor gym, skate spot, restrooms and misters.\r\n\r\nThis property was acquired from Beth and Bruce Bowler in 1995.\r\n\r\nBoise Parks and Recreation is committed to providing accessible and inclusive experiences for users of all abilities. The playground at Bowler Park includes a Volta\u00ae Inclusive Spinner and has bonded rubber surfacing for mobility device users. Take a video tour of this playground by clicking the button below.",
   "img": "https://cob.azureedge.net/cache/4/f/2/5/2/c/4f252cfd6057ce2610e5aa23c2b2496ef571a883.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/bowler-park/",
   "playground": {
@@ -364,7 +355,7 @@
   "restroom": "year-round",
   "water": {
    "type": "Misters",
-   "hours": "Sunrise\u2013sunset, Memorial Day\u2013Labor Day"
+   "hours": "Sunrise–sunset, Memorial Day–Labor Day"
   },
   "pool": false,
   "shade": "full-sun",
@@ -396,7 +387,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 0.3,
-  "desc": "C.W. Moore Park is a .28-acre special use area located within walking distance of stores, restaurants and businesses in downtown Boise. Park amenities include benches, bike racks and historical artifacts.",
   "img": "https://cob.azureedge.net/cache/0/4/8/5/9/d/04859dd2728ccd7d8d6a850e42b844570c969b4e.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/cw-moore-park/",
   "playground": null,
@@ -426,7 +416,6 @@
   "area": "North River",
   "type": "Neighborhood",
   "acres": 11.3,
-  "desc": "Park amenities include open play areas, a playground, restrooms, tennis courts, reservable picnic area, sand volleyball court and outdoor gym. Boise Parks and Recreation is committed to providing accessible and inclusive experiences for users of all abilities. The playground at Camel's Back Park has bonded rubber surfacing for mobility device users.",
   "img": "https://cob.azureedge.net/cache/2/3/2/5/6/f/23256f6f81c4b4edfbfa4b6ed851a1f1e018eeaf.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/camels-back-park/",
   "playground": {
@@ -474,7 +463,6 @@
   "area": "North River",
   "type": "Open Space",
   "acres": 63.1,
-  "desc": "Camel's Back Reserve is located on the back side of Camel's Back Park.",
   "img": "https://cob.azureedge.net/cache/9/2/e/3/a/3/92e3a388502b75845a996b864903d7535d026f04.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/camels-back-reserve/",
   "playground": null,
@@ -504,7 +492,6 @@
   "area": "Central Bench",
   "type": "Community",
   "acres": 12.5,
-  "desc": "Cassia Park is a 14-acre site in the heart of the Boise Bench. Park features a walking path, reservable picnic shelter, restrooms, playground, softball field, open play areas, public art, tennis courts and horseshoe pits.\r\n\r\nBoise Parks and Recreation is committed to providing accessible and inclusive experiences for users of all abilities. The playground at Cassia Park includes a We Go Round \u2122 and has bonded rubber surfacing for mobility device users. Take a video tour of this playground by clicking the button below.",
   "img": "https://cob.azureedge.net/cache/c/a/5/f/8/a/ca5f8abbc8a562ff3d06c068b0f58d24ec4df2ad.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/cassia-park/",
   "playground": {
@@ -553,7 +540,6 @@
   "area": "North River",
   "type": "Neighborhood",
   "acres": 7.1,
-  "desc": "Castle Hills Park is a small neighborhood park located in Northwest Boise. The park is 7.2 acres and features a playground, tennis courts, basketball court, practice fields, hourly dog-off leash area and open play areas. Boise Parks and Recreation is committed to providing accessible and inclusive experiences for users of all abilities. The playground at Castle Hills Park has bonded rubber surfacing for mobility device users.",
   "img": "https://cob.azureedge.net/cache/0/6/0/7/b/c/0607bcc2d9590841904abecb250ce65e6c863db8.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/castle-hills-park/",
   "playground": {
@@ -602,7 +588,6 @@
   "area": "North River",
   "type": "Neighborhood",
   "acres": 5.5,
-  "desc": "Catalpa Park amenities include a perimeter walking path, playground, restroom, non-reservable shelter, sand volleyball court, horseshoe pits, tennis courts, basketball court and an informal skate board area.",
   "img": "https://cob.azureedge.net/cache/2/c/2/c/1/a/2c2c1a1ade99ce4078b194f5fbdc628e6d713031.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/catalpa-park/",
   "playground": {
@@ -650,7 +635,6 @@
   "area": "North River",
   "type": "Mini",
   "acres": 1.9,
-  "desc": "Cecil D. Andrus Park is a 2-acre mini park in downtown Boise across Jefferson Street from the entrance to the State Capitol. The park features brick walkways, mature shade trees, planting beds with colorful flowers, picnic tables and park benches.",
   "img": "https://cob.azureedge.net/cache/f/8/3/b/c/6/f83bc6ffb5a1cd863ad8d1adb5e37a476ff86efe.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/cecil-d-andrus-park/",
   "playground": null,
@@ -680,7 +664,6 @@
   "area": "West Bench",
   "type": "Special Use",
   "acres": 38.7,
-  "desc": "Charles F. McDevitt Sports Complex is a special use park located in West Boise at the intersection of Eagle and McMillan roads. The park features 30 acres of developed land with another 10 acres of undeveloped property. Amenities include Little League fields, restrooms, picnic areas, a fishing pond, skate park and open play areas.  All alcoholic beverages including beer and wine are prohibited at this park.",
   "img": "https://cob.azureedge.net/cache/7/7/e/8/a/6/77e8a688971eb2dddc7808654031a265e9210461.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/charles-f-mcdevitt-youth-sports-complex/",
   "playground": {
@@ -728,7 +711,6 @@
   "area": "Downtown",
   "type": "Special Use",
   "acres": 0.6,
-  "desc": "Cherie Buckner-Webb Park is the City of Boise\u2019s newest downtown urban park. It replaced a private surface parking lot with a destination community space open to everyone.\r\n\r\nThis project is a partnership between the City of Boise and the Capital City Development Corporation (CCDC).",
   "img": "https://cob.azureedge.net/cache/8/b/e/f/c/3/8befc3abed173e3bf25118554a09f44b3f5aa1f0.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/cherie-buckner-webb-park/",
   "playground": null,
@@ -758,7 +740,6 @@
   "area": "West Bench",
   "type": "Neighborhood",
   "acres": 3.4,
-  "desc": "The building in Comba Park is home to BUGS (Boise Urban Garden School). BUGS provides garden education, cooking classes and community garden management in partnership with the City of Boise. Amenities include a community garden, playground, pollinator garden and splash pad.",
   "img": "https://cob.azureedge.net/cache/a/8/c/8/e/a/a8c8ea055a98975453af3e70d84c680795e5bb02.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/comba-park/",
   "playground": {
@@ -777,7 +758,7 @@
   "restroom": "none",
   "water": {
    "type": "Splash pad",
-   "hours": "10 a.m.\u20138 p.m., Memorial Day\u2013Labor Day"
+   "hours": "10 a.m.–8 p.m., Memorial Day–Labor Day"
   },
   "pool": false,
   "shade": "leafy",
@@ -806,7 +787,6 @@
   "area": "West Bench",
   "type": "Neighborhood",
   "acres": 8.1,
-  "desc": "Cottonwood Park is a small neighborhood 8-acre park located in west Boise. Amenities include a walking path, open play areas, playground, restroom and basketball courts. Boise Parks and Recreation is committed to providing accessible and inclusive experiences for users of all abilities. The playground at Cottonwood Park includes a Ten Spin and has bonded rubber surfacing for mobility device users.",
   "img": "https://cobumbraco-bkehg6egduf3gpgh.z02.azurefd.net/cache/d/c/e/6/1/3/dce613261738bd3bd792c93eae5f7f6cac0e9663.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/cottonwood-park/",
   "playground": {
@@ -852,7 +832,6 @@
   "area": "Southeast",
   "type": "Neighborhood",
   "acres": 7.3,
-  "desc": "Cypress Park is a 7-acre neighborhood park located in Southeast Boise. The park features a playground, non-reservable picnic shelter, restroom, walking path, tennis court and open play areas. Visitors can also enjoy a scenic vista of the Boise Front.",
   "img": "https://cob.azureedge.net/cache/c/b/7/6/3/4/cb7634da9bb7c0c11d18ecfe276ba95bcbb16bf3.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/cypress-park/",
   "playground": {
@@ -897,7 +876,6 @@
   "area": "West Bench",
   "type": "Neighborhood",
   "acres": 12.4,
-  "desc": "DeMeyer Park is a large neighborhood park located in West Boise. The park is 12.84 acres and amenities include a pond, restrooms, open play areas, conservation station, volleyball court, basketball court and a playground.",
   "img": "https://cob.azureedge.net/cache/7/a/7/7/3/b/7a773bd161b11f8fd186da79112b78a489fd4230.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/demeyer-park/",
   "playground": {
@@ -943,7 +921,6 @@
   "area": "North River",
   "type": "Neighborhood",
   "acres": 8.9,
-  "desc": "Eagle Rock Park was built on land leased by the City of Boise from the state of Idaho. The land was leased to the city for 50 years in 1983. This neighborhood park is close to the historic Warm Springs State Penitentiary. Amenities include a playground, open play areas, reservable picnic shelter, restrooms, a basketball court, one tennis court and two pickleball courts.",
   "img": "https://cob.azureedge.net/cache/e/e/9/c/2/b/ee9c2bcd32b187377f7f08cdb034d8c729ea186e.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/eagle-rock-park/",
   "playground": {
@@ -989,7 +966,6 @@
   "area": "North River",
   "type": "Neighborhood",
   "acres": 4.2,
-  "desc": "Elm Grove Park is a small neighborhood park located in the North End. The park is 3 acres and complete with open play areas, restrooms, tennis courts, basketball court, playground and grass softball field.",
   "img": "https://cob.azureedge.net/cache/5/7/e/1/f/e/57e1feddeab0dbd37994e797773bc3458a971bf8.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/elm-grove-park/",
   "playground": {
@@ -1036,7 +1012,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 56.0,
-  "desc": "Esther Simplot Park, an expansive 55-acre site encompassing approximately 23 acres of ponds suitable for fishing, wading and swimming. Park amenities include open play areas, wetlands, two reservable shelters, Friendship Island, a playground and restrooms. In Esther Simplot Park and ponds, service animals welcome. No pets per city code. Bernardine Quinn Riverside Park is a 31-acre park and home to the popular 22-acre Quinn's Pond. Swimming, paddleboarding, kayaking and fishing are popular activities at the park.",
   "img": "https://cob.azureedge.net/cache/2/d/d/c/c/d/2ddccd6c6ca65807316e4df323d7df68f84818ad.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/esther-simplot-park/",
   "playground": {
@@ -1077,7 +1052,6 @@
   "area": "West Bench",
   "type": "Special Use",
   "acres": 4.2,
-  "desc": "The 7-acre neighborhood park is located on the Boise Bench between Cole and Milwaukee St. next to Morley Nelson Elementary School and Community Center. Park amenities include a playground, non-reservable picnic shelter, tennis courts, restrooms and a municipal pool. The shelter is available at a first come, first served basis.",
   "img": "https://cob.azureedge.net/cache/8/6/1/5/2/2/8615229ce84ba321f91c9c3fc1f78b22ce8bb6cc.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/fairmont-park/",
   "playground": {
@@ -1122,7 +1096,6 @@
   "area": "North River",
   "type": "Neighborhood",
   "acres": 2.3,
-  "desc": "Fairview Park is a neighborhood park located west of downtown Boise. The park is just under 2 acres and features open play areas, a playground, basketball courts and tennis courts. All alcoholic beverages including beer and wine are prohibited at this park.",
   "img": "https://cob.azureedge.net/cache/f/8/d/0/b/3/f8d0b397a47926ee2ac223c24d2b4090ad546b26.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/fairview-park/",
   "playground": {
@@ -1143,7 +1116,7 @@
   "restroom": "seasonal",
   "water": {
    "type": "Misters",
-   "hours": "Sunrise\u2013sunset, Memorial Day\u2013Labor Day"
+   "hours": "Sunrise–sunset, Memorial Day–Labor Day"
   },
   "pool": false,
   "shade": "leafy",
@@ -1172,7 +1145,6 @@
   "area": "West Bench",
   "type": "Neighborhood",
   "acres": 3.5,
-  "desc": "Florence Park is a small neighborhood park located in West Boise. The park is slightly over 2 acres and is an open area park with a playground.",
   "img": "https://cob.azureedge.net/cache/b/7/7/1/c/a/b771ca28a65d7730813b8126b67a950da8c13cff.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/florence-park/",
   "playground": {
@@ -1213,7 +1185,6 @@
   "area": "North River",
   "type": "Mini",
   "acres": 8.4,
-  "desc": "Foothills East Park is approximately 8 acres and is a natural area putting you at one of the entrances to the heart of the Boise foothills. For foothills trail information and maps, visit the Ridge to Rivers website.",
   "img": "https://cob.azureedge.net/cache/2/9/5/c/b/1/295cb1da30f5a1fa6f9a0856c50a19437f0edfc5.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/foothills-east-park/",
   "playground": null,
@@ -1243,7 +1214,6 @@
   "area": "North River",
   "type": "Community",
   "acres": 31.0,
-  "desc": "Fort Boise Park is about 33 acres. Amenities include softball fields, restrooms, open play areas, community garden, baseball field, six tennis courts and an in-ground skate park.",
   "img": "https://cob.azureedge.net/cache/1/d/1/c/8/7/1d1c87b5ad02a4f56988025b7bba1c09ad485367.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/fort-boise-park/",
   "playground": null,
@@ -1281,7 +1251,6 @@
   "area": "Central Bench",
   "type": "Neighborhood",
   "acres": 2.9,
-  "desc": "Franklin Park is a 3.04 acre neighborhood park in the Central Bench near the corner of Franklin and Orchard Streets. Amenities include a .25 mile paved path, open play areas, a playground, outdoor gym, misters, shelters and bocce courts. Boise Parks and Recreation is committed to providing accessible and inclusive experiences for users of all abilities. The playground at Franklin Park has bonded rubber surfacing for mobility device users.",
   "img": "https://cob.azureedge.net/cache/3/d/4/6/3/0/3d4630d86bfa26936f74b5ed58801393a193af52.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/franklin-park/",
   "playground": {
@@ -1300,7 +1269,7 @@
   "restroom": "year-round",
   "water": {
    "type": "Misters",
-   "hours": "Sunrise\u2013sunset, Memorial Day\u2013Labor Day"
+   "hours": "Sunrise–sunset, Memorial Day–Labor Day"
   },
   "pool": false,
   "shade": "some",
@@ -1330,7 +1299,6 @@
   "area": "North River",
   "type": "Mini",
   "acres": 0.3,
-  "desc": "Gordon S. Bowen Park has a playground, drinking fountains and bike racks.",
   "img": "https://www.cityofboise.org/media/3372/gordonsbowen_park_02.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/gordon-s-bowen-park/",
   "playground": {
@@ -1371,14 +1339,13 @@
   "area": "Downtown",
   "type": "Special Use",
   "acres": 1.3,
-  "desc": "The Grove Plaza is a community gathering space in the heart of downtown Boise. It was designed and created by the Capital City Development Corporation (CCDC), Boise's redevelopment agency. The plaza is now owned and managed by the City of Boise.\r\nFor scheduling an event at The Grove Plaza, please contact:\r\nBoise Centre Events\r\n(208) 489-3631\r\nFor information on finding your brick:\r\nIf you need help finding a brick at The Grove Plaza, please use the Brick Finder.\r\nFor questions regarding recurring events including Alive After Five, Capital City Public Market, and the Holiday Tree Lighting, please contact:\r\nDowntown Boise Association\r\n(208) 385-7300",
   "img": "https://cob.azureedge.net/cache/2/2/f/c/a/0/22fca03b307561f722582f9371529e480056bbe5.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/the-grove-plaza/",
   "playground": null,
   "restroom": "none",
   "water": {
    "type": "Interactive fountain",
-   "hours": "8 a.m.\u201311 p.m., Memorial Day\u2013Labor Day"
+   "hours": "8 a.m.–11 p.m., Memorial Day–Labor Day"
   },
   "pool": false,
   "shade": "leafy",
@@ -1404,7 +1371,6 @@
   "area": "Southeast",
   "type": "Neighborhood",
   "acres": 5.1,
-  "desc": "Helen B. Lowder Park is a 5-acre neighborhood park in Southeast Boise next to Liberty Elementary School.\r\n\r\nAmenities include basketball courts, open play areas, a playground, restrooms, tennis courts and sand volleyball court.",
   "img": "https://cob.azureedge.net/cache/1/6/1/5/7/e/16157e7fec23bfd98bf51b6cb65197fefbcf160e.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/helen-b-lowder-park/",
   "playground": {
@@ -1450,7 +1416,6 @@
   "area": "West Bench",
   "type": "Neighborhood",
   "acres": 6.0,
-  "desc": "Hewett Park is a small neighborhood park located in west Boise. The park is just under 6 acres and features two playground structures.\r\n\r\nPedestrian access is available through adjacent neighborhood streets.",
   "img": "https://www.cityofboise.org/media/3315/hewett_park_02.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/hewett-park/",
   "playground": {
@@ -1492,7 +1457,6 @@
   "area": "North River",
   "type": "Community",
   "acres": 11.0,
-  "desc": "Hillside Park is a community park located in north Boise. The park is 15 acres featuring one lighted softball diamond, two little league fields and an equestrian area.",
   "img": "https://cob.azureedge.net/cache/b/0/f/3/6/e/b0f36e62b338af95bb677997fde33b8b8e860f0d.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/hillside-park/",
   "playground": null,
@@ -1527,7 +1491,6 @@
   "area": "North River",
   "type": "Open Space",
   "acres": 269.2,
-  "desc": "Hillside to Hollow Reserve is 260 acres off of Bogus Basin Road.\r\n\r\nThe Land Trust of the Treasure Valley (LTTV) acquired 58 acres in Harrison Hollow in 2011 with private donations. In 2013, the city of Boise purchased the adjacent 258 acres with serial levy funds. Combined, the two parcels have created a large protected open space area in the central foothills that citizens call \u201cHillside to the Hollow.\u201d",
   "img": "https://cob.azureedge.net/cache/0/e/9/b/b/f/0e9bbf83e47444e1f4e96cc1f7fd0b0d63d0e3cc.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/hillside-to-hollow-reserve/",
   "playground": null,
@@ -1557,7 +1520,6 @@
   "area": "West Bench",
   "type": "Community",
   "acres": 20.0,
-  "desc": "Hobble Creek Park is a 21-acre community park located in West Boise adjacent to the West YMCA near Eagle Road and Chinden Boulevard. The park features a wide array of amenities, including tennis courts, pickleball complex, a volleyball court, sports fields, restrooms, three covered shelters and a playground named in honor of slain Boise Police Officer Mark Stall. A .58-mile pathway circles the park and provides a healthy recreational activity for nearby residents and park visitors. Boise Parks and Recreation is committed to providing accessible and inclusive experiences for users of all abilities. The playground at Hobble Creek Park includes an inclusive swing seat and has bonded rubber surfacing for mobility device users.",
   "img": "https://cob.azureedge.net/cache/e/e/7/f/7/5/ee7f752e4bd1f420c5e26e6c55a98091cefbc2bf.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/hobble-creek-park/",
   "playground": {
@@ -1608,7 +1570,6 @@
   "area": "North River",
   "type": "Open Space",
   "acres": 291.5,
-  "desc": "Hulls Gulch Reserve is a 292-acre site north of downtown Boise at the base of the foothills. Unfortunately, this area like much of the lower Boise Foothills, is under attack by invasive species to include Russian olive, cereal rye, white top, poison hemlock, scotch cottonthistle and more. Learn about current biological conditions of the reserve here, based on data collected in 2018. Invasive plants are a leading cause of declines in native plant and animal numbers, and out-compete and displace native plants that many native wildlife species depend on for food and cover. In keeping with the Open Space Matters Reserve Master Plan, the City of Boise began a restoration project in 2018 to improve riparian and upland features and functions, including wildlife habitat and water quality, while balancing recreation and public access in the area. The restoration project has the following three goals:\r\nReduce invasive species and maintain populations overtime\r\nEstablish structurally complex riparian and upland habitat using diverse, native plant species\r\nEnhance and protect existing habitat and increase the diversity and abundance of wildlife species utilizing the area",
   "img": "https://cob.azureedge.net/cache/7/3/0/f/7/1/730f7154b10364058fc3e1c653568ef55d1039ed.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/hulls-gulch-reserve/",
   "playground": null,
@@ -1638,7 +1599,6 @@
   "area": "West Bench",
   "type": "Open Space",
   "acres": 55.7,
-  "desc": "Hyatt Hidden Lakes Reserve is a 53-acre haven for birds, animals and people located on the edge of Boise's West Bench featuring trailheads, pathways and overlook areas. Service animals welcome. No pets per city code. Fishing, boating, swimming, wading, bicycles and glass beverages are prohibited.",
   "img": "https://cob.azureedge.net/cache/d/8/0/2/8/d/d8028ddbb42b20a5c3eeeb546009d98f659b2719.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/hyatt-hidden-lakes-reserve/",
   "playground": null,
@@ -1668,7 +1628,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 0.6,
-  "desc": "The Idaho Anne Frank Human Rights Memorial is a .81-acre educational park inspired by Anne Frank's faith in humanity.",
   "img": "https://cob.azureedge.net/cache/f/1/7/a/1/b/f17a1b776bb006c777e3159e22a096504ab6351e.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/idaho-anne-frank-human-rights-memorial/",
   "playground": null,
@@ -1698,7 +1657,6 @@
   "area": "North River",
   "type": "Linear",
   "acres": 4.3,
-  "desc": "Idaho Fallen Firefighters Memorial Park is a 5-acre site on the Greenbelt west of downtown Boise. The park features an open grassy area, public art, shady trees, restrooms and benches for enjoying the river and memorials for fallen firefighters and 9/11. All alcoholic beverages including beer and wine are prohibited at this park.",
   "img": "https://cob.azureedge.net/cache/3/4/f/b/a/2/34fba231eef586b53b880350c802c204f0f1730c.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/idaho-fallen-firefighters-memorial-park/",
   "playground": null,
@@ -1728,7 +1686,6 @@
   "area": "Southeast",
   "type": "Community",
   "acres": 17.4,
-  "desc": "Ivywild Park is approximately 18 acres. The park's most recognizable feature is the outdoor pool, which includes a toddler pool and slides. Other amenities including a walking path, tennis courts, playground, softball fields, soccer fields, restrooms, open play areas and a reservable picnic shelter.",
   "img": "https://cob.azureedge.net/cache/9/0/d/1/d/4/90d1d491eda2657c4bcf2b3a68923f9debcbcb88.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/ivywild-park/",
   "playground": {
@@ -1778,7 +1735,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 1.7,
-  "desc": "The Boise Parks and Recreation Department offers a state of the art in-river experience in the heart of downtown Boise. The J.A. and Kathryn Albertson Family Foundation Boise Whitewater Park is a unique facility on the Boise River that features an adjustable wave for kayakers and surfers, three additional in-river wave structures with something for all skill levels, and a plaza area with viewing spots.",
   "img": "https://cob.azureedge.net/cache/b/4/f/e/3/9/b4fe39bc2e44646cce77c27834958264894d95d9.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/ja-and-kathryn-albertson-family-foundation-boise-whitewater-park/",
   "playground": null,
@@ -1808,7 +1764,6 @@
   "area": "North River",
   "type": "Regional",
   "acres": 90.4,
-  "desc": "The city's oldest park, Julia Davis Park, was created thanks to a generous donation of 43 acres of land in 1907 by Thomas Davis as a memorial to his beloved wife, Julia. See what makes this park special with its unique features which includes Julia Davis Rotary Plaza, Richard and Annette Bloch Cancer Survivor Plaza, Childhood Cancer Pavilion, Abraham Lincoln Statue, Bandshell, Rose Garden and the Window to the River Memorial.",
   "img": "https://cob.azureedge.net/cache/7/0/8/d/2/b/708d2b3a924dd9d3e6f38e30b208708f9fe1fb4f.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/julia-davis-park/",
   "playground": {
@@ -1856,7 +1811,6 @@
   "area": "West Bench",
   "type": "Neighborhood",
   "acres": 9.8,
-  "desc": "Jullion Park is an 11-acre neighborhood park located in Southwest Boise. Amenities include a playground, a picnic shelter (non-reservable), restrooms and open play areas.",
   "img": "https://cob.azureedge.net/cache/7/9/e/0/2/5/79e025039573d86df464cc03ed7fac90c419b05c.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/jullion-park/",
   "playground": {
@@ -1899,7 +1853,6 @@
   "area": "Downtown",
   "type": "Mini",
   "acres": 0.2,
-  "desc": "The 0.21-acre parcel located at 521 W Grove Street sits adjacent to Boise\u2019s Basque Block. For nearly four decades, the Letemendi family ran a boardinghouse there that housed hundreds of Basque immigrants. Meanwhile, immigrants from Japan, China, Ireland, Germany, and many other countries lived on surrounding blocks, forming a rich tapestry of language, food, and culture. Naming the park \u201cKaixo Corner\u201d (kie \u2022 sho) \u2013 meaning \"hello\" in Basque \u2013 bridges the art\u2019s emphasis on other immigrant cultures with the site\u2019s Basque history and proximity to this dynamic community.",
   "img": "https://www.cityofboise.org/media/20263/kaixo-corner-in-downtown-boise-2.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/kaixo-corner/",
   "playground": null,
@@ -1929,7 +1882,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 41.4,
-  "desc": "Kathryn Albertson Park is a 41-acre special use park located near downtown Boise. A haven for wildlife and quiet contemplation, the park features wide, paved footpaths and reservable outdoor gazebos in a beautiful natural setting. To protect wildlife, please observe them from a distance. Biking, use of e-scooters, fishing, boating, swimming and wading are prohibited in the park.",
   "img": "https://cob.azureedge.net/cache/7/4/c/4/6/a/74c46a2811307863f4a28dff668937488f35102b.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/kathryn-albertson-park/",
   "playground": null,
@@ -1961,7 +1913,6 @@
   "area": "North River",
   "type": "Mini",
   "acres": 0.0,
-  "desc": "11161 W River St",
   "img": "https://cob.azureedge.net/cache/b/6/6/a/7/0/b66a70a09b09caf5e4a7b9282335615e645224d4.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/kristens-park/",
   "playground": null,
@@ -1991,7 +1942,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 32.1,
-  "desc": "Kristin Armstrong Municipal Park is a shady 28-acre park on the banks of the Boise River. Amenities include reservable picnic areas, open play areas, bocce courts, playground and restrooms.",
   "img": "https://cob.azureedge.net/cache/7/8/4/4/e/4/7844e4c6300830c846e45fa19f1c66310c4e6a8d.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/kristin-armstrong-municipal-park/",
   "playground": {
@@ -2038,7 +1988,6 @@
   "area": "Southeast",
   "type": "Mini",
   "acres": 0.8,
-  "desc": "Kroeger Park is a half-acre mini park located in a residential area off Broadway in Southeast Boise. The park features shade trees, a playground and picnic tables.",
   "img": "https://cob.azureedge.net/cache/0/8/7/d/6/f/087d6fade94ce9e376e7b62b55b56df8c2d80900.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/kroeger-park/",
   "playground": {
@@ -2081,7 +2030,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 4.8,
-  "desc": "The East End nursery managed by Boise Parks and Recreation's division of Community Forestry has a capacity of over 900 trees when properly spaced (not including the permanent plantings).",
   "img": "https://cob.azureedge.net/cache/2/6/4/1/a/f/2641afef60656b5ab76bb6139283d7513b90c147.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/laura-moore-cunningham-arboretum/",
   "playground": null,
@@ -2111,7 +2059,6 @@
   "area": "Central Bench",
   "type": "Neighborhood",
   "acres": 8.4,
-  "desc": "Liberty Park is a neighborhood park located off Emerald Street near St. Alphonsus Regional Medical Center. Amenities include a playground, little league fields, a covered shelter (non-reservable) and a community garden.",
   "img": "https://cob.azureedge.net/cache/7/2/7/f/b/0/727fb00c9c7266e264d64c6a5c340edd80659b87.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/liberty-park/",
   "playground": {
@@ -2157,7 +2104,6 @@
   "area": "North River",
   "type": "Neighborhood",
   "acres": 7.3,
-  "desc": "Park is open from sunrise to sunset. 7136 N Bogart Ln.  There is a parking lot available at this park.",
   "img": "https://www.cityofboise.org/media/3206/magnolia_park_05.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/magnolia-park/",
   "playground": null,
@@ -2187,7 +2133,6 @@
   "area": "Southeast",
   "type": "Neighborhood",
   "acres": 9.1,
-  "desc": "Manitou Park is an 11-acre park with mature shade trees and a large open area in a well-established Southeast Boise neighborhood. A covered picnic shelter is available in the park on a first come, first served basis.",
   "img": "https://cob.azureedge.net/cache/8/4/6/7/7/7/846777634aaaf90a87b131aefe8ab9ea7b284fb7.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/manitou-park/",
   "playground": {
@@ -2234,7 +2179,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 74.1,
-  "desc": "Marianne Williams Park is a 72-acre park located on the Boise River in East Boise's Barber Valley with beautiful walking pathways. The park also features two large ponds, paved walking paths, a gazebo, picnic shelter, restroom and benches. Bicycles not permitted within the interior of the park. Within the interior of the park, service animals welcome. No pets per city code. The park is signed accordingly.",
   "img": "https://cob.azureedge.net/cache/8/1/0/f/f/5/810ff583dc330ba23b83058806fbbf839a046f48.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/marianne-williams-park/",
   "playground": null,
@@ -2266,7 +2210,6 @@
   "area": "West Bench",
   "type": "Neighborhood",
   "acres": 8.1,
-  "desc": "The eight-acre park features a pollinator garden and interpretive signage about our Monarchs and Milkweeds program. It also features a pond, paths and fenced in dog area.",
   "img": "https://cob.azureedge.net/cache/c/9/5/6/7/8/c95678128a43e4f7843e1b4b17025d092955f4e2.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/mariposa-park/",
   "playground": null,
@@ -2298,7 +2241,6 @@
   "area": "North River",
   "type": "Mini",
   "acres": 0.3,
-  "desc": "McAuley Park is small park featuring park benches and large growth trees in Boise's North End neighborhood. All alcoholic beverages including beer and wine are prohibited at this park.",
   "img": "https://www.cityofboise.org/media/3195/mcauley_park_03.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/mcauley-park/",
   "playground": null,
@@ -2328,7 +2270,6 @@
   "area": "North River",
   "type": "Neighborhood",
   "acres": 4.9,
-  "desc": "Memorial Park is a small 7-acre neighborhood park located in northeast Boise. Amenities include open play areas, a playground and restrooms.",
   "img": "https://www.cityofboise.org/media/3193/memorial_park_01.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/memorial-park/",
   "playground": {
@@ -2370,7 +2311,6 @@
   "area": "North River",
   "type": "Open Space",
   "acres": 734.1,
-  "desc": "The Military Reserve is approximately 734 acres reserved for several different uses. The amenities available in the area are an archery range, an old military cemetery, bike park, dog park and trails. Completed in 2019, J. A. and Kathryn Albertson Family Foundation Bike Park has been designed to accommodate multiple skill levels from beginner to expert.",
   "img": "https://cob.azureedge.net/cache/2/d/6/c/d/e/2d6cde5fab1d7230342222cc5f4babce0432b2a7.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/military-reserve/",
   "playground": null,
@@ -2403,7 +2343,6 @@
   "area": "West Bench",
   "type": "Special Use",
   "acres": 10.0,
-  "desc": "Milwaukee Park is a 10-acre special use park adjacent to Capital High School in West Boise. The site was acquired in November 1973. The park features five Little League fields and an open grassy area.",
   "img": "https://cobumbraco-bkehg6egduf3gpgh.z02.azurefd.net/cache/5/e/6/4/c/9/5e64c9bf7364c6934f99c60577a455bf328fddce.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/milwaukee-park/",
   "playground": null,
@@ -2437,7 +2376,6 @@
   "area": "West Bench",
   "type": "Community",
   "acres": 19.6,
-  "desc": "Molenaar Park is a 20-acre park located at 2815 S Maple Grove Road between Victory and Targee Streets. Amenities include a perimeter walking path, playground, skate park, restroom, non-reservable shelter, fenced off-leash dog park, pond, splash pad and sports fields/open play area. Molenaar Park is an on-leash park. Please pick up and leash your dog at all times, unless you are using the fully fenced dog off-leash area (opened July 2020). Boise Parks and Recreation is committed to providing accessible and inclusive experiences for users of all abilities. The playground at Molenaar Park includes We Go Round \u2122 and Double Oodle \u00ae Swings and has bonded rubber surfacing for mobility device users.",
   "img": "https://cob.azureedge.net/cache/3/e/a/4/a/e/3ea4aedc960f9cd1d3c7d63cd967f08e08bf9486.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/molenaar-park/",
   "playground": {
@@ -2459,7 +2397,7 @@
   "restroom": "seasonal+portable",
   "water": {
    "type": "Splash pad",
-   "hours": "10 a.m.\u20138 p.m., Memorial Day\u2013Labor Day"
+   "hours": "10 a.m.–8 p.m., Memorial Day–Labor Day"
   },
   "pool": false,
   "shade": "some",
@@ -2491,7 +2429,6 @@
   "area": "Central Bench",
   "type": "Neighborhood",
   "acres": 7.9,
-  "desc": "A popular neighborhood park on the Boise Bench, Morris Hill Park opened in June 2007. Amenities include a large grassy open area, a 1-acre fenced dog park, picnic shelter, playground, restroom, benches, tables, horseshoe pits and an arboretum. Improvements completed in 2017 include dividing the dog park for a separate area for small dogs, constructing a gravel walking path, additional toys and agility training amenities and adding additional benches and picnic tables.",
   "img": "https://cob.azureedge.net/cache/7/e/c/8/0/f/7ec80fbb55f53f26db3c02ad2958777d00c3a977.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/morris-hill-park/",
   "playground": {
@@ -2536,7 +2473,6 @@
   "area": "West Bench",
   "type": "Neighborhood",
   "acres": 8.7,
-  "desc": "Mountain View Park is located in west Boise. This 8-acre neighborhood park features picnic tables, a playground as well as tennis and basketball courts.",
   "img": "https://cob.azureedge.net/cache/2/9/c/0/8/b/29c08b77c87b4753bc7a135e7f8d3e7a31fbacaf.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/mountain-view-park/",
   "playground": {
@@ -2581,7 +2517,6 @@
   "area": "West Bench",
   "type": "Mini",
   "acres": 2.1,
-  "desc": "Nottingham Park is a 2-acre mini park featuring open play areas, playground and a basketball court. The park was dedicated to be permanently used for park and recreational purposes.",
   "img": "https://www.cityofboise.org/media/3195/mcauley_park_03.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/nottingham-park/",
   "playground": {
@@ -2626,7 +2561,6 @@
   "area": "North River",
   "type": "Community",
   "acres": 52.5,
-  "desc": "Optimist Youth Sports Complex is a 51-acre park located in northwest Boise. The park features sports fields, open play areas, a fishing pond and public art. \r\nReminder: Between September 1-October 31 and March 1 - May 31 pets are not permitted except service animals.\r\nAll alcoholic beverages including beer and wine are prohibited at this park.",
   "img": "https://cob.azureedge.net/cache/9/8/6/a/6/a/986a6a56c0191f1e645891dc0bc77f28223a39c8.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/optimist-youth-sports-complex/",
   "playground": null,
@@ -2660,7 +2594,6 @@
   "area": "Southeast",
   "type": "Open Space",
   "acres": 76.7,
-  "desc": "The Oregon Trail Reserve is a 77-acre site in Southeast Boise. The area features a scenic view of the Boise Front and the historic Kelton Ramp, a path forged by overland travelers heading down the rim to the Boise River.",
   "img": "https://cob.azureedge.net/cache/2/2/5/f/b/3/225fb364bfb1f710ec832b63dacc1b489ab24068.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/oregon-trail-reserve/",
   "playground": null,
@@ -2690,7 +2623,6 @@
   "area": "North River",
   "type": "Mini",
   "acres": 0.7,
-  "desc": "Owens Park is a 1.05 acre mini park located in the historic Sycamore Neighborhood, a 101-acre area within the greater Collister Neighborhood in northwest Boise. This small park provides a quiet place for neighbors to enjoy with picnic tables scattered around the park.",
   "img": "https://www.cityofboise.org/media/3144/owens_park_05.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/owens-park/",
   "playground": null,
@@ -2720,7 +2652,6 @@
   "area": "Central Bench",
   "type": "Neighborhood",
   "acres": 5.0,
-  "desc": "Owyhee Park is a 5-acre neighborhood park on the Bench near Vista Avenue and I-84. Amenities include playground equipment for ages 2-5 and 5-12, practice fields, restrooms, a basketball court, four tennis courts and open play areas.",
   "img": "https://cob.azureedge.net/cache/2/6/a/2/5/b/26a25b41ff2a1ee21a75dc733e4911aa8a1f4eed.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/owyhee-park/",
   "playground": {
@@ -2765,7 +2696,6 @@
   "area": "Southeast",
   "type": "Special Use",
   "acres": 14.8,
-  "desc": "Parkcenter Park is a 13-acre special use park, located in east Boise. The area is frequently visited by waterfowl during the spring and summer months.",
   "img": "https://cob.azureedge.net/cache/c/8/0/0/f/7/c800f77f5c95fc679512d85405d3ce27fd9cacb0.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/parkcenter-park/",
   "playground": null,
@@ -2799,7 +2729,6 @@
   "area": "West Bench",
   "type": "Neighborhood",
   "acres": 7.0,
-  "desc": "Peppermint Park is a 7-acre neighborhood park located next to Pepper Ridge Elementary School in Southwest Boise.",
   "img": "https://cob.azureedge.net/cache/2/e/4/a/1/b/2e4a1b2936c1943ae7cfff3e4c21f2e2a72846b9.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/peppermint-park/",
   "playground": {
@@ -2845,7 +2774,6 @@
   "area": "Central Bench",
   "type": "Neighborhood",
   "acres": 8.8,
-  "desc": "The 8.5-acre park features an universally accessible playground, basketball courts, hourly dog-off leash area, a tennis court, horseshoe pit, open play areas, practice fields and restrooms. Boise Parks and Recreation is committed to providing accessible and inclusive experiences for users of all abilities. The playground at Phillippi Park includes Ten Spin and has bonded rubber surfacing for mobility device users. Take a video tour of this playground by clicking the button below.",
   "img": "https://cob.azureedge.net/cache/c/7/b/b/b/8/c7bbb82f029e4035d098b12dc2d5290de98c77de.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/phillippi-park/",
   "playground": {
@@ -2894,7 +2822,6 @@
   "area": "West Bench",
   "type": "Neighborhood",
   "acres": 4.5,
-  "desc": "Current amenities include a fenced dog park, open play area, half-court basketball court, two shelters, playground and a restroom. Boise Parks and Recreation is committed to providing accessible and inclusive experiences for users of all abilities. The playground at Pine Grove Park includes an inclusive swing seat and has bonded rubber surfacing for mobility device users. Take a video tour of this playground by clicking the button below.",
   "img": "https://cob.azureedge.net/cache/c/d/a/9/a/7/cda9a7ea46f249ccbd5bb6df3f6fb8c2b1d3f1db.png",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/pine-grove-park/",
   "playground": {
@@ -2939,7 +2866,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 0.1,
-  "desc": "The Pioneer tot lot is located in the River Street area in Downtown Boise.",
   "img": "https://www.cityofboise.org/media/4978/pioneer-tot-lot.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/pioneer-tot-lot/",
   "playground": {
@@ -2980,7 +2906,6 @@
   "area": "Central Bench",
   "type": "Special Use",
   "acres": 4.0,
-  "desc": "This special use area is located directly in front of the Boise Depot. Service animals welcome. No pets per city code on the Boise Depot grounds or at Platt Gardens.",
   "img": "https://cob.azureedge.net/cache/a/6/c/8/7/1/a6c871726797245478826354cbde233aa91ee763.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/platt-gardens/",
   "playground": null,
@@ -3010,7 +2935,6 @@
   "area": "North River",
   "type": "Open Space",
   "acres": 481.5,
-  "desc": "Polecat Gulch Reserve total acreage is 322 acres. Polecat Gulch Reserve was created in 2003 with the acquisition from the Blessinger family of 120 acres of undeveloped open space followed by several other adjacent acquisitions in 2005, 2010 and 2012. The entire Polecat Gulch Reserve area totals 835 acres which includes 360 acres of Bureau of Land Management. It lies between Cartwright and Collister Roads. The city has allocated $3 million in serial levy funds for property acquisition in this area. Dogs are only allowed on-leash in Polecat Gulch Reserve due to the sensitive nature of the plants and wildlife. Polecat Gulch Reserve area features 7.5 miles of trails that seamlessly cross Bureau of Land Management and City property. The mature vegetation on the slopes supports mule deer year round and a substantial population of Aase's Onion, a rare plant found in the Boise Foothills. In 2007, a trailhead parking lot off Cartwright Road was built with a $46,000 grant awarded by the Idaho Department of Parks & Recreation. There is currently a small 1930s home on the property where a caretaker lives. A trailhead is now available at the end of North Collister.",
   "img": "https://cob.azureedge.net/cache/7/8/3/9/a/d/7839ad7404c4dd9b3443f80087b460b10500ae99.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/polecat-gulch-reserve/",
   "playground": null,
@@ -3040,7 +2964,6 @@
   "area": "North River",
   "type": "Neighborhood",
   "acres": 1.5,
-  "desc": "Primrose Park is a 1.5 acre park in Northwest Boise. Park amenities include an open play area, picnic shelter, ADA Van accessible parking, drinking fountain, seating, a playground with accessible elements, an outdoor gym, shade trees, walking paths, and a pollinator garden.",
   "img": "https://www.cityofboise.org/media/18840/primrose_2.jpg?anchor=center&mode=crop&width=540&height=360&rnd=133625725440000000",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/primrose-park/",
   "playground": {
@@ -3085,7 +3008,6 @@
   "area": "West Bench",
   "type": "Neighborhood",
   "acres": 6.8,
-  "desc": "Redwood Park is a 7-acre neighborhood park located near Ustick Road between North Five Mile and Cloverdale in West Boise. The park features open play areas, a walking path, fishing pond, picnic benches, a playground and off-leash dog use during designated hours.",
   "img": "https://www.cityofboise.org/media/3121/redwood_park_14.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/redwood-park/",
   "playground": {
@@ -3127,7 +3049,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 1.6,
-  "desc": "Rhodes Skate Park is a 1.28-acre special use park located in Downtown Boise near the Linen District. Local youth helped design the skate park that caters to skateboarding and inline skating. By order of the Director: No motorized vehicles or electric mobility devices allowed in City of Boise skate parks. All alcoholic beverages, including beer and wine, are prohibited at Rhodes Skate Park.",
   "img": "https://cob.azureedge.net/cache/3/5/9/c/f/8/359cf8e10c2e9f96920bff8378fd6b0eaa73a12c.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/rhodes-skate-park/",
   "playground": null,
@@ -3159,7 +3080,6 @@
   "area": "Central Bench",
   "type": "Mini",
   "acres": 0.1,
-  "desc": "",
   "img": null,
   "cityUrl": null,
   "playground": null,
@@ -3189,7 +3109,6 @@
   "area": "North River",
   "type": "Linear",
   "acres": 1.6,
-  "desc": "Shoreline Park is a 1.75-acre site located along the Boise River Greenbelt. The shady park features open grassy areas, picnic benches and a river overlook offering a view of the Boise River. All alcoholic beverages including beer and wine are prohibited at this park.",
   "img": "https://cob.azureedge.net/cache/1/3/2/f/5/a/132f5afc87b78776df2107d7c7236d6709716b76.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/shoreline-park/",
   "playground": null,
@@ -3219,7 +3138,6 @@
   "area": "Central Bench",
   "type": "Neighborhood",
   "acres": 5.7,
-  "desc": "Shoshone Park is a five-acre neighborhood park located near Vista Avenue. The park features open play areas, picnic tables, restrooms, two tennis courts and practice fields for soccer and other sports. A covered picnic shelter is available in the park on a first come, first served basis.",
   "img": "https://cob.azureedge.net/cache/d/1/0/3/2/6/d103263622e4ea1dfca8e1fae189791ecdb52b6f.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/shoshone-park/",
   "playground": {
@@ -3262,7 +3180,6 @@
   "area": "Southeast",
   "type": "Special Use",
   "acres": 157.7,
-  "desc": "Simplot Sports Complex is a 161-acre large special use area.  All alcoholic beverages including beer and wine are prohibited at this park. Boise Parks and Recreation is committed to providing accessible and inclusive experiences for users of all abilities. The playground at Simplot Sports Complex has bonded rubber surfacing for mobility device users. Take a video tour of this playground by clicking the button below.",
   "img": "https://cob.azureedge.net/cache/2/6/e/9/e/6/26e9e64d20d2df17e0819cf8fcd3ddb50882e740.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/simplot-sports-complex/",
   "playground": {
@@ -3309,7 +3226,6 @@
   "area": "West Bench",
   "type": "Mini",
   "acres": 1.6,
-  "desc": "Skyline Park is a 1.5-acre mini park in West Boise. Current amenities include a basketball court, open play areas and a playground. There is a picnic shelter available on a first come, first served basis.",
   "img": "https://www.cityofboise.org/media/2914/skyline_park_03.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/skyline-park/",
   "playground": {
@@ -3353,7 +3269,6 @@
   "area": "North River",
   "type": "Neighborhood",
   "acres": 5.9,
-  "desc": "Stewart Gulch Park offers a playground, sidewalks and a covered shelter (non-reservable).",
   "img": "https://cob.azureedge.net/cache/6/b/d/1/5/f/6bd15f65225d4a722610bf0235dc5f698f81002e.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/stewart-gulch-park/",
   "playground": {
@@ -3396,7 +3311,6 @@
   "area": "North River",
   "type": "Neighborhood",
   "acres": 10.1,
-  "desc": "Sunset Park features mature shade trees, open play areas, a softball field, tennis courts, basketball court, playground and picnic tables. The large picnic shelter is available on a first come, first served basis.",
   "img": "https://cob.azureedge.net/cache/f/a/3/f/8/a/fa3f8acf2092775e839f7dac88ed3ec5f2fdc1e1.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/sunset-park/",
   "playground": {
@@ -3442,7 +3356,6 @@
   "area": "West Bench",
   "type": "Neighborhood",
   "acres": 7.2,
-  "desc": "Sycamore Park is a 7-acre, neighborhood park located in the west Boise. Amenities in this park include a restroom, picnic shelter (non-reservable), a playground, public art and playground swings.",
   "img": "https://www.cityofboise.org/media/3100/sycamore_park_05.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/sycamore-park/",
   "playground": {
@@ -3486,7 +3399,6 @@
   "area": "Central Bench",
   "type": "Neighborhood",
   "acres": 7.7,
-  "desc": "Park amenities include a gravel pathway, playground, restroom, picnic shelter, fishing pond, tennis courts, open grassy areas, two parking lots, mature and newly planted trees and picnic benches. Boise Parks and Recreation is committed to providing accessible and inclusive experiences for users of all abilities. The playground at Terry Day Park has bonded rubber surfacing for mobility device users.",
   "img": "https://cob.azureedge.net/cache/3/1/9/f/0/c/319f0ca386828f290d4d2869d6be771a3d220b4e.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/terry-day-park/",
   "playground": {
@@ -3536,7 +3448,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 78.6,
-  "desc": "Veterans Memorial Park is located at 930 N. Veterans Memorial Parkway. Amenities include several memorials throughout the park, a plaza, playground, access to the Boise River Greenbelt, open play areas, restrooms and reservable picnic area and shelter. In Veterans Memorial Park pond, service animals welcome. No pets per city code.",
   "img": "https://cob.azureedge.net/cache/1/1/1/c/0/3/111c03c81ff24446f6040571b81817ca5598636f.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/veterans-memorial-park/",
   "playground": {
@@ -3579,7 +3490,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 20.2,
-  "desc": "A 19.4-acre community park, Warm Springs Park includes a native plant garden.",
   "img": "https://cob.azureedge.net/cache/4/5/8/7/2/1/458721e61ca5a22f38da6d28747d7a98a80ecfb1.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/warm-springs-park/",
   "playground": null,
@@ -3612,7 +3522,6 @@
   "area": "Southeast",
   "type": "Neighborhood",
   "acres": 7.8,
-  "desc": "Williams Park is a neighborhood park just under 8 acres. Located in Southeast Boise, Williams Park features four tennis courts, a basketball court, walking paths, a playground and an open grassy area.",
   "img": "https://cob.azureedge.net/cache/1/b/7/3/4/3/1b7343a7989c3084f5f7485fefdb6a30973fc8db.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/williams-park/",
   "playground": {
@@ -3656,7 +3565,6 @@
   "area": "North River",
   "type": "Special Use",
   "acres": 60.2,
-  "desc": "Willow Lane Athletic Complex is a 57-acre, special use park, adjacent to the Boise River Greenbelt. The athletic complex features several softball fields, a soccer field, playground and dirt jump park. Service animals welcome. No pets per city code in Willow Lane Athletic Complex from March 1-Oct. 31. November 1-February 28 dogs are permitted but must be on a leash. Please pick up after your dog.",
   "img": "https://cob.azureedge.net/cache/2/d/a/a/2/8/2daa28ee63edf29b076e3f0ddfcea2d7a5f04d8f.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/willow-lane-athletic-complex/",
   "playground": {
@@ -3702,7 +3610,6 @@
   "area": "North River",
   "type": "Neighborhood",
   "acres": 4.5,
-  "desc": "Willow Lane Park is a 3-acre neighborhood park, located in northwest Boise. The park features basketball court, playground, pickleball courts and a restroom.",
   "img": "https://cob.azureedge.net/cache/8/a/9/7/f/d/8a97fdf39976c3e0342c248d24484225dea5f2bb.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/willow-lane-park/",
   "playground": {
@@ -3748,7 +3655,6 @@
   "area": "West Bench",
   "type": "Community",
   "acres": 11.1,
-  "desc": "Winstead Park is a popular 11-acre park located on the Boise Bench. Park amenities include open play areas used by sports teams, a reservable covered shelter, walking path, playground and tennis courts.",
   "img": "https://cob.azureedge.net/cache/1/5/1/0/4/9/15104977705faefd4be6d6afaf40ab83de6da1eb.jpg",
   "cityUrl": "https://www.cityofboise.org/departments/parks-and-recreation/parks/winstead-park/",
   "playground": {

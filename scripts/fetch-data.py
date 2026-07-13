@@ -158,6 +158,13 @@ for f in amen:
     })
 
 parks.sort(key=lambda x:x['name'])
+
+# The raw City of Boise Park_Description is the city's own copyrighted prose. We
+# use it only as reference material for writing our own original notes, so keep
+# it OUT of the published parks.json — split it into a gitignored local file.
+city_desc = {p['slug']: p.pop('desc') for p in parks if p.get('desc')}
+json.dump(city_desc, open(SCRATCH+'city-descriptions.local.json','w'), indent=1, ensure_ascii=False)
+
 json.dump(parks, open(SCRATCH+'parks.json','w'), indent=1)
 print(len(parks),'parks written')
 import collections
