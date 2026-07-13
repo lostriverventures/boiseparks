@@ -52,6 +52,17 @@ deliberately excluded from the score (it's shown as info only). The full
 breakdown is displayed on every park. Visitor star ratings are per-device
 (localStorage) — no backend.
 
+## Photos
+
+`data/photos.json` maps park slugs to openly-licensed hero photos (mostly
+CC BY-SA 4.0) sourced from Wikimedia Commons, self-hosted under `parks-photos/`.
+Each carries author + license + source-file URL and is credited in the UI
+(a badge on cards/modal, a full credit line on park pages). 22 of 94 parks
+have a photo; the rest fall back to the leaf placeholder. The site no longer
+uses the City of Boise CDN images (`gen.js` strips the old `img` field). To add
+or swap a photo: drop a licensed image in `parks-photos/<slug>.jpg`, add an
+entry to `data/photos.json`, and rebuild.
+
 ## Deploy
 
 Static hosting (GitHub Pages works — `CNAME` is set to boiseparks.com).

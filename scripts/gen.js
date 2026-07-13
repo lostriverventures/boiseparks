@@ -14,10 +14,15 @@ const SITE = 'https://boiseparks.com';
 const parks = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/parks.json'), 'utf8'));
 const tips = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/tips.json'), 'utf8'));
 const parking = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/parking.json'), 'utf8'));
+const photos = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/photos.json'), 'utf8'));
 
 for (const p of parks) {
   if (tips[p.slug]) p.tip = tips[p.slug];
   if (parking[p.slug]) p.parking = parking[p.slug];
+  // Use only openly-licensed Wikimedia Commons photos (data/photos.json); never
+  // the City of Boise CDN images that used to live in p.img.
+  delete p.img;
+  if (photos[p.slug]) p.photo = photos[p.slug];
 }
 
 // ---------- Parent Score: transparent 0–10, computed only from the amenity data ----------
@@ -175,7 +180,7 @@ for (const p of parks) {
     description: descText.replace(/\s+/g, ' ').slice(0, 300),
     amenityFeature: amenities.map(a => ({ '@type': 'LocationFeatureSpecification', name: a, value: true })),
     isAccessibleForFree: true,
-    ...(p.img ? { image: p.img } : {}),
+    ...(p.photo ? { image: SITE + p.photo.file } : {}),
   };
   const breadcrumb = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
@@ -210,7 +215,7 @@ for (const p of parks) {
   <meta property="og:description" content="${metaDesc}">
   <meta property="og:type" content="place">
   <meta property="og:url" content="${url}">
-  ${p.img ? `<meta property="og:image" content="${esc(p.img)}">` : ''}
+  ${p.photo ? `<meta property="og:image" content="${SITE + p.photo.file}">` : ''}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -225,7 +230,10 @@ ${header}
   <h1 class="mt-3 font-display text-3xl font-bold text-meadow-deep sm:text-4xl">${esc(p.name)}</h1>
   <p class="mt-1.5 text-[15px] text-bark">${esc(p.address)}, Boise, ID ${esc(p.zip)} · ${p.acres} acres · ${esc(p.area)}</p>
 
-  ${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.name)} in Boise, Idaho" class="mt-6 aspect-[16/8] w-full rounded-2xl object-cover shadow-card" loading="lazy" onerror="this.remove()">` : ''}
+  ${p.photo ? `<figure class="mt-6">
+    <img src="${esc(p.photo.file)}" alt="${esc(p.name)} in Boise, Idaho" class="aspect-[16/8] w-full rounded-2xl object-cover shadow-card" loading="lazy">
+    <figcaption class="mt-1.5 text-[11.5px] text-bark">Photo: <a href="${esc(p.photo.source)}" rel="noopener" class="underline hover:text-meadow-deep">${esc(p.photo.author)}</a> · <a href="${esc(p.photo.licenseUrl)}" rel="noopener" class="underline hover:text-meadow-deep">${esc(p.photo.license)}</a> via Wikimedia Commons</figcaption>
+  </figure>` : ''}
 
   ${p.tip ? `<div class="mt-6 rounded-2xl border border-sun/40 bg-sun-light px-5 py-4"><p class="text-[13px] font-bold uppercase tracking-wide text-sun">Parent notes</p><p class="mt-1.5 text-[15px] leading-relaxed">${esc(p.tip)}</p></div>` : ''}
 
