@@ -328,6 +328,7 @@
   "note": "Shares the Willow Lane Athletic Complex lot next door"
  },
  "winstead-park": {
-  "type": "street"
+  "type": "lot",
+  "note": "Lot on the south side off Northview St"
  }
 }

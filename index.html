@@ -173,7 +173,7 @@
       </div>
       <div>
         <h3 class="font-bold text-meadow-deep">Parking</h3>
-        <p class="mt-1.5">Lot vs. street-parking calls were made by cross-checking OpenStreetMap parking data against aerial imagery for every park, plus the city's own notes where published. Shared lots (schools, complexes) are flagged as such.</p>
+        <p class="mt-1.5">Every park was checked against aerial imagery: parks with a dedicated lot are marked as such (shared school/complex lots are noted), and the rest have on-street parking. Small curbside pull-in lots can be easy to miss, so treat this as a strong guide rather than the last word.</p>
       </div>
       <div>
         <h3 class="font-bold text-meadow-deep">Parent Score</h3>
@@ -248,7 +248,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mrjlyjfo"></script>
+<script src="/js/parks-data.js?v=mrjmu6vw"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
@@ -281,7 +281,7 @@ const RR = {
   'none': ['🚫 No restrooms','text-bark bg-stone-100'],
 };
 const SHADE = { leafy:'🌳 Leafy', some:'🌤️ Some shade', 'full-sun':'☀️ Full sun' };
-const PARKING = { lot:'Dedicated parking lot', street:'Street parking — no dedicated lot', downtown:'Metered street parking & paid garages nearby' };
+const PARKING = { lot:'Dedicated parking lot', street:'On-street parking', downtown:'Metered street parking & paid garages nearby' };
 const parkingText = p => p.parking ? (p.parking.note || PARKING[p.parking.type]) : null;
 const scoreClasses = s => s>=8 ? 'bg-meadow text-white' : s>=6 ? 'bg-meadow-light text-meadow-deep' : s>=4 ? 'bg-sun-light text-sun' : 'bg-stone-100 text-bark';
 const fmtScore = s => (s%1===0 ? s.toFixed(0) : s.toFixed(1));

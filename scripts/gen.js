@@ -83,7 +83,7 @@ const RESTROOM_LABEL = {
   'none': 'No restrooms at this park',
 };
 const SHADE_LABEL = { 'leafy': 'Leafy — lots of mature tree cover', 'some': 'Some shade — a mix of trees and open lawn', 'full-sun': 'Mostly full sun — pack hats and sunscreen' };
-const PARKING_LABEL = { lot: 'Dedicated parking lot', street: 'Street parking — no dedicated lot', downtown: 'Metered street parking & paid garages nearby' };
+const PARKING_LABEL = { lot: 'Dedicated parking lot', street: 'On-street parking', downtown: 'Metered street parking & paid garages nearby' };
 const parkingText = p => p.parking ? (p.parking.note || PARKING_LABEL[p.parking.type]) : null;
 const scoreClasses = s => s >= 8 ? 'bg-meadow text-white' : s >= 6 ? 'bg-meadow-light text-meadow-deep' : s >= 4 ? 'bg-sun-light text-sun' : 'bg-stone-100 text-bark';
 const fmtScore = s => (s % 1 === 0 ? s.toFixed(0) : s.toFixed(1));
