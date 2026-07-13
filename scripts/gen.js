@@ -13,8 +13,12 @@ const ROOT = path.join(__dirname, '..');
 const SITE = 'https://boiseparks.com';
 const parks = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/parks.json'), 'utf8'));
 const tips = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/tips.json'), 'utf8'));
+const parking = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/parking.json'), 'utf8'));
 
-for (const p of parks) if (tips[p.slug]) p.tip = tips[p.slug];
+for (const p of parks) {
+  if (tips[p.slug]) p.tip = tips[p.slug];
+  if (parking[p.slug]) p.parking = parking[p.slug];
+}
 
 // ---------- js/parks-data.js ----------
 fs.mkdirSync(path.join(ROOT, 'js'), { recursive: true });
@@ -35,6 +39,8 @@ const RESTROOM_LABEL = {
   'none': 'No restrooms at this park',
 };
 const SHADE_LABEL = { 'leafy': 'Leafy — lots of mature tree cover', 'some': 'Some shade — a mix of trees and open lawn', 'full-sun': 'Mostly full sun — pack hats and sunscreen' };
+const PARKING_LABEL = { lot: 'Dedicated parking lot', street: 'Street parking — no dedicated lot', downtown: 'Metered street parking & paid garages nearby' };
+const parkingText = p => p.parking ? (p.parking.note || PARKING_LABEL[p.parking.type]) : null;
 
 function directionsUrl(p) {
   return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(`${p.name}, ${p.address}, Boise, ID ${p.zip}`);
@@ -134,6 +140,7 @@ for (const p of parks) {
     ['Type', p.type + ' park'],
     ['Address', `${p.address}, Boise, ID ${p.zip}`],
     ['Restrooms', RESTROOM_LABEL[p.restroom]],
+    ...(p.parking ? [['Parking', parkingText(p)]] : []),
     ['Shade', SHADE_LABEL[p.shade] + (p.trees ? ` (${p.trees.toLocaleString()} park trees in the city inventory)` : '')],
   ];
   if (p.water) factRows.push(['Water play', `${p.water.type} — ${p.water.hours}`]);
@@ -210,6 +217,11 @@ ${footer}
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), html);
 }
+
+// ---------- cache-bust the data bundle reference in index.html ----------
+const idxPath = path.join(ROOT, 'index.html');
+const stamp = Date.now().toString(36);
+fs.writeFileSync(idxPath, fs.readFileSync(idxPath, 'utf8').replace(/js\/parks-data\.js\?v=[a-z0-9]+/, `js/parks-data.js?v=${stamp}`));
 
 // ---------- sitemap ----------
 const today = new Date().toISOString().slice(0, 10);

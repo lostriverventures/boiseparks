@@ -1,0 +1,333 @@
+{
+ "aldape-park": {
+  "type": "street"
+ },
+ "ann-morrison-park": {
+  "type": "lot",
+  "note": "Large lots at the Americana Blvd and Royal Blvd entrances"
+ },
+ "baggley-park": {
+  "type": "lot",
+  "note": "Small lot by the tennis courts"
+ },
+ "barber-observation-point": {
+  "type": "lot",
+  "note": "Parking lot on site (per the city)"
+ },
+ "bernardine-quinn-riverside-park": {
+  "type": "lot",
+  "note": "Quinn’s Pond lot off Whitewater Park Blvd"
+ },
+ "boise-hills-park": {
+  "type": "street"
+ },
+ "borah-park": {
+  "type": "lot",
+  "note": "Lot near the pool off Aurora Dr"
+ },
+ "bowden-park": {
+  "type": "street"
+ },
+ "bowler-park": {
+  "type": "lot",
+  "note": "Pull-in parking along the park’s internal loop road"
+ },
+ "c-w-moore-park": {
+  "type": "downtown"
+ },
+ "camels-back-park": {
+  "type": "lot",
+  "note": "Small lot off 13th St fills fast on weekends — overflow is neighborhood street parking"
+ },
+ "camels-back-reserve": {
+  "type": "lot",
+  "note": "Use the Camel’s Back Park lot or Heron St trailhead"
+ },
+ "cassia-park": {
+  "type": "street"
+ },
+ "castle-hills-park": {
+  "type": "street"
+ },
+ "catalpa-park": {
+  "type": "lot",
+  "note": "Small lot on the south edge of the park"
+ },
+ "cecil-d-andrus-park": {
+  "type": "downtown"
+ },
+ "charles-f-mcdevitt-youth-sports-complex": {
+  "type": "lot",
+  "note": "Complex lot off Eckert Rd"
+ },
+ "cherie-buckner-webb-park": {
+  "type": "downtown"
+ },
+ "comba-park": {
+  "type": "street"
+ },
+ "cottonwood-park": {
+  "type": "lot",
+  "note": "Small lot on the west side"
+ },
+ "cypress-park": {
+  "type": "street"
+ },
+ "demeyer-park": {
+  "type": "street"
+ },
+ "eagle-rock-park": {
+  "type": "lot",
+  "note": "Lot on the south side of the park"
+ },
+ "elm-grove-park": {
+  "type": "street"
+ },
+ "esther-simplot-park": {
+  "type": "lot",
+  "note": "Lots along Whitewater Park Blvd, shared with Quinn’s Pond — arrive early on hot weekends"
+ },
+ "fairmont-park": {
+  "type": "lot",
+  "note": "Lots off Northview St"
+ },
+ "fairview-park": {
+  "type": "street"
+ },
+ "florence-park": {
+  "type": "lot",
+  "note": "Small pull-in lot"
+ },
+ "foothills-east-park": {
+  "type": "street"
+ },
+ "fort-boise-park": {
+  "type": "lot",
+  "note": "Multiple lots off Fort St and Reserve St"
+ },
+ "franklin-park": {
+  "type": "street"
+ },
+ "gordon-s-bowen-park": {
+  "type": "street"
+ },
+ "grove-plaza": {
+  "type": "downtown"
+ },
+ "helen-b-lowder-park": {
+  "type": "lot",
+  "note": "Small lot by the courts"
+ },
+ "hewett-park": {
+  "type": "street"
+ },
+ "hillside-park": {
+  "type": "lot",
+  "note": "Lot shared with Hillside Junior High next door"
+ },
+ "hillside-to-hollow-reserve": {
+  "type": "lot",
+  "note": "Small trailhead lots — fill early on weekends"
+ },
+ "hobble-creek-park": {
+  "type": "lot",
+  "note": "Lot shared with the West YMCA side"
+ },
+ "hulls-gulch-reserve": {
+  "type": "lot",
+  "note": "Trailhead lots off 8th St"
+ },
+ "hyatt-hidden-lakes-reserve": {
+  "type": "lot",
+  "note": "Trailhead lot off Maple Grove Rd"
+ },
+ "idaho-anne-frank-human-rights-memorial": {
+  "type": "downtown",
+  "note": "Library and Cabin lots nearby are often full — expect paid parking"
+ },
+ "idaho-fallen-firefighter-memorial": {
+  "type": "street"
+ },
+ "ivywild-park": {
+  "type": "lot",
+  "note": "Lots near the pool; busiest during swim season"
+ },
+ "ja-kaff-boise-whitewater-park": {
+  "type": "lot",
+  "note": "Use the Esther Simplot / Quinn’s Pond lots off Whitewater Park Blvd"
+ },
+ "julia-davis-park": {
+  "type": "lot",
+  "note": "Several lots along Julia Davis Drive inside the park; fills during zoo hours and events"
+ },
+ "jullion-park": {
+  "type": "street"
+ },
+ "kaixo-corner": {
+  "type": "downtown"
+ },
+ "kathryn-albertson-park": {
+  "type": "lot",
+  "note": "Lot at the Americana Blvd entrance"
+ },
+ "kristens-park": {
+  "type": "street"
+ },
+ "kristin-armstrong-municipal-park": {
+  "type": "lot",
+  "note": "Lots along Walnut St"
+ },
+ "kroeger-park": {
+  "type": "street"
+ },
+ "laura-moore-cunningham-arboretum": {
+  "type": "street"
+ },
+ "liberty-park": {
+  "type": "street"
+ },
+ "magnolia-park": {
+  "type": "lot",
+  "note": "Parking lot on site (per the city)"
+ },
+ "manitou-park": {
+  "type": "lot",
+  "note": "Small lot by the courts"
+ },
+ "marianne-williams-park": {
+  "type": "lot",
+  "note": "Lot off E Barber Valley Dr"
+ },
+ "mariposa-park": {
+  "type": "lot",
+  "note": "Small lot at the northeast corner"
+ },
+ "mcauley-park": {
+  "type": "street"
+ },
+ "memorial-park": {
+  "type": "street"
+ },
+ "military-reserve": {
+  "type": "lot",
+  "note": "Several trailhead lots"
+ },
+ "milwaukee-park": {
+  "type": "street"
+ },
+ "molenaar-park": {
+  "type": "lot",
+  "note": "Lot off S Maple Grove Rd"
+ },
+ "morris-hill-park": {
+  "type": "lot",
+  "note": "Pull-in parking bays along the park edge"
+ },
+ "mountain-view-park": {
+  "type": "street"
+ },
+ "nottingham-park": {
+  "type": "street"
+ },
+ "optimist-youth-sports-complex": {
+  "type": "lot",
+  "note": "Large complex lots"
+ },
+ "oregon-trail-reserve": {
+  "type": "lot",
+  "note": "Trailhead lot off Lake Forest Dr"
+ },
+ "owens-park": {
+  "type": "street"
+ },
+ "owyhee-park": {
+  "type": "street"
+ },
+ "parkcenter-park": {
+  "type": "street"
+ },
+ "peppermint-park": {
+  "type": "street"
+ },
+ "phillippi-park": {
+  "type": "lot",
+  "note": "Small lot inside the park"
+ },
+ "pine-grove-park": {
+  "type": "street"
+ },
+ "pioneer-tot-lot": {
+  "type": "downtown"
+ },
+ "platt-gardens": {
+  "type": "lot",
+  "note": "Boise Depot lot"
+ },
+ "polecat-gulch-reserve": {
+  "type": "lot",
+  "note": "Trailhead lot off Cartwright Rd (per the city)"
+ },
+ "primrose-park": {
+  "type": "lot",
+  "note": "Small lot with ADA van-accessible parking (per the city)"
+ },
+ "redwood-park": {
+  "type": "street"
+ },
+ "rhodes-park": {
+  "type": "street",
+  "note": "Street parking under the Connector"
+ },
+ "rotary-park-on-the-greenbelt": {
+  "type": "street"
+ },
+ "shoreline-park": {
+  "type": "street"
+ },
+ "shoshone-park": {
+  "type": "street"
+ },
+ "simplot-sports-complex": {
+  "type": "lot",
+  "note": "Large tournament lots"
+ },
+ "skyline-park": {
+  "type": "street"
+ },
+ "stewart-gulch-park": {
+  "type": "street"
+ },
+ "sunset-park": {
+  "type": "lot",
+  "note": "Lot on the south side of the park"
+ },
+ "sycamore-park": {
+  "type": "lot",
+  "note": "Lot on the school side of the park"
+ },
+ "terry-day-park": {
+  "type": "lot",
+  "note": "Two parking lots (per the city)"
+ },
+ "veterans-memorial-park": {
+  "type": "lot",
+  "note": "Lot off Veterans Memorial Parkway"
+ },
+ "warm-springs-park": {
+  "type": "street"
+ },
+ "williams-park": {
+  "type": "street"
+ },
+ "willow-lane-athletic-complex": {
+  "type": "lot",
+  "note": "Large complex lot off Willow Ln"
+ },
+ "willow-lane-park": {
+  "type": "lot",
+  "note": "Shares the Willow Lane Athletic Complex lot next door"
+ },
+ "winstead-park": {
+  "type": "street"
+ }
+}

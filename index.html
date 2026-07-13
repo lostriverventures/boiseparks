@@ -157,7 +157,7 @@
 <section id="about" class="border-y border-meadow/15 bg-white">
   <div class="mx-auto max-w-7xl px-4 py-12">
     <h2 class="font-display text-2xl font-bold text-meadow-deep sm:text-3xl">Where this data comes from</h2>
-    <div class="mt-5 grid gap-6 text-[14.5px] leading-relaxed text-ink/85 sm:grid-cols-3">
+    <div class="mt-5 grid gap-6 text-[14.5px] leading-relaxed text-ink/85 sm:grid-cols-2 lg:grid-cols-4">
       <div>
         <h3 class="font-bold text-meadow-deep">Official city sources</h3>
         <p class="mt-1.5">Park boundaries, amenities, playground equipment, ages and surfacing come from <a class="underline hover:text-meadow" href="https://opendata.cityofboise.org/" rel="noopener">City of Boise open GIS data</a> and <a class="underline hover:text-meadow" href="https://www.cityofboise.org/departments/parks-and-recreation/" rel="noopener">Boise Parks and Recreation</a> pages, pulled July 2026.</p>
@@ -169,6 +169,10 @@
       <div>
         <h3 class="font-bold text-meadow-deep">Restroom status</h3>
         <p class="mt-1.5">Winter status follows the city's <a class="underline hover:text-meadow" href="https://www.cityofboise.org/departments/parks-and-recreation/park-restrooms/" rel="noopener">park restroom list</a>: heated buildings stay open year-round; the rest are winterized, some with portable toilets as backup.</p>
+      </div>
+      <div>
+        <h3 class="font-bold text-meadow-deep">Parking</h3>
+        <p class="mt-1.5">Lot vs. street-parking calls were made by cross-checking OpenStreetMap parking data against aerial imagery for every park, plus the city's own notes where published. Shared lots (schools, complexes) are flagged as such.</p>
       </div>
     </div>
     <p class="mt-6 text-[13px] text-bark">boiseparks.com is an independent guide and isn't affiliated with the City of Boise. Amenities change — if today's outing hinges on one thing (a restroom, a splash pad being on), check the park's official city page first.</p>
@@ -239,7 +243,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js"></script>
+<script src="/js/parks-data.js?v=mripg3xy"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
@@ -251,6 +255,7 @@ const CHIPS = [
   ['toddler','🧸 Toddler equipment', p => p.playground && p.playground.toddler],
   ['water','💦 Splash pad / water', p => !!p.water || p.pool],
   ['restroom','🚻 Restrooms', p => p.restroom !== 'none'],
+  ['parkinglot','🅿️ Parking lot', p => p.parking && p.parking.type === 'lot'],
   ['rrYear','🔥 Year-round restrooms', p => p.restroom === 'year-round'],
   ['leafy','🌳 Leafy shade', p => p.shade === 'leafy'],
   ['shelter','⛱️ Picnic shelter', p => p.shelter],
@@ -270,6 +275,8 @@ const RR = {
   'none': ['🚫 No restrooms','text-bark bg-stone-100'],
 };
 const SHADE = { leafy:'🌳 Leafy', some:'🌤️ Some shade', 'full-sun':'☀️ Full sun' };
+const PARKING = { lot:'Dedicated parking lot', street:'Street parking — no dedicated lot', downtown:'Metered street parking & paid garages nearby' };
+const parkingText = p => p.parking ? (p.parking.note || PARKING[p.parking.type]) : null;
 
 function badges(p){
   const b=[];
@@ -285,6 +292,7 @@ function badges(p){
   if(p.fishing) b.push('🎣 Fishing');
   if(p.dogPark) b.push('🐕 Off-leash');
   if(p.playground && p.playground.rubberSurface) b.push('♿ Rubber surface');
+  if(p.parking && p.parking.type==='lot') b.push('🅿️ Lot');
   return b;
 }
 const escHtml = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -426,6 +434,7 @@ function showPark(slug){
     pgHtml = '<div class="mt-4 rounded-2xl bg-meadow-light px-4 py-3"><p class="text-[13px] font-bold text-meadow-deep">🛝 Playground</p><p class="mt-1 text-[13.5px] leading-relaxed text-ink/85">'+escHtml(bits.join(' · '))+'</p></div>';
   }
   const water = p.water ? '<div class="mt-3 rounded-2xl bg-sky-light px-4 py-3"><p class="text-[13px] font-bold text-sky">💦 '+escHtml(p.water.type)+'</p><p class="mt-1 text-[13.5px] text-ink/85">'+escHtml(p.water.hours)+'</p></div>' : '';
+  const parkingRow = p.parking ? '<p class="mt-3 text-[13.5px] text-ink/85"><span class="font-semibold text-meadow-deep">🅿️ Parking:</span> '+escHtml(parkingText(p))+'</p>' : '';
   $('modal-panel').innerHTML =
     (p.img?'<img src="'+escHtml(p.img)+'" alt="'+escHtml(p.name)+'" class="h-52 w-full object-cover sm:rounded-t-3xl" onerror="this.remove()">':'')
     + '<button class="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1.5 text-sm font-bold text-meadow-deep shadow" onclick="closeModal()" aria-label="Close">✕</button>'
@@ -434,7 +443,7 @@ function showPark(slug){
     + '<p class="mt-1 text-[13.5px] text-bark">'+escHtml(p.address)+', Boise · '+p.acres+' acres · '+escHtml(p.area)+'</p>'
     + '<div class="mt-3 flex flex-wrap gap-1.5">'+badges(p).map(x=>'<span class="pill bg-meadow-light text-meadow-deep">'+x+'</span>').join('')+'<span class="pill '+rr[1]+'">'+rr[0]+'</span></div>'
     + (p.tip?'<div class="mt-4 rounded-2xl border border-sun/40 bg-sun-light px-4 py-3"><p class="text-[12px] font-bold uppercase tracking-wide text-sun">Parent notes</p><p class="mt-1 text-[14px] leading-relaxed">'+escHtml(p.tip)+'</p></div>':'')
-    + pgHtml + water
+    + pgHtml + water + parkingRow
     + (p.desc?'<p class="mt-4 text-[14px] leading-relaxed text-ink/85">'+escHtml(p.desc)+'</p>':'')
     + '<div class="mt-5 grid gap-2 sm:grid-cols-3">'
     + '<a href="/parks/'+p.slug+'/" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-meadow-dark">Full details</a>'
