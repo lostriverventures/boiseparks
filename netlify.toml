@@ -1,0 +1,9 @@
+# Netlify build config for boiseparks.com.
+# The repo already commits the built output, but running the build on Netlify
+# keeps styles.css / per-park pages / sitemap.xml in sync on every push.
+[build]
+  command = "bash build.sh"
+  publish = "."
+
+[build.environment]
+  NODE_VERSION = "20"
