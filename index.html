@@ -258,7 +258,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mrkx3ec8"></script>
+<script src="/js/parks-data.js?v=mrkxgml6"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
@@ -314,7 +314,8 @@ function badges(p){
   return b;
 }
 const escHtml = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const dirUrl = p => 'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(p.name+', '+p.address+', Boise, ID '+p.zip);
+// Google Maps place link (shows location, not directions)
+const mapsUrl = p => 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(p.name+', '+p.address+', Boise, ID '+p.zip);
 const dist = (a,b,c,d) => { const r=Math.PI/180, x=(c-a)*r, y=(d-b)*r*Math.cos((a+c)/2*r); return Math.sqrt(x*x+y*y)*3958.8; };
 
 // ---------- map ----------
@@ -471,20 +472,32 @@ function showPark(slug){
     + '<button class="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1.5 text-sm font-bold text-meadow-deep shadow" onclick="closeModal()" aria-label="Close">✕</button>'
     + '<div class="p-6">'
     + '<h2 class="font-display text-2xl font-bold text-meadow-deep">'+escHtml(p.name)+'</h2>'
-    + '<p class="mt-1 text-[13.5px] text-bark">'+escHtml(p.address)+', Boise · '+p.acres+' acres · '+escHtml(p.area)+'</p>'
+    + '<p class="mt-1 text-[13.5px] text-bark"><a href="'+mapsUrl(p)+'" rel="noopener" class="underline decoration-meadow/40 underline-offset-2 hover:text-meadow-deep">'+escHtml(p.address)+', Boise</a> · '+p.acres+' acres · '+escHtml(p.area)+'</p>'
     + '<div class="mt-3 flex flex-wrap gap-1.5">'+badges(p).map(x=>'<span class="pill bg-meadow-light text-meadow-deep">'+x+'</span>').join('')+'<span class="pill '+rr[1]+'">'+rr[0]+'</span></div>'
     + (p.tip?'<div class="mt-4 rounded-2xl border border-sun/40 bg-sun-light px-4 py-3"><p class="text-[12px] font-bold uppercase tracking-wide text-sun">Parent notes</p><p class="mt-1 text-[14px] leading-relaxed">'+escHtml(p.tip)+'</p></div>':'')
     + pgHtml + water + parkingRow + scoreBlock
-    + '<div class="mt-5 grid gap-2 sm:grid-cols-3">'
+    + '<div class="mt-4"><div id="modal-loc" class="h-44 w-full overflow-hidden rounded-2xl border border-meadow/15"></div>'
+    + '<p class="mt-1.5 text-[12px] text-bark"><a href="'+mapsUrl(p)+'" rel="noopener" class="underline hover:text-meadow-deep">📍 View '+escHtml(p.name)+' on Google Maps</a></p></div>'
+    + '<div class="mt-5 grid gap-2 sm:grid-cols-2">'
     + '<a href="/parks/'+p.slug+'/" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-meadow-dark">Full details</a>'
-    + '<a href="'+dirUrl(p)+'" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">Directions</a>'
     + (p.cityUrl?'<a href="'+escHtml(p.cityUrl)+'" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">City page</a>':'')
     + '</div></div>';
   $('modal').classList.remove('hidden'); $('modal').classList.add('flex');
   document.body.classList.add('modal-open');
+  drawModalMap(p);
   history.replaceState(null,'','?park='+p.slug+'#map');
 }
+let modalMap=null;
+function drawModalMap(p){
+  if(modalMap){ modalMap.remove(); modalMap=null; }
+  const el=document.getElementById('modal-loc'); if(!el) return;
+  modalMap=L.map(el,{scrollWheelZoom:false,attributionControl:false}).setView([p.lat,p.lon],14);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(modalMap);
+  L.circleMarker([p.lat,p.lon],{radius:8,color:'#fff',weight:2,fillColor:'#2E7D32',fillOpacity:.95}).addTo(modalMap);
+  setTimeout(()=>modalMap && modalMap.invalidateSize(), 60);
+}
 function closeModal(){
+  if(modalMap){ modalMap.remove(); modalMap=null; }
   $('modal').classList.add('hidden'); $('modal').classList.remove('flex');
   document.body.classList.remove('modal-open');
   history.replaceState(null,'',location.pathname+'#map');

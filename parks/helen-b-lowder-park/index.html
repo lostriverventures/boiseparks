@@ -15,6 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <link rel="stylesheet" href="/styles.css">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Park","name":"Helen B. Lowder Park","url":"https://boiseparks.com/parks/helen-b-lowder-park/","address":{"@type":"PostalAddress","streetAddress":"3450 S Law Ave","addressLocality":"Boise","addressRegion":"ID","postalCode":"83706","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":43.570931,"longitude":-116.162527},"description":"Next to Liberty Elementary: playground, tennis, basketball and sand volleyball, with a small lot by the courts.","amenityFeature":[{"@type":"LocationFeatureSpecification","name":"Playground","value":true},{"@type":"LocationFeatureSpecification","name":"Restrooms","value":true},{"@type":"LocationFeatureSpecification","name":"Picnic shelter","value":true},{"@type":"LocationFeatureSpecification","name":"Open play areas","value":true},{"@type":"LocationFeatureSpecification","name":"Basketball","value":true},{"@type":"LocationFeatureSpecification","name":"Pickleball","value":true},{"@type":"LocationFeatureSpecification","name":"Tennis","value":true},{"@type":"LocationFeatureSpecification","name":"Volleyball","value":true}],"isAccessibleForFree":true}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Boise Parks","item":"https://boiseparks.com/"},{"@type":"ListItem","position":2,"name":"Helen B. Lowder Park","item":"https://boiseparks.com/parks/helen-b-lowder-park/"}]}</script>
@@ -38,7 +39,7 @@
 <main class="mx-auto max-w-4xl px-4 pb-8 pt-8">
   <nav class="text-[13px] text-bark" aria-label="Breadcrumb"><a href="/" class="hover:text-meadow-deep">Boise Parks</a> <span class="mx-1 text-bark/50">/</span> <span class="font-medium text-meadow-deep">Helen B. Lowder Park</span></nav>
   <h1 class="mt-3 font-display text-3xl font-bold text-meadow-deep sm:text-4xl">Helen B. Lowder Park</h1>
-  <p class="mt-1.5 text-[15px] text-bark">3450 S Law Ave, Boise, ID 83706 · 5.1 acres · Southeast</p>
+  <p class="mt-1.5 text-[15px] text-bark"><a href="https://www.google.com/maps/search/?api=1&query=Helen%20B.%20Lowder%20Park%2C%203450%20S%20Law%20Ave%2C%20Boise%2C%20ID%2083706" rel="noopener" class="underline decoration-meadow/40 underline-offset-2 hover:text-meadow-deep">3450 S Law Ave, Boise, ID 83706</a> · 5.1 acres · Southeast</p>
 
   
 
@@ -68,6 +69,10 @@
       <p class="mt-8 text-[13px] text-bark">For the city's official write-up and any current alerts, see the <a href="https://www.cityofboise.org/departments/parks-and-recreation/parks/helen-b-lowder-park/" class="underline hover:text-meadow-deep" rel="noopener">Helen B. Lowder Park page at Boise Parks and Recreation</a>.</p>
     </div>
     <aside class="sm:col-span-2">
+      <div class="mb-4 overflow-hidden rounded-2xl border border-meadow/15 bg-white shadow-card">
+        <div id="locmap" class="h-48 w-full"></div>
+        <p class="px-5 py-3 text-[13px] leading-snug"><span aria-hidden="true">📍 </span><a href="https://www.google.com/maps/search/?api=1&query=Helen%20B.%20Lowder%20Park%2C%203450%20S%20Law%20Ave%2C%20Boise%2C%20ID%2083706" rel="noopener" class="underline hover:text-meadow-deep">3450 S Law Ave, Boise, ID 83706</a> <span class="text-bark">— view on Google Maps</span></p>
+      </div>
       <div class="mb-4 rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
         <div class="flex items-center justify-between gap-3">
           <h2 class="font-display text-lg font-bold text-meadow-deep">Parent Score</h2>
@@ -95,8 +100,7 @@
           <li class="rounded-md bg-meadow-light px-2 py-1 text-meadow-deep">Volleyball</li>
         </ul>
         <div class="mt-5 grid gap-2">
-          <a href="/?park=helen-b-lowder-park#map" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-meadow-dark">See on the map</a>
-          <a href="https://www.google.com/maps/dir/?api=1&destination=Helen%20B.%20Lowder%20Park%2C%203450%20S%20Law%20Ave%2C%20Boise%2C%20ID%2083706" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">Get directions</a>
+          <a href="/?park=helen-b-lowder-park#map" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-meadow-dark">See on the full map</a>
           <a href="https://www.cityofboise.org/departments/parks-and-recreation/parks/helen-b-lowder-park/" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">Official city page</a>
         </div>
       </div>
@@ -118,5 +122,14 @@
     </div>
   </div>
 </footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+(function(){
+  var lat=43.570931, lon=-116.162527;
+  var m=L.map('locmap',{scrollWheelZoom:false,attributionControl:true}).setView([lat,lon],15);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',maxZoom:19}).addTo(m);
+  L.circleMarker([lat,lon],{radius:9,color:'#fff',weight:2,fillColor:'#2E7D32',fillOpacity:.95}).addTo(m).bindPopup("Helen B. Lowder Park");
+})();
+</script>
 </body>
 </html>

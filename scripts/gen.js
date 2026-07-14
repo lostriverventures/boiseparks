@@ -98,8 +98,9 @@ const parkingText = p => p.parking ? (p.parking.note || PARKING_LABEL[p.parking.
 const scoreClasses = s => s >= 8 ? 'bg-meadow text-white' : s >= 6 ? 'bg-meadow-light text-meadow-deep' : s >= 4 ? 'bg-sun-light text-sun' : 'bg-stone-100 text-bark';
 const fmtScore = s => (s % 1 === 0 ? s.toFixed(0) : s.toFixed(1));
 
-function directionsUrl(p) {
-  return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(`${p.name}, ${p.address}, Boise, ID ${p.zip}`);
+// Google Maps place link (shows the park's location, not directions).
+function mapsUrl(p) {
+  return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(`${p.name}, ${p.address}, Boise, ID ${p.zip}`);
 }
 
 function playgroundBits(p) {
@@ -219,6 +220,7 @@ for (const p of parks) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <link rel="stylesheet" href="/styles.css">
   <script type="application/ld+json">${JSON.stringify(schema)}</script>
   <script type="application/ld+json">${JSON.stringify(breadcrumb)}</script>
@@ -228,7 +230,7 @@ ${header}
 <main class="mx-auto max-w-4xl px-4 pb-8 pt-8">
   <nav class="text-[13px] text-bark" aria-label="Breadcrumb"><a href="/" class="hover:text-meadow-deep">Boise Parks</a> <span class="mx-1 text-bark/50">/</span> <span class="font-medium text-meadow-deep">${esc(p.name)}</span></nav>
   <h1 class="mt-3 font-display text-3xl font-bold text-meadow-deep sm:text-4xl">${esc(p.name)}</h1>
-  <p class="mt-1.5 text-[15px] text-bark">${esc(p.address)}, Boise, ID ${esc(p.zip)} · ${p.acres} acres · ${esc(p.area)}</p>
+  <p class="mt-1.5 text-[15px] text-bark"><a href="${mapsUrl(p)}" rel="noopener" class="underline decoration-meadow/40 underline-offset-2 hover:text-meadow-deep">${esc(p.address)}, Boise, ID ${esc(p.zip)}</a> · ${p.acres} acres · ${esc(p.area)}</p>
 
   ${p.photo ? `<figure class="mt-6">
     <img src="${esc(p.photo.file)}" alt="${esc(p.name)} in Boise, Idaho" class="aspect-[16/8] w-full rounded-2xl object-cover shadow-card" loading="lazy">
@@ -252,6 +254,10 @@ ${header}
       <p class="mt-8 text-[13px] text-bark">For the city's official write-up and any current alerts, see the <a href="${esc(p.cityUrl)}" class="underline hover:text-meadow-deep" rel="noopener">${esc(p.name)} page at Boise Parks and Recreation</a>.</p>` : ''}
     </div>
     <aside class="sm:col-span-2">
+      <div class="mb-4 overflow-hidden rounded-2xl border border-meadow/15 bg-white shadow-card">
+        <div id="locmap" class="h-48 w-full"></div>
+        <p class="px-5 py-3 text-[13px] leading-snug"><span aria-hidden="true">📍 </span><a href="${mapsUrl(p)}" rel="noopener" class="underline hover:text-meadow-deep">${esc(p.address)}, Boise, ID ${esc(p.zip)}</a> <span class="text-bark">— view on Google Maps</span></p>
+      </div>
       <div class="mb-4 rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
         <div class="flex items-center justify-between gap-3">
           <h2 class="font-display text-lg font-bold text-meadow-deep">Parent Score</h2>
@@ -269,8 +275,7 @@ ${header}
           ${amenities.map(a => `<li class="rounded-md bg-meadow-light px-2 py-1 text-meadow-deep">${esc(a)}</li>`).join('\n          ')}
         </ul>
         <div class="mt-5 grid gap-2">
-          <a href="/?park=${p.slug}#map" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-meadow-dark">See on the map</a>
-          <a href="${directionsUrl(p)}" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">Get directions</a>
+          <a href="/?park=${p.slug}#map" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-meadow-dark">See on the full map</a>
           ${p.cityUrl ? `<a href="${esc(p.cityUrl)}" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">Official city page</a>` : ''}
         </div>
       </div>
@@ -278,6 +283,15 @@ ${header}
   </div>
 </main>
 ${footer}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+(function(){
+  var lat=${p.lat}, lon=${p.lon};
+  var m=L.map('locmap',{scrollWheelZoom:false,attributionControl:true}).setView([lat,lon],15);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',maxZoom:19}).addTo(m);
+  L.circleMarker([lat,lon],{radius:9,color:'#fff',weight:2,fillColor:'#2E7D32',fillOpacity:.95}).addTo(m).bindPopup(${JSON.stringify(p.name)});
+})();
+</script>
 </body>
 </html>
 `;
