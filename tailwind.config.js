@@ -2,6 +2,14 @@
 module.exports = {
   content: ['./index.html', './parks/**/*.html', './scripts/gen.js'],
   theme: {
+    screens: {
+      xs: '400px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
+    },
     extend: {
       colors: {
         meadow: { DEFAULT: '#2E7D32', dark: '#1B5E20', deep: '#14532D', light: '#EAF6EC' },

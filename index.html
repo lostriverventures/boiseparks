@@ -27,15 +27,15 @@
 
 <header class="sticky top-0 z-40 border-b border-meadow/15 bg-cream/90 backdrop-blur">
   <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
-    <a href="/" class="flex items-center gap-2.5">
+    <a href="/" class="flex shrink-0 items-center gap-2.5">
       <img src="/favicon.svg" alt="" class="h-8 w-8">
-      <span class="font-display text-lg font-bold text-meadow-deep">boise<span class="text-meadow">parks</span>.com</span>
+      <span class="font-display text-lg font-bold text-meadow-deep">boise<span class="text-meadow">parks</span><span class="hidden xs:inline">.com</span></span>
     </a>
-    <nav class="flex items-center gap-4 text-sm font-medium text-bark">
+    <nav class="flex items-center gap-3 text-[13px] font-medium text-bark sm:gap-5 sm:text-sm">
+      <a href="#picks" class="hover:text-meadow-deep">Picks</a>
       <a href="#map" class="hover:text-meadow-deep">Map</a>
-      <a href="#best-of" class="hidden sm:block hover:text-meadow-deep">Best of</a>
-      <a href="#faq" class="hidden sm:block hover:text-meadow-deep">FAQ</a>
-      <a href="#parks" class="rounded-full bg-meadow px-3.5 py-1.5 text-white hover:bg-meadow-dark">All parks</a>
+      <a href="#faq" class="hover:text-meadow-deep">FAQ</a>
+      <a href="#parks" class="whitespace-nowrap rounded-full bg-meadow px-3 py-1.5 text-white hover:bg-meadow-dark sm:px-3.5">All parks</a>
     </nav>
   </div>
 </header>
@@ -54,8 +54,73 @@
   </div>
 </section>
 
+<!-- Parent favorites (quick picks) -->
+<section id="picks" class="mx-auto max-w-7xl px-4 pt-8 pb-2 sm:pt-10">
+  <div class="flex items-end justify-between gap-4">
+    <div>
+      <h2 class="font-display text-2xl font-bold text-meadow-deep sm:text-3xl">Start here — parent favorites</h2>
+      <p class="mt-1 text-[14.5px] text-ink/70">Curated straight from the data. Tap a list to see every match on the map.</p>
+    </div>
+    <a href="#parks" class="hidden shrink-0 rounded-full border border-meadow/25 bg-white px-4 py-2 text-sm font-semibold text-meadow-deep hover:bg-meadow-light sm:block">Browse all 94 ↓</a>
+  </div>
+  <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="card-lift flex flex-col rounded-2xl border border-sky/20 bg-white p-5 shadow-card">
+      <div class="flex items-center gap-2.5">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-light text-xl">💦</span>
+        <div><h3 class="font-display text-[17px] font-bold leading-tight text-sky">Water play</h3><p class="text-[11.5px] text-bark">Memorial Day–Labor Day</p></div>
+      </div>
+      <ul class="mt-3.5 flex-1 space-y-1.5 text-[14px] font-medium">
+        <li><a class="hover:text-sky" href="/parks/comba-park/">Comba Park <span class="font-normal text-bark/60">· splash pad</span></a></li>
+        <li><a class="hover:text-sky" href="/parks/molenaar-park/">Molenaar Park <span class="font-normal text-bark/60">· splash pad</span></a></li>
+        <li><a class="hover:text-sky" href="/parks/borah-park/">Borah Park <span class="font-normal text-bark/60">· spray pad + pool</span></a></li>
+        <li><a class="hover:text-sky" href="/parks/ann-morrison-park/">Ann Morrison Park <span class="font-normal text-bark/60">· fountain</span></a></li>
+      </ul>
+      <button class="mt-4 self-start rounded-lg bg-sky-light px-3 py-1.5 text-[13px] font-semibold text-sky hover:bg-sky/15" onclick="applyPreset('water')">See all on map →</button>
+    </div>
+    <div class="card-lift flex flex-col rounded-2xl border border-meadow/20 bg-white p-5 shadow-card">
+      <div class="flex items-center gap-2.5">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-meadow-light text-xl">🌳</span>
+        <div><h3 class="font-display text-[17px] font-bold leading-tight text-meadow">Leafiest playgrounds</h3><p class="text-[11.5px] text-bark">Real shade on hot days</p></div>
+      </div>
+      <ul class="mt-3.5 flex-1 space-y-1.5 text-[14px] font-medium">
+        <li><a class="hover:text-meadow" href="/parks/julia-davis-park/">Julia Davis Park</a></li>
+        <li><a class="hover:text-meadow" href="/parks/camels-back-park/">Camel's Back Park</a></li>
+        <li><a class="hover:text-meadow" href="/parks/kristin-armstrong-municipal-park/">Kristin Armstrong Municipal</a></li>
+        <li><a class="hover:text-meadow" href="/parks/manitou-park/">Manitou Park</a></li>
+      </ul>
+      <button class="mt-4 self-start rounded-lg bg-meadow-light px-3 py-1.5 text-[13px] font-semibold text-meadow-deep hover:bg-meadow/15" onclick="applyPreset('leafy')">See all on map →</button>
+    </div>
+    <div class="card-lift flex flex-col rounded-2xl border border-sun/20 bg-white p-5 shadow-card">
+      <div class="flex items-center gap-2.5">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-sun-light text-xl">🆕</span>
+        <div><h3 class="font-display text-[17px] font-bold leading-tight text-sun">Newest playgrounds</h3><p class="text-[11.5px] text-bark">Rebuilt recently</p></div>
+      </div>
+      <ul class="mt-3.5 flex-1 space-y-1.5 text-[14px] font-medium">
+        <li><a class="hover:text-sun" href="/parks/charles-f-mcdevitt-youth-sports-complex/">McDevitt Complex <span class="font-normal text-bark/60">· 2026</span></a></li>
+        <li><a class="hover:text-sun" href="/parks/veterans-memorial-park/">Veterans Memorial <span class="font-normal text-bark/60">· 2025</span></a></li>
+        <li><a class="hover:text-sun" href="/parks/fairview-park/">Fairview Park <span class="font-normal text-bark/60">· 2025</span></a></li>
+        <li><a class="hover:text-sun" href="/parks/primrose-park/">Primrose Park <span class="font-normal text-bark/60">· 2024</span></a></li>
+      </ul>
+      <button class="mt-4 self-start rounded-lg bg-sun-light px-3 py-1.5 text-[13px] font-semibold text-sun hover:bg-sun/15" onclick="applyPreset('newpg')">See all on map →</button>
+    </div>
+    <div class="card-lift flex flex-col rounded-2xl border border-meadow/20 bg-white p-5 shadow-card">
+      <div class="flex items-center gap-2.5">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-meadow-light text-xl">♿</span>
+        <div><h3 class="font-display text-[17px] font-bold leading-tight text-meadow-deep">Accessible playgrounds</h3><p class="text-[11.5px] text-bark">Bonded-rubber surfacing</p></div>
+      </div>
+      <ul class="mt-3.5 flex-1 space-y-1.5 text-[14px] font-medium">
+        <li><a class="hover:text-meadow" href="/parks/cassia-park/">Cassia Park <span class="font-normal text-bark/60">· We-Go-Round</span></a></li>
+        <li><a class="hover:text-meadow" href="/parks/camels-back-park/">Camel's Back Park</a></li>
+        <li><a class="hover:text-meadow" href="/parks/terry-day-park/">Terry Day Park</a></li>
+        <li><a class="hover:text-meadow" href="/parks/hobble-creek-park/">Hobble Creek Park</a></li>
+      </ul>
+      <button class="mt-4 self-start rounded-lg bg-meadow-light px-3 py-1.5 text-[13px] font-semibold text-meadow-deep hover:bg-meadow/15" onclick="applyPreset('accessible')">See all on map →</button>
+    </div>
+  </div>
+</section>
+
 <!-- Filter bar -->
-<div id="filterbar" class="sticky top-[57px] z-30 border-b border-meadow/15 bg-cream/95 backdrop-blur">
+<div id="filterbar" class="sticky top-[57px] z-30 mt-6 border-y border-meadow/15 bg-cream/95 backdrop-blur">
   <div class="mx-auto max-w-7xl px-4 py-3">
     <div class="flex flex-wrap items-center gap-2">
       <input id="q" type="search" placeholder="Search parks…" autocomplete="off"
@@ -97,62 +162,6 @@
     </div>
   </div>
 </main>
-
-<!-- Best of -->
-<section id="best-of" class="mx-auto max-w-7xl px-4 py-12">
-  <h2 class="font-display text-2xl font-bold text-meadow-deep sm:text-3xl">The shortlists</h2>
-  <p class="mt-1.5 text-[15px] text-ink/75">Straight from the data — good starting points if you don't want to browse all 94.</p>
-  <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-    <div class="rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
-      <h3 class="font-display text-lg font-bold text-sky">💦 Water play</h3>
-      <p class="mt-1 text-[12.5px] text-bark">Memorial Day–Labor Day</p>
-      <ul class="mt-3 space-y-1.5 text-[14px] font-medium">
-        <li><a class="hover:text-meadow" href="/parks/comba-park/">Comba Park <span class="text-bark/70 font-normal">· splash pad</span></a></li>
-        <li><a class="hover:text-meadow" href="/parks/molenaar-park/">Molenaar Park <span class="text-bark/70 font-normal">· splash pad</span></a></li>
-        <li><a class="hover:text-meadow" href="/parks/borah-park/">Borah Park <span class="text-bark/70 font-normal">· spray pad + pool</span></a></li>
-        <li><a class="hover:text-meadow" href="/parks/ann-morrison-park/">Ann Morrison Park <span class="text-bark/70 font-normal">· fountain</span></a></li>
-        <li><a class="hover:text-meadow" href="/parks/esther-simplot-park/">Esther Simplot Park <span class="text-bark/70 font-normal">· swim ponds</span></a></li>
-      </ul>
-      <button class="mt-4 text-[13px] font-semibold text-meadow underline" onclick="applyPreset('water')">Show all on map →</button>
-    </div>
-    <div class="rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
-      <h3 class="font-display text-lg font-bold text-meadow">🌳 Leafiest playgrounds</h3>
-      <p class="mt-1 text-[12.5px] text-bark">Real shade on hot afternoons</p>
-      <ul class="mt-3 space-y-1.5 text-[14px] font-medium">
-        <li><a class="hover:text-meadow" href="/parks/julia-davis-park/">Julia Davis Park</a></li>
-        <li><a class="hover:text-meadow" href="/parks/camels-back-park/">Camel's Back Park</a></li>
-        <li><a class="hover:text-meadow" href="/parks/kristin-armstrong-municipal-park/">Kristin Armstrong Municipal</a></li>
-        <li><a class="hover:text-meadow" href="/parks/manitou-park/">Manitou Park</a></li>
-        <li><a class="hover:text-meadow" href="/parks/sunset-park/">Sunset Park</a></li>
-      </ul>
-      <button class="mt-4 text-[13px] font-semibold text-meadow underline" onclick="applyPreset('leafy')">Show all on map →</button>
-    </div>
-    <div class="rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
-      <h3 class="font-display text-lg font-bold text-sun">🆕 Newest playgrounds</h3>
-      <p class="mt-1 text-[12.5px] text-bark">Rebuilt in the last few years</p>
-      <ul class="mt-3 space-y-1.5 text-[14px] font-medium">
-        <li><a class="hover:text-meadow" href="/parks/charles-f-mcdevitt-youth-sports-complex/">McDevitt Complex <span class="text-bark/70 font-normal">· 2026</span></a></li>
-        <li><a class="hover:text-meadow" href="/parks/veterans-memorial-park/">Veterans Memorial <span class="text-bark/70 font-normal">· 2025</span></a></li>
-        <li><a class="hover:text-meadow" href="/parks/fairview-park/">Fairview Park <span class="text-bark/70 font-normal">· 2025</span></a></li>
-        <li><a class="hover:text-meadow" href="/parks/castle-hills-park/">Castle Hills Park <span class="text-bark/70 font-normal">· 2025</span></a></li>
-        <li><a class="hover:text-meadow" href="/parks/primrose-park/">Primrose Park <span class="text-bark/70 font-normal">· 2024</span></a></li>
-      </ul>
-      <button class="mt-4 text-[13px] font-semibold text-meadow underline" onclick="applyPreset('newpg')">Show all on map →</button>
-    </div>
-    <div class="rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
-      <h3 class="font-display text-lg font-bold text-meadow-deep">♿ Accessible playgrounds</h3>
-      <p class="mt-1 text-[12.5px] text-bark">Bonded-rubber surfacing, 23 citywide</p>
-      <ul class="mt-3 space-y-1.5 text-[14px] font-medium">
-        <li><a class="hover:text-meadow" href="/parks/cassia-park/">Cassia Park <span class="text-bark/70 font-normal">· We-Go-Round</span></a></li>
-        <li><a class="hover:text-meadow" href="/parks/camels-back-park/">Camel's Back Park</a></li>
-        <li><a class="hover:text-meadow" href="/parks/terry-day-park/">Terry Day Park</a></li>
-        <li><a class="hover:text-meadow" href="/parks/ann-morrison-park/">Ann Morrison Park</a></li>
-        <li><a class="hover:text-meadow" href="/parks/hobble-creek-park/">Hobble Creek Park</a></li>
-      </ul>
-      <button class="mt-4 text-[13px] font-semibold text-meadow underline" onclick="applyPreset('accessible')">Show all on map →</button>
-    </div>
-  </div>
-</section>
 
 <!-- Methodology -->
 <section id="about" class="border-y border-meadow/15 bg-white">
@@ -249,7 +258,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mrjovq9x"></script>
+<script src="/js/parks-data.js?v=mrjzha8m"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
