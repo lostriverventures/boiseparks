@@ -45,8 +45,11 @@ function parentScore(p) {
   core.push(['Playground', v, 3.5]);
   // Tree cover / shade (max 2.5) — comfort on a Boise summer afternoon
   core.push(['Tree cover', { leafy: 2.5, some: 1.25, 'full-sun': 0 }[p.shade], 2.5]);
-  // Open grass & room to run (max 1.5)
-  core.push(['Open grass & room to run', p.openPlay ? 1.5 : 0, 1.5]);
+  // Open grass & room to run (max 1.5). The city's Open_Play_Areas flag misses
+  // some obviously grassy parks (e.g. 148-acre Ann Morrison), so also count
+  // grassy sports fields (soccer/football/softball/cricket/multi-use) as room to run.
+  const hasGrass = p.openPlay || (p.fields && p.fields.length > 0);
+  core.push(['Open grass & room to run', hasGrass ? 1.5 : 0, 1.5]);
   // Restrooms (max 1.5)
   core.push(['Restrooms', { 'year-round': 1.5, 'seasonal+portable': 1, 'seasonal': 0.75, 'none': 0 }[p.restroom], 1.5]);
 
