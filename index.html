@@ -186,7 +186,7 @@
       </div>
       <div>
         <h3 class="font-bold text-meadow-deep">Parent Score</h3>
-        <p class="mt-1.5">A 0–10 measure of how good a park is for kids, computed only from the data above. What matters most drives the score: a <strong>core out of 9</strong> from the playground (3.5), tree cover (2.5), open grass to run on (1.5) and restrooms (1.5). Water features, shelters and trails are <strong>bonuses that only add</strong> (capped at +1) — a shady neighborhood park with a great playground and a lawn isn't marked down for lacking a splash pad. Parking is logistics, so it's shown but never counted against a park. Every park shows its full breakdown — no vibes, no sponsorships. Star ratings you leave are saved only on your device.</p>
+        <p class="mt-1.5">A 0–10 measure of how good a park is for kids, computed only from the data above. What matters most drives the score: a <strong>core out of 9</strong> from the playground (3.5), tree cover (2.5), open grass to run on (1.5) and restrooms (1.5). Water features, shelters and trails are <strong>bonuses that only add</strong> (capped at +1) — a shady neighborhood park with a great playground and a lawn isn't marked down for lacking a splash pad. Parking is logistics, so it's shown but never counted against a park. Every park shows its full breakdown — no vibes, no sponsorships.</p>
       </div>
     </div>
     <p class="mt-6 text-[13px] text-bark">boiseparks.com is an independent guide and isn't affiliated with the City of Boise. Amenities change — if today's outing hinges on one thing (a restroom, a splash pad being on), check the park's official city page first.</p>
@@ -258,7 +258,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mrkwbirn"></script>
+<script src="/js/parks-data.js?v=mrkx3ec8"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
@@ -295,15 +295,6 @@ const PARKING = { lot:'Dedicated parking lot', street:'On-street parking', downt
 const parkingText = p => p.parking ? (p.parking.note || PARKING[p.parking.type]) : null;
 const scoreClasses = s => s>=8 ? 'bg-meadow text-white' : s>=6 ? 'bg-meadow-light text-meadow-deep' : s>=4 ? 'bg-sun-light text-sun' : 'bg-stone-100 text-bark';
 const fmtScore = s => (s%1===0 ? s.toFixed(0) : s.toFixed(1));
-// per-device visitor ratings
-const RKEY='bp-ratings';
-const loadR = () => { try{ return JSON.parse(localStorage.getItem(RKEY))||{} }catch(e){ return {} } };
-const myRating = slug => loadR()[slug]||0;
-function setRating(slug,v){
-  const all=loadR();
-  if(all[slug]===v) delete all[slug]; else all[slug]=v;
-  localStorage.setItem(RKEY,JSON.stringify(all));
-}
 
 function badges(p){
   const b=[];
@@ -379,7 +370,7 @@ function card(p){
     + '<div class="flex shrink-0 items-center gap-1.5">'
     + '<span class="rounded-lg px-1.5 py-0.5 text-[12px] font-bold '+scoreClasses(p.score)+'" title="Parent Score">'+fmtScore(p.score)+'</span>'
     + '<button class="rounded-lg border border-meadow/25 px-2 py-1 text-[11px] font-semibold text-meadow-deep hover:bg-meadow-light" onclick="event.stopPropagation();panTo(\''+p.slug+'\')">Map</button></div></div>'
-    + '<p class="mt-0.5 text-[12.5px] text-bark">'+d+p.acres+' acres · '+escHtml(p.area)+(myRating(p.slug)?' · <span class="font-semibold text-sun">★ '+myRating(p.slug)+' you</span>':'')+'</p>'
+    + '<p class="mt-0.5 text-[12.5px] text-bark">'+d+p.acres+' acres · '+escHtml(p.area)+'</p>'
     + '<div class="mt-2 flex flex-wrap gap-1">'+badges(p).slice(0,5).map(x=>'<span class="pill bg-meadow-light text-meadow-deep">'+x+'</span>').join('')+'</div>'
     + '<p class="pill mt-2 '+rr[1]+'">'+rr[0]+'</p>'
     + (note ? '<p class="clamp-2 mt-2 text-[13px] leading-relaxed text-ink/75">'+escHtml(note)+'</p>' : '')
@@ -474,9 +465,6 @@ function showPark(slug){
     + p.scoreRows.map(r=>'<li class="flex justify-between gap-2"><span>'+escHtml(r.label)+'</span><span class="font-semibold '+(r.got===0?'text-bark/50':'text-meadow-deep')+'">'+fmtScore(r.got)+'<span class="font-normal text-bark/60">/'+fmtScore(r.max)+'</span></span></li>').join('')
     + '<li class="flex justify-between gap-2 border-t border-meadow/10 pt-1"><span>Bonus features'+(p.bonus.items.length?' <span class="text-bark/60">('+escHtml(p.bonus.items.join(', '))+')</span>':'')+'</span><span class="font-semibold '+(p.bonus.got===0?'text-bark/50':'text-meadow-deep')+'">+'+fmtScore(p.bonus.got)+'<span class="font-normal text-bark/60">/1</span></span></li>'
     + '</ul><p class="mt-1.5 text-[11px] text-bark">Playground, tree cover &amp; grass count most. Parking doesn\'t affect the score.</p></details>'
-    + '<div class="mt-2 flex items-center gap-2 border-t border-meadow/10 pt-2"><span class="text-[12.5px] font-semibold text-meadow-deep">Your rating:</span>'
-    + '<span id="modal-stars" class="text-xl leading-none">'+starsHtml(p.slug)+'</span>'
-    + '<span class="text-[11px] text-bark">saved on this device</span></div>'
     + '</div>';
   $('modal-panel').innerHTML =
     (p.photo?'<figure class="relative m-0"><img src="'+escHtml(p.photo.file)+'" alt="'+escHtml(p.name)+'" class="h-52 w-full object-cover sm:rounded-t-3xl"><figcaption class="absolute bottom-1 right-1 rounded bg-black/45 px-1.5 py-0.5 text-[10px] text-white/90">Photo: '+escHtml(p.photo.author)+' · '+escHtml(p.photo.license)+' (Wikimedia Commons)</figcaption></figure>':'')
@@ -495,17 +483,6 @@ function showPark(slug){
   $('modal').classList.remove('hidden'); $('modal').classList.add('flex');
   document.body.classList.add('modal-open');
   history.replaceState(null,'','?park='+p.slug+'#map');
-}
-function starsHtml(slug){
-  const r=myRating(slug); let h='';
-  for(let i=1;i<=5;i++) h+='<button type="button" onclick="rate(\''+slug+'\','+i+')" aria-label="'+i+' star'+(i>1?'s':'')+'" class="'+(i<=r?'text-sun':'text-bark/25')+'">★</button>';
-  return h;
-}
-function rate(slug,v){
-  setRating(slug,v);
-  const el=document.getElementById('modal-stars');
-  if(el) el.innerHTML=starsHtml(slug);
-  render(); // refresh "★ you" on cards
 }
 function closeModal(){
   $('modal').classList.add('hidden'); $('modal').classList.remove('flex');
