@@ -11,6 +11,14 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://boiseparks.com';
+
+// Google Analytics 4 — single source of truth. Stamped into every park page's
+// <head> below and into index.html (between the ga:start/ga:end markers).
+const GA_ID = 'G-RE6TED2HBZ';
+const gaSnippet =
+`<!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');</script>`;
 const parks = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/parks.json'), 'utf8'));
 const tips = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/tips.json'), 'utf8'));
 const parking = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/parking.json'), 'utf8'));
@@ -211,6 +219,7 @@ for (const p of parks) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  ${gaSnippet}
   <title>${esc(title)}</title>
   <meta name="description" content="${metaDesc}">
   <link rel="canonical" href="${url}">
@@ -303,10 +312,13 @@ ${footer}
   fs.writeFileSync(path.join(dir, 'index.html'), html);
 }
 
-// ---------- cache-bust the data bundle reference in index.html ----------
+// ---------- cache-bust the data bundle + stamp analytics into index.html ----------
 const idxPath = path.join(ROOT, 'index.html');
 const stamp = Date.now().toString(36);
-fs.writeFileSync(idxPath, fs.readFileSync(idxPath, 'utf8').replace(/js\/parks-data\.js\?v=[a-z0-9]+/, `js/parks-data.js?v=${stamp}`));
+let idxHtml = fs.readFileSync(idxPath, 'utf8')
+  .replace(/js\/parks-data\.js\?v=[a-z0-9]+/, `js/parks-data.js?v=${stamp}`)
+  .replace(/<!-- ga:start -->[\s\S]*?<!-- ga:end -->/, `<!-- ga:start -->\n  ${gaSnippet}\n  <!-- ga:end -->`);
+fs.writeFileSync(idxPath, idxHtml);
 
 // ---------- sitemap ----------
 const today = new Date().toISOString().slice(0, 10);
