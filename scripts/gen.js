@@ -293,7 +293,7 @@ ${header}
         </ul>
         <div class="mt-5 grid gap-2">
           <a href="/?park=${p.slug}#map" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-meadow-dark">See on the full map</a>
-          ${p.cityUrl ? `<a href="${esc(p.cityUrl)}" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">Official city page</a>` : ''}
+          ${p.cityUrl ? `<a href="${esc(p.cityUrl)}" target="_blank" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">Official city page</a>` : ''}
         </div>
       </div>
     </aside>

@@ -286,7 +286,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mrnorwyn"></script>
+<script src="/js/parks-data.js?v=mrnoy6ob"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
@@ -508,7 +508,7 @@ function showPark(slug){
     + '<p class="mt-1.5 text-[12px] text-bark"><a href="'+mapsUrl(p)+'" rel="noopener" class="underline hover:text-meadow-deep">📍 View '+escHtml(p.name)+' on Google Maps</a></p></div>'
     + '<div class="mt-5 grid gap-2 sm:grid-cols-2">'
     + '<a href="/parks/'+p.slug+'/" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-meadow-dark">Full details</a>'
-    + (p.cityUrl?'<a href="'+escHtml(p.cityUrl)+'" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">City page</a>':'')
+    + (p.cityUrl?'<a href="'+escHtml(p.cityUrl)+'" target="_blank" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">City page</a>':'')
     + '</div></div>';
   $('modal').classList.remove('hidden'); $('modal').classList.add('flex');
   document.body.classList.add('modal-open');
