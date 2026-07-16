@@ -46,9 +46,10 @@
       <span class="font-display text-lg font-bold text-meadow-deep">boise<span class="text-meadow">parks</span><span class="hidden xs:inline">.com</span></span>
     </a>
     <nav class="flex items-center gap-3 text-[13px] font-medium text-bark sm:gap-5 sm:text-sm">
-      <a href="#picks" class="hover:text-meadow-deep">Picks</a>
+      <a href="#now" class="font-semibold text-meadow-deep hover:text-meadow">Right now</a>
+      <a href="#picks" class="hidden xs:inline hover:text-meadow-deep">Picks</a>
       <a href="#map" class="hover:text-meadow-deep">Map</a>
-      <a href="#faq" class="hover:text-meadow-deep">FAQ</a>
+      <a href="#faq" class="hidden xs:inline hover:text-meadow-deep">FAQ</a>
       <a href="#parks" class="whitespace-nowrap rounded-full bg-meadow px-3 py-1.5 text-white hover:bg-meadow-dark sm:px-3.5">All parks</a>
     </nav>
   </div>
@@ -64,6 +65,20 @@
       <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">💦 8 splash pads &amp; fountains</span>
       <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🚻 24 year-round restrooms</span>
     </div>
+  </div>
+</section>
+
+<!-- Where should we go right now? (live weather + time + season → best park now) -->
+<section id="now" class="mx-auto max-w-7xl px-4 pt-8 sm:pt-10">
+  <div class="overflow-hidden rounded-3xl border border-meadow/20 bg-white shadow-card">
+    <div class="flex flex-col gap-3 border-b border-meadow/10 bg-gradient-to-br from-meadow-light/70 to-sky-light/50 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-7">
+      <div>
+        <h2 class="font-display text-2xl font-bold text-meadow-deep sm:text-[27px]">Where should we go <span class="text-meadow">right now?</span></h2>
+        <p class="mt-1 max-w-xl text-[14.5px] leading-relaxed text-ink/75">Today's weather and what's open, matched to the best park to visit right now.</p>
+      </div>
+      <button id="now-locate" class="shrink-0 self-start whitespace-nowrap rounded-xl bg-meadow px-4 py-2.5 text-sm font-semibold text-white shadow-card hover:bg-meadow-dark sm:self-auto">📍 Use my location</button>
+    </div>
+    <div id="now-body" class="px-5 py-5 sm:px-7"></div>
   </div>
 </section>
 
@@ -271,7 +286,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mrnnjbcz"></script>
+<script src="/js/parks-data.js?v=mrnorwyn"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
@@ -518,7 +533,233 @@ function closeModal(){
 $('modal-backdrop').addEventListener('click', closeModal);
 document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
 
+// ---------- "Where should we go right now?" — live weather + time + season ----------
+const BOISE = [43.6135, -116.2023];
+const NOW = { weather:null, label:'central Boise' };
+
+// City splash pads run Memorial Day (last Mon of May) → Labor Day (first Mon of Sept).
+function lastMonday(y,m){ const d=new Date(y,m+1,0); while(d.getDay()!==1) d.setDate(d.getDate()-1); return d; }
+function firstMonday(y,m){ const d=new Date(y,m,1); while(d.getDay()!==1) d.setDate(d.getDate()+1); return d; }
+function splashSeason(n){ const y=n.getFullYear(); return n>=lastMonday(y,4) && n<=new Date(firstMonday(y,8).getFullYear(),8,firstMonday(y,8).getDate(),23,59); }
+// Outdoor city pools run roughly early June → mid-August.
+function poolSeason(n){ const y=n.getFullYear(); return n>=new Date(y,5,1) && n<=new Date(y,7,20,23,59); }
+
+function wxText(code, isDay){
+  if(code>=95) return ['⛈️','thunderstorms'];
+  if(code>=85) return ['🌨️','snow showers'];
+  if(code>=80) return ['🌦️','rain showers'];
+  if(code>=71) return ['❄️','snow'];
+  if(code>=66) return ['🌧️','freezing rain'];
+  if(code>=61) return ['🌧️','rain'];
+  if(code>=51) return ['🌦️','drizzle'];
+  if(code>=45) return ['🌫️','fog'];
+  if(code===3) return ['☁️','overcast'];
+  if(code===2) return [isDay?'⛅':'☁️','partly cloudy'];
+  if(code===1) return [isDay?'🌤️':'🌙','mostly clear'];
+  return [isDay?'☀️':'🌙','clear'];
+}
+const isWetCode = c => c>=51;
+
+function wxCacheGet(k){ try{ const v=JSON.parse(sessionStorage.getItem(k)); if(v && Date.now()-v.t < 15*60000) return v.d; }catch(e){} return null; }
+function wxCacheSet(k,d){ try{ sessionStorage.setItem(k, JSON.stringify({t:Date.now(), d})); }catch(e){} }
+
+async function fetchWeather(lat,lon,key){
+  const cached = wxCacheGet(key); if(cached) return cached;
+  const ctrl = new AbortController(); const to = setTimeout(()=>ctrl.abort(), 8000);
+  try{
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon
+      +'&current=temperature_2m,apparent_temperature,precipitation,weather_code,cloud_cover,is_day'
+      +'&temperature_unit=fahrenheit&precipitation_unit=inch&timezone=auto&forecast_days=1';
+    const r = await fetch(url,{signal:ctrl.signal}); if(!r.ok) throw 0;
+    const j = await r.json(); wxCacheSet(key, j.current); return j.current;
+  } finally { clearTimeout(to); }
+}
+
+function buildContext(w){
+  const now = new Date(), hour = now.getHours();
+  const isDay = w ? w.is_day===1 : (hour>=6 && hour<21);
+  const code = w ? w.weather_code : 0;
+  return {
+    now, hour, isDay, hasW: !!w,
+    temp:  w ? w.temperature_2m : null,
+    feels: w ? w.apparent_temperature : null,
+    code, cloud: w ? w.cloud_cover : 40,
+    wet: w ? (isWetCode(code) || w.precipitation>0.01) : false,
+    splash: splashSeason(now), pool: poolSeason(now),
+    loc: state.loc || null,
+  };
+}
+function regime(ctx){
+  if(!ctx.hasW) return 'unknown';
+  if(ctx.wet) return 'wet';
+  const f = ctx.feels;
+  if(f>=88) return 'hot';
+  if(f>=78) return 'warm';
+  if(f>=62) return 'nice';
+  if(f>=46) return 'cool';
+  return 'cold';
+}
+// How much sun actually matters right now (dark, low-angle, or overcast → less).
+function sunFactor(ctx){
+  if(!ctx.isDay) return 0.15;
+  let f = 1;
+  if(ctx.hour<10 || ctx.hour>=18) f *= 0.5;
+  else if(ctx.hour>=12 && ctx.hour<=16) f *= 1.15;
+  f *= (1 - ctx.cloud/140);
+  return Math.max(0.1, Math.min(1.3, f));
+}
+const STRATEGY = {
+  hot:    ['🔥','Heat’s on','shade and water win — skip the sun-baked playgrounds.'],
+  warm:   ['😎','Warm out','shade and an open splash pad keep it comfortable.'],
+  nice:   ['✨','Perfect park weather','go for the best playgrounds — conditions are ideal.'],
+  cool:   ['🧥','Cool out','sunny, open spots feel warmest; pack a layer.'],
+  cold:   ['🥶','Cold out','keep it short — a sunny spot and a heated restroom help.'],
+  wet:    ['🌧️','Wet out','parks are a tough sell; these at least have a shelter for cover.'],
+  unknown:['🌤️','Right now','ranked by season, time of day and what’s open.'],
+};
+
+function nowScore(p, ctx){
+  const reasons = []; let s = p.score * 0.32;
+  const reg = regime(ctx), sf = sunFactor(ctx), pg = p.playground, shade = p.shade;
+  if(pg){ s += 1.3; if(pg.toddler) s += 0.3; } else { s -= 1.0; }
+
+  // Is the water actually on right now?
+  const w = p.water; let waterOn=false, waterToday=false;
+  if(w && ctx.splash){
+    waterToday = true;
+    const spray = /spray|splash/.test((w.type||'').toLowerCase()); // spray/splash pads: 10a–8p
+    waterOn = ctx.isDay && (!spray || (ctx.hour>=10 && ctx.hour<20));
+  }
+  const poolOn = p.pool && ctx.pool && ctx.isDay;
+
+  function shadeAdjust(weight){
+    if(shade==='leafy'){ const v=weight*sf; if(v>0.3){ s+=v; reasons.push(['🌳 Leafy shade',true]); } }
+    else if(shade==='some'){ s += weight*0.4*sf; }
+    else { const pen=weight*sf; if(pen>0.4){ s-=pen; reasons.push(['☀️ No shade',false]); } }
+  }
+
+  if(reg==='hot'){
+    if(waterOn){ s+=3.0; reasons.push(['💦 '+w.type+' on',true]); }
+    else if(waterToday){ s+=0.8; reasons.push(['💦 Splash pad (10a–8p)',true]); }
+    if(poolOn){ s+=1.6; reasons.push(['🏊 Pool',true]); }
+    shadeAdjust(2.4);
+  } else if(reg==='warm'){
+    if(waterOn){ s+=1.6; reasons.push(['💦 '+w.type,true]); }
+    if(poolOn){ s+=0.8; reasons.push(['🏊 Pool',true]); }
+    shadeAdjust(1.1);
+  } else if(reg==='nice'){
+    if(waterOn){ s+=0.5; reasons.push(['💦 '+w.type,true]); }
+    shadeAdjust(0.4);
+    if(pg && p.score>=8.5) reasons.unshift(['🛝 Top playground',true]);
+  } else if(reg==='cool'){
+    if(shade==='full-sun'){ s+=0.6*sf; reasons.push(['☀️ Sunny & open',true]); }
+    else if(shade==='leafy'){ s-=0.2; }
+    if(p.restroom==='year-round') s+=0.4;
+    if(pg && p.score>=8) reasons.push(['🛝 Top playground',true]);
+  } else if(reg==='cold'){
+    if(p.restroom==='year-round'){ s+=1.2; reasons.push(['🚻 Heated restroom',true]); }
+    else if(p.restroom==='seasonal+portable'){ s+=0.3; }
+    else if(p.restroom==='none'){ s-=0.6; }
+    if(shade==='full-sun'){ s+=0.7; reasons.push(['☀️ Sun to warm up',true]); }
+    else if(shade==='leafy'){ s-=0.3; }
+  } else if(reg==='wet'){
+    if(p.shelter||p.reservable){ s+=1.6; reasons.push(['⛱️ Shelter for cover',true]); }
+    if(p.restroom==='year-round'){ s+=0.6; reasons.push(['🚻 Open restroom',true]); }
+    else if(p.restroom==='none'){ s-=0.6; }
+  } else { // unknown weather → season + quality
+    if(waterOn){ s+=0.8; reasons.push(['💦 '+w.type,true]); }
+    if(shade==='leafy'){ s+=0.3; reasons.push(['🌳 Leafy shade',true]); }
+    if(pg && p.score>=8) reasons.push(['🛝 Top playground',true]);
+  }
+
+  // Bathrooms matter with little kids, outside the cases already handled.
+  if(reg!=='cold' && reg!=='wet' && p.restroom==='none') s -= 0.4;
+
+  // Proximity (only when we know where they are).
+  if(ctx.loc){
+    const mi = dist(ctx.loc[0],ctx.loc[1],p.lat,p.lon);
+    p._mi = mi;
+    const decay = (reg==='cold'||reg==='wet'||!ctx.isDay) ? 0.16 : 0.10;
+    s += Math.max(-0.5, 1.4 - mi*decay);
+  } else { p._mi = null; }
+
+  return { s, reasons };
+}
+
+function nowCard(entry, rank){
+  const p = entry.p, r = entry.r;
+  const chips = r.reasons.slice(0,3).map(([t,good]) =>
+    '<span class="pill '+(good?'bg-meadow-light text-meadow-deep':'bg-sun-light text-sun')+'">'+escHtml(t)+'</span>').join('');
+  const mi = p._mi!=null ? '<span class="font-semibold text-sky">'+p._mi.toFixed(1)+' mi</span> · ' : '';
+  return '<div class="flex flex-col rounded-2xl border border-meadow/15 bg-white p-4 shadow-card">'
+    + '<div class="flex items-start justify-between gap-2">'
+    + '<div class="min-w-0"><p class="text-[11px] font-bold uppercase tracking-wide text-bark">#'+rank+' right now</p>'
+    + '<h3 class="font-display text-[17px] font-bold leading-tight text-meadow-deep">'+escHtml(p.name)+'</h3>'
+    + '<p class="mt-0.5 text-[12px] text-bark">'+mi+escHtml(p.area)+'</p></div>'
+    + '<span class="shrink-0 rounded-lg px-1.5 py-0.5 text-[12px] font-bold '+scoreClasses(p.score)+'" title="Parent Score">'+fmtScore(p.score)+'</span></div>'
+    + '<div class="mt-2.5 flex flex-1 flex-wrap content-start gap-1">'+(chips||'<span class="pill bg-meadow-light text-meadow-deep">🛝 Solid pick</span>')+'</div>'
+    + '<div class="mt-3 flex gap-2">'
+    + '<button onclick="showPark(\''+p.slug+'\')" class="rounded-lg bg-meadow px-3 py-1.5 text-[13px] font-semibold text-white hover:bg-meadow-dark">Details</button>'
+    + '<button onclick="panTo(\''+p.slug+'\')" class="rounded-lg border border-meadow/25 px-3 py-1.5 text-[13px] font-semibold text-meadow-deep hover:bg-meadow-light">Map</button></div>'
+    + '</div>';
+}
+
+function renderNow(){
+  const ctx = buildContext(NOW.weather);
+  const ranked = P.map(p => ({ p, r: nowScore(p, ctx) })).sort((a,b) => b.r.s - a.r.s);
+  const top = ranked.slice(0,3), more = ranked.slice(3,6);
+  const [sEmoji,sTitle,sMsg] = STRATEGY[regime(ctx)];
+  const w = NOW.weather;
+  let cond;
+  if(w){
+    const [e,t] = wxText(w.weather_code, w.is_day===1);
+    const feels = Math.abs(w.apparent_temperature - w.temperature_2m) >= 3 ? ', feels '+Math.round(w.apparent_temperature)+'°' : '';
+    cond = e+' '+Math.round(w.temperature_2m)+'°'+feels+' · '+t;
+  } else cond = '🌤️ Live weather unavailable';
+  const time = ctx.now.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+
+  const caveats = [];
+  if(ctx.splash) caveats.push('Splash pads run on a set Memorial Day–Labor Day schedule.');
+  if(!ctx.isDay) caveats.push('It’s dark out — most playgrounds aren’t lit, so this is really tomorrow’s shortlist.');
+
+  $('now-body').innerHTML =
+      '<div class="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13.5px]">'
+    +   '<span class="font-semibold text-meadow-deep">'+escHtml(cond)+'</span>'
+    +   '<span class="text-bark/50">·</span><span class="text-bark">'+escHtml(time)+'</span>'
+    +   '<span class="text-bark/50">·</span><span class="text-bark">'+escHtml(NOW.label)+'</span>'
+    + '</div>'
+    + '<p class="mt-2 text-[14px] leading-relaxed text-ink/85"><span class="font-semibold text-meadow-deep">'+sEmoji+' '+sTitle+'</span> — '+sMsg+'</p>'
+    + '<div class="mt-4 grid gap-3 sm:grid-cols-3">'+top.map((e,i)=>nowCard(e,i+1)).join('')+'</div>'
+    + (more.length ? '<p class="mt-3 text-[13px] text-bark">Also good right now: '+more.map(e=>'<button class="font-semibold text-meadow-deep underline decoration-meadow/30 hover:text-meadow" onclick="showPark(\''+e.p.slug+'\')">'+escHtml(e.p.name)+'</button>').join(' <span class="text-bark/40">·</span> ')+'</p>' : '')
+    + caveats.map(c=>'<p class="mt-2 text-[12px] leading-relaxed text-bark">ⓘ '+escHtml(c)+'</p>').join('')
+    + '<details class="mt-2 text-[12px] text-bark"><summary class="cursor-pointer font-semibold text-meadow-deep">How we pick</summary>'
+    +   '<p class="mt-1.5 leading-relaxed">We weigh live Boise weather (temperature and feels-like, sun vs. cloud, rain), the time of day, and the season against each park’s shade, water features, restrooms and playground. A hot afternoon pushes shade and an open splash pad to the top; a cold morning favors a sunny spot with a heated restroom. Guidance, not a guarantee — <a href="#about" class="underline hover:text-meadow-deep">full methodology</a>.</p></details>';
+}
+
+function initNow(){
+  $('now-body').innerHTML = '<p class="py-8 text-center text-[14px] text-bark">Checking Boise weather…</p>';
+  fetchWeather(BOISE[0], BOISE[1], 'wx-boise')
+    .then(w => { NOW.weather = w; })
+    .catch(() => { NOW.weather = null; })
+    .finally(renderNow);
+}
+$('now-locate').addEventListener('click', () => {
+  const btn = $('now-locate');
+  if(!navigator.geolocation){ return; }
+  btn.disabled = true; btn.textContent = '📍 Locating…';
+  navigator.geolocation.getCurrentPosition(pos => {
+    state.loc = [pos.coords.latitude, pos.coords.longitude];
+    NOW.label = 'your location';
+    L.circleMarker(state.loc, {radius:7, color:'#fff', weight:2, fillColor:'#D97706', fillOpacity:1}).addTo(map).bindPopup('You are here');
+    btn.textContent = '📍 Using your location'; btn.classList.add('opacity-70');
+    fetchWeather(state.loc[0], state.loc[1], 'wx-user')
+      .then(w => { NOW.weather = w; }).catch(() => {}).finally(renderNow);
+  }, () => { btn.disabled = false; btn.textContent = '📍 Use my location'; },
+     { timeout: 8000, maximumAge: 600000 });
+});
+
 // ---------- boot ----------
+initNow();
 render();
 const deepLink = new URLSearchParams(location.search).get('park');
 if(deepLink && P.some(x=>x.slug===deepLink)){ showPark(deepLink); panTo(deepLink); }
