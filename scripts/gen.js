@@ -228,7 +228,12 @@ for (const p of parks) {
   <meta property="og:description" content="${metaDesc}">
   <meta property="og:type" content="place">
   <meta property="og:url" content="${url}">
-  ${p.photo ? `<meta property="og:image" content="${SITE + p.photo.file}">` : ''}
+  <meta property="og:image" content="${p.photo ? SITE + p.photo.file : SITE + '/og-image.png'}">
+  ${p.photo ? '' : '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${esc(title)}">
+  <meta name="twitter:description" content="${metaDesc}">
+  <meta name="twitter:image" content="${p.photo ? SITE + p.photo.file : SITE + '/og-image.png'}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
