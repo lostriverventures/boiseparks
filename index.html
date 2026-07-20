@@ -440,7 +440,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mrtuncm5"></script>
+<script src="/js/parks-data.js?v=mrtv1kyo"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
@@ -884,7 +884,10 @@ function renderNow(){
     + '</div>'
     + '<p class="mt-2 text-[14px] leading-relaxed text-ink/85"><span class="font-semibold text-meadow-deep">'+sEmoji+' '+sTitle+'</span> — '+sMsg+'</p>'
     + '<div class="mt-4 grid gap-3 sm:grid-cols-3">'+top.map((e,i)=>nowCard(e,i+1)).join('')+'</div>'
-    + (more.length ? '<p class="mt-3 text-[13px] text-bark">Also good right now: '+more.map(e=>'<button class="font-semibold text-meadow-deep underline decoration-meadow/30 hover:text-meadow" onclick="showPark(\''+e.p.slug+'\')">'+escHtml(e.p.name)+'</button>').join(' <span class="text-bark/40">·</span> ')+'</p>' : '')
+    // Links to the park page, matching the card titles above — a park name
+    // should go to that park's page everywhere on the site, not sometimes open
+    // a modal instead.
+    + (more.length ? '<p class="mt-3 text-[13px] text-bark">Also good right now: '+more.map(e=>'<a class="font-semibold text-meadow-deep underline decoration-meadow/30 hover:text-meadow" href="/parks/'+e.p.slug+'/">'+escHtml(e.p.name)+'</a>').join(' <span class="text-bark/40">·</span> ')+'</p>' : '')
     + caveats.map(c=>'<p class="mt-2 text-[12px] leading-relaxed text-bark">ⓘ '+escHtml(c)+'</p>').join('')
     + '<details class="mt-2 text-[12px] text-bark"><summary class="cursor-pointer font-semibold text-meadow-deep">How we pick</summary>'
     +   '<p class="mt-1.5 leading-relaxed">We weigh live Boise weather (temperature and feels-like, sun vs. cloud, rain), the time of day, and the season against each park’s shade, water features, restrooms and playground. A hot afternoon pushes shade and an open splash pad to the top; a cold morning favors a sunny spot with a heated restroom. Guidance, not a guarantee — <a href="#about" class="underline hover:text-meadow-deep">full methodology</a>.</p></details>';
