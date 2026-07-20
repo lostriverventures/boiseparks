@@ -60,8 +60,11 @@
     </a>
     <nav class="flex items-center gap-3 text-[13px] font-medium text-bark sm:gap-5 sm:text-sm">
       <a href="#now" class="font-semibold text-meadow-deep hover:text-meadow">Right now</a>
-      <a href="#picks" class="hidden xs:inline hover:text-meadow-deep">Picks</a>
-      <a href="#map" class="hover:text-meadow-deep">Map</a>
+      <!-- Picks and Map appear only from sm (640px). Five nav items overflow the
+           bar below that, and both are redundant on a phone: "All parks"
+           (#parks) scrolls to the section that contains the map anyway. -->
+      <a href="#picks" class="hidden sm:inline hover:text-meadow-deep">Picks</a>
+      <a href="#map" class="hidden sm:inline hover:text-meadow-deep">Map</a>
       <a href="#guides" class="hover:text-meadow-deep">Guides</a>
       <a href="#parks" class="whitespace-nowrap rounded-full bg-meadow px-3 py-1.5 text-white hover:bg-meadow-dark sm:px-3.5">All parks</a>
     </nav>
@@ -437,7 +440,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mrtk68fq"></script>
+<script src="/js/parks-data.js?v=mrtuncm5"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
@@ -845,7 +848,7 @@ function nowCard(entry, rank){
   return '<div class="flex flex-col rounded-2xl border border-meadow/15 bg-white p-4 shadow-card">'
     + '<div class="flex items-start justify-between gap-2">'
     + '<div class="min-w-0"><p class="text-[11px] font-bold uppercase tracking-wide text-bark">#'+rank+' right now</p>'
-    + '<h3 class="font-display text-[17px] font-bold leading-tight text-meadow-deep">'+escHtml(p.name)+'</h3>'
+    + '<h3 class="font-display text-[17px] font-bold leading-tight text-meadow-deep"><a href="/parks/'+p.slug+'/" class="hover:text-meadow">'+escHtml(p.name)+'</a></h3>'
     + '<p class="mt-0.5 text-[12px] text-bark">'+mi+escHtml(p.area)+'</p></div>'
     + '<span class="shrink-0 rounded-lg px-1.5 py-0.5 text-[12px] font-bold '+scoreClasses(p.score)+'" title="Parent Score">'+fmtScore(p.score)+'</span></div>'
     + '<div class="mt-2.5 flex flex-1 flex-wrap content-start gap-1">'+(chips||'<span class="pill bg-meadow-light text-meadow-deep">🛝 Solid pick</span>')+'</div>'
