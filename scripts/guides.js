@@ -16,7 +16,8 @@ const path = require('path');
 
 module.exports = function buildGuides(ctx) {
   const { ROOT, SITE, parks, esc, header, footer, gaSnippet,
-          RESTROOM_LABEL, SHADE_LABEL, scoreClasses, fmtScore } = ctx;
+          RESTROOM_LABEL, SHADE_LABEL, scoreClasses, fmtScore,
+          ORG, webPageSchema } = ctx;
 
   const byScore = (a, b) => b.score - a.score || a.name.localeCompare(b.name);
   const AREA_ORDER = ['North River', 'Downtown', 'Central Bench', 'West Bench', 'Southeast'];
@@ -51,8 +52,11 @@ module.exports = function buildGuides(ctx) {
   function writeGuide({ slug, title, metaDesc, h1, lede, body, faq, itemList }) {
     const url = `${SITE}/${slug}/`;
     const schemas = [
+      { '@context': 'https://schema.org', ...ORG },
+      webPageSchema({ url, name: title, description: metaDesc, breadcrumbId: url + '#breadcrumb' }),
       {
         '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+        '@id': url + '#breadcrumb',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Boise Parks', item: SITE + '/' },
           { '@type': 'ListItem', position: 2, name: h1, item: url },

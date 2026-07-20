@@ -13,6 +13,31 @@ const buildGuides = require('./guides');
 
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://boiseparks.com';
+const BUILD_DATE = new Date().toISOString().slice(0, 10);
+
+// Publisher identity, emitted on every page. Answer engines and search engines
+// both weigh "who says this and where did it come from" — naming the publisher
+// and the upstream data source in machine-readable form makes the site
+// attributable rather than an anonymous page of facts.
+const ORG = {
+  '@type': 'Organization',
+  '@id': SITE + '/#org',
+  name: 'boiseparks.com',
+  url: SITE,
+  description: 'Independent guide to Boise, Idaho city parks for families, built from City of Boise open data.',
+};
+const webPageSchema = ({ url, name, description, breadcrumbId }) => ({
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': url + '#webpage',
+  url, name, description,
+  inLanguage: 'en-US',
+  isPartOf: { '@type': 'WebSite', '@id': SITE + '/#website', name: 'Boise Parks', url: SITE },
+  publisher: { '@id': SITE + '/#org' },
+  dateModified: BUILD_DATE,
+  license: 'https://opendata.cityofboise.org/',
+  ...(breadcrumbId ? { breadcrumb: { '@id': breadcrumbId } } : {}),
+});
 
 // Google Analytics 4 — single source of truth. Stamped into every park page's
 // <head> below and into index.html (between the ga:start/ga:end markers).
@@ -116,6 +141,56 @@ function mapsUrl(p) {
   return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(`${p.name}, ${p.address}, Boise, ID ${p.zip}`);
 }
 
+// Per-park questions, generated from the amenity data. These exist because the
+// queries people actually type ("does camel's back park have a bathroom") are
+// questions, and both search snippets and AI answer engines lift a direct
+// question-and-answer pair far more readily than a fact buried in a table.
+// Rendered visibly on the page AND as FAQPage JSON-LD — Google requires the
+// answer text to be present on the page, not schema-only.
+function parkFaq(p) {
+  const q = [];
+  const pg = p.playground;
+
+  q.push([`Does ${p.name} have a restroom?`, {
+    'year-round': `Yes. ${p.name} has a heated restroom building that stays open year-round, including through the winter.`,
+    'seasonal+portable': `${p.name} has a restroom that is open in the warm months. The building is winterized for the cold months, but the city leaves a portable toilet on site.`,
+    'seasonal': `${p.name} has a seasonal restroom. It is open in the warm months and closed for the winter, with no portable toilet as backup.`,
+    'none': `No. ${p.name} has no restroom at any time of year.`,
+  }[p.restroom]]);
+
+  if (pg) {
+    const ages = pg.toddler && pg.bigKid ? 'equipment for both toddlers (ages 2–5) and big kids (ages 5–12)'
+      : pg.toddler ? 'equipment for toddlers (ages 2–5)'
+      : pg.bigKid ? 'equipment for big kids (ages 5–12)' : 'playground equipment';
+    let a = `Yes. ${p.name} has ${ages}`;
+    a += pg.features.length ? `, including ${pg.features.join(', ')}.` : '.';
+    if (pg.surface) a += ` The surfacing is ${pg.surface}${pg.rubberSurface ? ', which is stroller and wheelchair friendly' : ''}.`;
+    if (pg.newestYear) a += ` The newest structure was installed in ${pg.newestYear}.`;
+    q.push([`Does ${p.name} have a playground?`, a]);
+  } else {
+    q.push([`Does ${p.name} have a playground?`, `No. ${p.name} has no playground equipment.`]);
+  }
+
+  if (p.water) q.push([`Does ${p.name} have a splash pad?`,
+    `${p.name} has a ${p.water.type.toLowerCase()}. It runs ${p.water.hours.toLowerCase()} and is free to use.`]);
+  if (p.pool) q.push([`Does ${p.name} have a swimming pool?`,
+    `Yes. ${p.name} has a city-run outdoor pool. Its season, hours and admission are listed on the City of Boise page for the park.`]);
+
+  const treeNote = p.trees ? ` The city tree inventory lists ${p.trees.toLocaleString()} trees in the park.` : '';
+  q.push([`Is there shade at ${p.name}?`, {
+    'leafy': `${p.name} is rated leafy, meaning dense mature tree cover.${treeNote}`,
+    'some': `${p.name} has some shade — a mix of trees and open lawn.${treeNote}`,
+    'full-sun': `${p.name} is mostly full sun, with little tree cover.${treeNote}`,
+  }[p.shade]]);
+
+  if (p.parking) q.push([`Where do you park at ${p.name}?`, `${parkingText(p)}.`]);
+
+  q.push([`How big is ${p.name}?`,
+    `${p.name} is ${p.acres} acres. It is classified by the city as a ${p.type.toLowerCase()} park and is located in the ${p.area} area of Boise at ${p.address}.`]);
+
+  return q;
+}
+
 function playgroundBits(p) {
   const pg = p.playground;
   if (!pg) return null;
@@ -203,11 +278,22 @@ for (const p of parks) {
   };
   const breadcrumb = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    '@id': url + '#breadcrumb',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Boise Parks', item: SITE + '/' },
       { '@type': 'ListItem', position: 2, name: p.name, item: url },
     ],
   };
+  const faqs = parkFaq(p);
+  const faqSchema = {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: faqs.map(([q, a]) => ({
+      '@type': 'Question', name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
+  };
+  const orgSchema = { '@context': 'https://schema.org', ...ORG };
+  const pageSchema = webPageSchema({ url, name: title, description: descText.replace(/\s+/g, ' ').slice(0, 300), breadcrumbId: url + '#breadcrumb' });
 
   const factRows = [
     ['Size', `${p.acres} acres`],
@@ -248,6 +334,9 @@ for (const p of parks) {
   <link rel="stylesheet" href="/styles.css">
   <script type="application/ld+json">${JSON.stringify(schema)}</script>
   <script type="application/ld+json">${JSON.stringify(breadcrumb)}</script>
+  <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>
+  <script type="application/ld+json">${JSON.stringify(pageSchema)}</script>
+  <script type="application/ld+json">${JSON.stringify(orgSchema)}</script>
 </head>
 <body class="bg-cream font-sans text-ink">
 ${header}
@@ -274,6 +363,13 @@ ${header}
       <ul class="mt-3 space-y-2 rounded-2xl border border-meadow/15 bg-white px-5 py-4 text-[14.5px] shadow-card">
         ${pgBits.map(b => `<li class="flex gap-2"><span class="text-meadow">✓</span> ${esc(b)}</li>`).join('\n        ')}
       </ul>` : `<p class="mt-8 rounded-2xl border border-meadow/15 bg-white px-5 py-4 text-[14.5px] text-bark shadow-card">No playground at this park.</p>`}
+      <h2 class="mt-8 font-display text-xl font-bold text-meadow-deep">Common questions about ${esc(p.name)}</h2>
+      <div class="mt-3 divide-y divide-meadow/10 rounded-2xl border border-meadow/15 bg-white px-5 shadow-card">
+        ${faqs.map(([q, a]) => `<div class="py-3.5">
+          <h3 class="text-[15px] font-bold text-meadow-deep">${esc(q)}</h3>
+          <p class="mt-1 text-[14.5px] leading-relaxed text-ink/85">${esc(a)}</p>
+        </div>`).join('\n        ')}
+      </div>
       ${p.cityUrl ? `
       <p class="mt-8 text-[13px] text-bark">For the city's official write-up and any current alerts, see the <a href="${esc(p.cityUrl)}" class="underline hover:text-meadow-deep" rel="noopener">${esc(p.name)} page at Boise Parks and Recreation</a>.</p>` : ''}
     </div>
@@ -328,14 +424,49 @@ ${footer}
 const guideSlugs = buildGuides({
   ROOT, SITE, parks, esc, cap, header, footer, gaSnippet,
   RESTROOM_LABEL, SHADE_LABEL, scoreClasses, fmtScore,
+  ORG, webPageSchema,
 });
+
+// ---------- static park list for the homepage ----------
+// Mirrors what render() draws client-side, minus the photos and interactive
+// bits. Without this the homepage ships 99 characters of body text: every park
+// name, amenity and link lives only in js/parks-data.js, invisible to any
+// crawler that doesn't run JavaScript. This is also the only place the site
+// links to all 94 park pages, so it carries the internal link graph.
+const staticCards = [...parks]
+  .sort((a, b) => a.name.localeCompare(b.name))
+  .map(p => {
+    const facts = [
+      p.playground ? 'Playground' : null,
+      p.water ? p.water.type : null,
+      p.pool ? 'Outdoor pool' : null,
+      RESTROOM_LABEL[p.restroom],
+      SHADE_LABEL[p.shade].split(' — ')[0],
+    ].filter(Boolean);
+    return `<article class="overflow-hidden rounded-2xl border border-meadow/15 bg-white p-4 shadow-card">`
+      + `<h3 class="font-display text-[17px] font-bold leading-snug text-meadow-deep"><a href="/parks/${p.slug}/" class="hover:text-meadow">${esc(p.name)}</a></h3>`
+      + `<p class="mt-0.5 text-[12.5px] text-bark">${p.acres} acres · ${esc(p.area)} · Parent Score ${fmtScore(p.score)}/10</p>`
+      + `<p class="mt-1.5 text-[13px] text-ink/80">${esc(facts.join(' · '))}</p>`
+      + (p.tip ? `<p class="mt-1.5 text-[13px] leading-relaxed text-ink/75">${esc(p.tip)}</p>` : '')
+      + `</article>`;
+  })
+  .join('\n        ');
 
 // ---------- cache-bust the data bundle + stamp analytics into index.html ----------
 const idxPath = path.join(ROOT, 'index.html');
 const stamp = Date.now().toString(36);
 let idxHtml = fs.readFileSync(idxPath, 'utf8')
   .replace(/js\/parks-data\.js\?v=[a-z0-9]+/, `js/parks-data.js?v=${stamp}`)
-  .replace(/<!-- ga:start -->[\s\S]*?<!-- ga:end -->/, `<!-- ga:start -->\n  ${gaSnippet}\n  <!-- ga:end -->`);
+  .replace(/<!-- ga:start -->[\s\S]*?<!-- ga:end -->/, `<!-- ga:start -->\n  ${gaSnippet}\n  <!-- ga:end -->`)
+  .replace(/<!-- parks:start -->[\s\S]*?<!-- parks:end -->/, `<!-- parks:start -->\n        ${staticCards}\n        <!-- parks:end -->`)
+  .replace(/<!-- webpage:start -->[\s\S]*?<!-- webpage:end -->/,
+    '<!-- webpage:start -->\n  <script type="application/ld+json">'
+    + JSON.stringify(webPageSchema({
+        url: SITE + '/',
+        name: 'Boise Parks for Families — Playground, Splash Pad & Shade Finder',
+        description: `Every Boise park rated for parents: ${parks.filter(p => p.playground).length} playgrounds, ${parks.filter(p => p.water).length} splash pads and fountains, ${parks.filter(p => p.restroom === 'year-round').length} year-round restrooms, shade ratings and an interactive map.`,
+      }))
+    + '</script>\n  <!-- webpage:end -->');
 fs.writeFileSync(idxPath, idxHtml);
 
 // ---------- sitemap ----------
@@ -352,4 +483,58 @@ ${urls.map(u => `  <url><loc>${u}</loc><lastmod>${today}</lastmod></url>`).join(
 `;
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap);
 
-console.log(`✓ ${parks.length} park pages, ${guideSlugs.length} guides (${guideSlugs.join(', ')}), js/parks-data.js, sitemap.xml`);
+// ---------- llms.txt ----------
+// Emerging convention (llmstxt.org): a plain-markdown map of the site for
+// language models, so an answer engine can find the canonical page for a
+// question without parsing 94 HTML documents. Generated, not hand-written, so
+// the counts and the park index can't drift from the data.
+const counts = {
+  playgrounds: parks.filter(p => p.playground).length,
+  water: parks.filter(p => p.water).length,
+  pools: parks.filter(p => p.pool).length,
+  yearRound: parks.filter(p => p.restroom === 'year-round').length,
+  portable: parks.filter(p => p.restroom === 'seasonal+portable').length,
+  leafy: parks.filter(p => p.shade === 'leafy').length,
+};
+const llms = `# boiseparks.com
+
+> An independent, ad-free guide to all ${parks.length} City of Boise parks, written for parents of young
+> children. Every park is documented with playground equipment and age range, restroom
+> season (heated year-round vs. winterized), tree-cover shade rating, parking and a
+> transparent 0-10 Parent Score. Facts come from City of Boise open GIS data and Boise
+> Parks and Recreation pages; the site is not affiliated with the City of Boise.
+
+Key figures across the ${parks.length} parks: ${counts.playgrounds} have playgrounds, ${counts.water} have splash pads,
+fountains or misters, ${counts.pools} contain city outdoor pools, ${counts.yearRound} have heated restrooms open
+year-round, ${counts.portable} keep a portable toilet once the building is winterized, and ${counts.leafy}
+are rated leafy for dense mature tree cover.
+
+Data last refreshed from city sources: July 2026. Page data regenerated: ${BUILD_DATE}.
+
+## Guides
+
+- [Splash pads and fountains](${SITE}/splash-pads/): All ${counts.water} water features grouped by type (ground-jet splash pads, interactive fountains, misting stations) plus the ${counts.pools} outdoor pools, with hours, restroom status and shade for each.
+- [Park restrooms open in winter](${SITE}/restrooms/): Which of the ${parks.length} parks have restrooms available in the cold months — ${counts.yearRound} heated year-round, ${counts.portable} with a winter portable toilet — grouped by area.
+- [Playgrounds ranked](${SITE}/best-playgrounds/): All ${counts.playgrounds} playgrounds scored on equipment and age range, tree cover, open grass and restrooms, with shortlists for toddler equipment, shade and year-round restrooms.
+
+## Reference
+
+- [Homepage and interactive map](${SITE}/): Filterable map and list of all ${parks.length} parks, plus methodology for the shade rating and Parent Score.
+- [Park data as JSON](${SITE}/data/parks.json): The underlying dataset — amenities, playground details, restroom season, tree counts and coordinates for every park.
+
+## Parks
+
+${[...parks].sort((a, b) => a.name.localeCompare(b.name)).map(p => {
+  const bits = [
+    p.playground ? 'playground' : 'no playground',
+    p.water ? p.water.type.toLowerCase() : null,
+    p.pool ? 'outdoor pool' : null,
+    RESTROOM_LABEL[p.restroom].toLowerCase(),
+    SHADE_LABEL[p.shade].split(' — ')[0].toLowerCase() + ' shade',
+  ].filter(Boolean).join(', ');
+  return `- [${p.name}](${SITE}/parks/${p.slug}/): ${p.acres} acres in ${p.area}; ${bits}; Parent Score ${fmtScore(p.score)}/10.`;
+}).join('\n')}
+`;
+fs.writeFileSync(path.join(ROOT, 'llms.txt'), llms);
+
+console.log(`✓ ${parks.length} park pages, ${guideSlugs.length} guides (${guideSlugs.join(', ')}), js/parks-data.js, sitemap.xml, llms.txt`);

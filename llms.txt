@@ -1,0 +1,122 @@
+# boiseparks.com
+
+> An independent, ad-free guide to all 94 City of Boise parks, written for parents of young
+> children. Every park is documented with playground equipment and age range, restroom
+> season (heated year-round vs. winterized), tree-cover shade rating, parking and a
+> transparent 0-10 Parent Score. Facts come from City of Boise open GIS data and Boise
+> Parks and Recreation pages; the site is not affiliated with the City of Boise.
+
+Key figures across the 94 parks: 57 have playgrounds, 8 have splash pads,
+fountains or misters, 3 contain city outdoor pools, 24 have heated restrooms open
+year-round, 29 keep a portable toilet once the building is winterized, and 46
+are rated leafy for dense mature tree cover.
+
+Data last refreshed from city sources: July 2026. Page data regenerated: 2026-07-20.
+
+## Guides
+
+- [Splash pads and fountains](https://boiseparks.com/splash-pads/): All 8 water features grouped by type (ground-jet splash pads, interactive fountains, misting stations) plus the 3 outdoor pools, with hours, restroom status and shade for each.
+- [Park restrooms open in winter](https://boiseparks.com/restrooms/): Which of the 94 parks have restrooms available in the cold months — 24 heated year-round, 29 with a winter portable toilet — grouped by area.
+- [Playgrounds ranked](https://boiseparks.com/best-playgrounds/): All 57 playgrounds scored on equipment and age range, tree cover, open grass and restrooms, with shortlists for toddler equipment, shade and year-round restrooms.
+
+## Reference
+
+- [Homepage and interactive map](https://boiseparks.com/): Filterable map and list of all 94 parks, plus methodology for the shade rating and Parent Score.
+- [Park data as JSON](https://boiseparks.com/data/parks.json): The underlying dataset — amenities, playground details, restroom season, tree counts and coordinates for every park.
+
+## Parks
+
+- [Aldape Park](https://boiseparks.com/parks/aldape-park/): 0.4 acres in North River; no playground, no restrooms at this park, leafy shade; Parent Score 4/10.
+- [Ann Morrison Park](https://boiseparks.com/parks/ann-morrison-park/): 148.1 acres in North River; playground, interactive fountain, heated restrooms, open year-round, some shade shade; Parent Score 8.3/10.
+- [Baggley Park](https://boiseparks.com/parks/baggley-park/): 7.5 acres in Southeast; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 8.3/10.
+- [Barber Observation Point](https://boiseparks.com/parks/barber-observation-point/): 2.2 acres in Southeast; no playground, no restrooms at this park, some shade shade; Parent Score 1.3/10.
+- [Bernardine Quinn Riverside Park](https://boiseparks.com/parks/bernardine-quinn-riverside-park/): 31.2 acres in North River; no playground, no restrooms at this park, mostly full sun shade; Parent Score 0.5/10.
+- [Boise Hills Park](https://boiseparks.com/parks/boise-hills-park/): 7.3 acres in North River; playground, no restrooms at this park, some shade shade; Parent Score 4.5/10.
+- [Borah Park](https://boiseparks.com/parks/borah-park/): 11.4 acres in Central Bench; playground, spray pad, outdoor pool, seasonal restrooms; portable toilet in winter, some shade shade; Parent Score 7/10.
+- [Bowden Park](https://boiseparks.com/parks/bowden-park/): 2.7 acres in Central Bench; playground, seasonal restrooms (closed in winter), leafy shade; Parent Score 7.8/10.
+- [Bowler Park](https://boiseparks.com/parks/bowler-park/): 24.6 acres in Southeast; playground, misters, heated restrooms, open year-round, mostly full sun shade; Parent Score 6/10.
+- [C.W. Moore Park](https://boiseparks.com/parks/c-w-moore-park/): 0.3 acres in North River; no playground, heated restrooms, open year-round, leafy shade; Parent Score 4/10.
+- [Camel's Back Park](https://boiseparks.com/parks/camels-back-park/): 11.3 acres in North River; playground, heated restrooms, open year-round, leafy shade; Parent Score 9/10.
+- [Camel's Back Reserve](https://boiseparks.com/parks/camels-back-reserve/): 63.1 acres in North River; no playground, no restrooms at this park, mostly full sun shade; Parent Score 0/10.
+- [Cassia Park](https://boiseparks.com/parks/cassia-park/): 12.5 acres in Central Bench; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 9/10.
+- [Castle Hills Park](https://boiseparks.com/parks/castle-hills-park/): 7.1 acres in North River; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 9/10.
+- [Catalpa Park](https://boiseparks.com/parks/catalpa-park/): 5.5 acres in North River; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 8/10.
+- [Cecil D. Andrus Park](https://boiseparks.com/parks/cecil-d-andrus-park/): 1.9 acres in North River; no playground, no restrooms at this park, leafy shade; Parent Score 2.5/10.
+- [Charles F. McDevitt Youth Sports Complex](https://boiseparks.com/parks/charles-f-mcdevitt-youth-sports-complex/): 38.7 acres in West Bench; playground, seasonal restrooms; portable toilet in winter, some shade shade; Parent Score 7.3/10.
+- [Cherie Buckner-Webb Park](https://boiseparks.com/parks/cherie-buckner-webb-park/): 0.6 acres in Downtown; no playground, heated restrooms, open year-round, leafy shade; Parent Score 4/10.
+- [Comba Park](https://boiseparks.com/parks/comba-park/): 3.4 acres in West Bench; playground, splash pad, no restrooms at this park, leafy shade; Parent Score 6.3/10.
+- [Cottonwood Park](https://boiseparks.com/parks/cottonwood-park/): 8.1 acres in West Bench; playground, heated restrooms, open year-round, some shade shade; Parent Score 7.5/10.
+- [Cypress Park](https://boiseparks.com/parks/cypress-park/): 7.3 acres in Southeast; playground, seasonal restrooms (closed in winter), leafy shade; Parent Score 7.8/10.
+- [DeMeyer Park](https://boiseparks.com/parks/demeyer-park/): 12.4 acres in West Bench; playground, seasonal restrooms; portable toilet in winter, some shade shade; Parent Score 6.5/10.
+- [Eagle Rock Park](https://boiseparks.com/parks/eagle-rock-park/): 8.9 acres in North River; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 8/10.
+- [Elm Grove Park](https://boiseparks.com/parks/elm-grove-park/): 4.2 acres in North River; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 7.8/10.
+- [Esther Simplot Park](https://boiseparks.com/parks/esther-simplot-park/): 56 acres in North River; playground, heated restrooms, open year-round, some shade shade; Parent Score 8/10.
+- [Fairmont Park](https://boiseparks.com/parks/fairmont-park/): 4.2 acres in West Bench; playground, outdoor pool, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 7/10.
+- [Fairview Park](https://boiseparks.com/parks/fairview-park/): 2.3 acres in North River; playground, misters, seasonal restrooms (closed in winter), leafy shade; Parent Score 7.5/10.
+- [Florence Park](https://boiseparks.com/parks/florence-park/): 3.5 acres in West Bench; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 7.5/10.
+- [Foothills East Park](https://boiseparks.com/parks/foothills-east-park/): 8.4 acres in North River; no playground, no restrooms at this park, some shade shade; Parent Score 2.8/10.
+- [Fort Boise Park](https://boiseparks.com/parks/fort-boise-park/): 31 acres in North River; no playground, heated restrooms, open year-round, some shade shade; Parent Score 4.5/10.
+- [Franklin Park](https://boiseparks.com/parks/franklin-park/): 2.9 acres in Central Bench; playground, misters, heated restrooms, open year-round, some shade shade; Parent Score 8.8/10.
+- [Gordon S. Bowen Park](https://boiseparks.com/parks/gordon-s-bowen-park/): 0.3 acres in North River; playground, no restrooms at this park, leafy shade; Parent Score 5/10.
+- [Grove Plaza](https://boiseparks.com/parks/grove-plaza/): 1.3 acres in Downtown; no playground, interactive fountain, no restrooms at this park, leafy shade; Parent Score 3/10.
+- [Helen B. Lowder Park](https://boiseparks.com/parks/helen-b-lowder-park/): 5.1 acres in Southeast; playground, seasonal restrooms; portable toilet in winter, some shade shade; Parent Score 6.8/10.
+- [Hewett Park](https://boiseparks.com/parks/hewett-park/): 6 acres in West Bench; playground, no restrooms at this park, some shade shade; Parent Score 6.3/10.
+- [Hillside Park](https://boiseparks.com/parks/hillside-park/): 11 acres in North River; no playground, seasonal restrooms (closed in winter), some shade shade; Parent Score 4/10.
+- [Hillside to Hollow Reserve](https://boiseparks.com/parks/hillside-to-hollow-reserve/): 269.2 acres in North River; no playground, heated restrooms, open year-round, mostly full sun shade; Parent Score 1.5/10.
+- [Hobble Creek Park](https://boiseparks.com/parks/hobble-creek-park/): 20 acres in West Bench; playground, heated restrooms, open year-round, some shade shade; Parent Score 8.3/10.
+- [Hulls Gulch Reserve](https://boiseparks.com/parks/hulls-gulch-reserve/): 291.5 acres in North River; no playground, no restrooms at this park, mostly full sun shade; Parent Score 0/10.
+- [Hyatt Hidden Lakes Reserve](https://boiseparks.com/parks/hyatt-hidden-lakes-reserve/): 55.7 acres in West Bench; no playground, heated restrooms, open year-round, mostly full sun shade; Parent Score 1.5/10.
+- [Idaho Anne Frank Human Rights Memorial](https://boiseparks.com/parks/idaho-anne-frank-human-rights-memorial/): 0.6 acres in North River; no playground, no restrooms at this park, leafy shade; Parent Score 2.5/10.
+- [Idaho Fallen Firefighter Memorial](https://boiseparks.com/parks/idaho-fallen-firefighter-memorial/): 4.3 acres in North River; no playground, seasonal restrooms (closed in winter), leafy shade; Parent Score 3.5/10.
+- [Ivywild Park](https://boiseparks.com/parks/ivywild-park/): 17.4 acres in Southeast; playground, outdoor pool, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 8.5/10.
+- [JA KAFF Boise Whitewater Park](https://boiseparks.com/parks/ja-kaff-boise-whitewater-park/): 1.7 acres in North River; no playground, no restrooms at this park, mostly full sun shade; Parent Score 0/10.
+- [Julia Davis Park](https://boiseparks.com/parks/julia-davis-park/): 90.4 acres in North River; playground, heated restrooms, open year-round, leafy shade; Parent Score 8.5/10.
+- [Jullion Park](https://boiseparks.com/parks/jullion-park/): 9.8 acres in West Bench; playground, seasonal restrooms (closed in winter), leafy shade; Parent Score 7.5/10.
+- [Kaixo Corner](https://boiseparks.com/parks/kaixo-corner/): 0.2 acres in Downtown; no playground, no restrooms at this park, mostly full sun shade; Parent Score 0/10.
+- [Kathryn Albertson Park](https://boiseparks.com/parks/kathryn-albertson-park/): 41.4 acres in North River; no playground, heated restrooms, open year-round, some shade shade; Parent Score 3/10.
+- [Kristens Park](https://boiseparks.com/parks/kristens-park/): 0 acres in North River; no playground, no restrooms at this park, mostly full sun shade; Parent Score 0/10.
+- [Kristin Armstrong Municipal Park](https://boiseparks.com/parks/kristin-armstrong-municipal-park/): 32.1 acres in North River; playground, heated restrooms, open year-round, leafy shade; Parent Score 8.8/10.
+- [Kroeger Park](https://boiseparks.com/parks/kroeger-park/): 0.8 acres in Southeast; playground, no restrooms at this park, leafy shade; Parent Score 5/10.
+- [Laura Moore Cunningham Arboretum](https://boiseparks.com/parks/laura-moore-cunningham-arboretum/): 4.8 acres in North River; no playground, no restrooms at this park, mostly full sun shade; Parent Score 0/10.
+- [Liberty Park](https://boiseparks.com/parks/liberty-park/): 8.4 acres in Central Bench; playground, seasonal restrooms; portable toilet in winter, some shade shade; Parent Score 6.8/10.
+- [Magnolia Park](https://boiseparks.com/parks/magnolia-park/): 7.3 acres in North River; no playground, seasonal restrooms; portable toilet in winter, some shade shade; Parent Score 4.3/10.
+- [Manitou Park](https://boiseparks.com/parks/manitou-park/): 9.1 acres in Southeast; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 8/10.
+- [Marianne Williams Park](https://boiseparks.com/parks/marianne-williams-park/): 74.1 acres in North River; no playground, heated restrooms, open year-round, mostly full sun shade; Parent Score 2.3/10.
+- [Mariposa Park](https://boiseparks.com/parks/mariposa-park/): 8.1 acres in West Bench; no playground, seasonal restrooms; portable toilet in winter, some shade shade; Parent Score 4/10.
+- [McAuley Park](https://boiseparks.com/parks/mcauley-park/): 0.3 acres in North River; no playground, no restrooms at this park, leafy shade; Parent Score 2.5/10.
+- [Memorial Park](https://boiseparks.com/parks/memorial-park/): 4.9 acres in North River; playground, seasonal restrooms (closed in winter), leafy shade; Parent Score 7.3/10.
+- [Military Reserve](https://boiseparks.com/parks/military-reserve/): 734.1 acres in North River; no playground, no restrooms at this park, mostly full sun shade; Parent Score 0.3/10.
+- [Milwaukee Park](https://boiseparks.com/parks/milwaukee-park/): 10 acres in West Bench; no playground, seasonal restrooms (closed in winter), mostly full sun shade; Parent Score 2.5/10.
+- [Molenaar Park](https://boiseparks.com/parks/molenaar-park/): 19.6 acres in West Bench; playground, splash pad, seasonal restrooms; portable toilet in winter, some shade shade; Parent Score 8.3/10.
+- [Morris Hill Park](https://boiseparks.com/parks/morris-hill-park/): 7.9 acres in Central Bench; playground, heated restrooms, open year-round, leafy shade; Parent Score 7.5/10.
+- [Mountain View Park](https://boiseparks.com/parks/mountain-view-park/): 8.7 acres in West Bench; playground, seasonal restrooms (closed in winter), some shade shade; Parent Score 5.8/10.
+- [Nottingham Park](https://boiseparks.com/parks/nottingham-park/): 2.1 acres in West Bench; playground, no restrooms at this park, leafy shade; Parent Score 5.3/10.
+- [Optimist Youth Sports Complex](https://boiseparks.com/parks/optimist-youth-sports-complex/): 52.5 acres in North River; no playground, seasonal restrooms; portable toilet in winter, some shade shade; Parent Score 4.5/10.
+- [Oregon Trail Reserve](https://boiseparks.com/parks/oregon-trail-reserve/): 76.7 acres in Southeast; no playground, heated restrooms, open year-round, mostly full sun shade; Parent Score 1.5/10.
+- [Owens Park](https://boiseparks.com/parks/owens-park/): 0.7 acres in North River; no playground, no restrooms at this park, leafy shade; Parent Score 2.5/10.
+- [Owyhee Park](https://boiseparks.com/parks/owyhee-park/): 5 acres in Central Bench; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 8.5/10.
+- [Parkcenter Park](https://boiseparks.com/parks/parkcenter-park/): 14.8 acres in Southeast; no playground, heated restrooms, open year-round, some shade shade; Parent Score 3.3/10.
+- [Peppermint Park](https://boiseparks.com/parks/peppermint-park/): 7 acres in West Bench; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 8.5/10.
+- [Phillippi Park](https://boiseparks.com/parks/phillippi-park/): 8.8 acres in Central Bench; playground, seasonal restrooms (closed in winter), leafy shade; Parent Score 8.8/10.
+- [Pine Grove Park](https://boiseparks.com/parks/pine-grove-park/): 4.5 acres in West Bench; playground, seasonal restrooms (closed in winter), some shade shade; Parent Score 6/10.
+- [Pioneer Tot Lot](https://boiseparks.com/parks/pioneer-tot-lot/): 0.1 acres in North River; playground, no restrooms at this park, mostly full sun shade; Parent Score 2.5/10.
+- [Platt Gardens](https://boiseparks.com/parks/platt-gardens/): 4 acres in Central Bench; no playground, no restrooms at this park, leafy shade; Parent Score 2.5/10.
+- [Polecat Gulch Reserve](https://boiseparks.com/parks/polecat-gulch-reserve/): 481.5 acres in North River; no playground, no restrooms at this park, mostly full sun shade; Parent Score 0/10.
+- [Primrose Park](https://boiseparks.com/parks/primrose-park/): 1.5 acres in North River; playground, seasonal restrooms; portable toilet in winter, some shade shade; Parent Score 7/10.
+- [Redwood Park](https://boiseparks.com/parks/redwood-park/): 6.8 acres in West Bench; playground, heated restrooms, open year-round, some shade shade; Parent Score 7.3/10.
+- [Rhodes Park](https://boiseparks.com/parks/rhodes-park/): 1.6 acres in North River; no playground, seasonal restrooms (closed in winter), some shade shade; Parent Score 2/10.
+- [Rotary Park on the Greenbelt](https://boiseparks.com/parks/rotary-park-on-the-greenbelt/): 0.1 acres in Central Bench; no playground, no restrooms at this park, leafy shade; Parent Score 2.5/10.
+- [Shoreline Park](https://boiseparks.com/parks/shoreline-park/): 1.6 acres in North River; no playground, heated restrooms, open year-round, leafy shade; Parent Score 4.3/10.
+- [Shoshone Park](https://boiseparks.com/parks/shoshone-park/): 5.7 acres in Central Bench; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 8/10.
+- [Simplot Sports Complex](https://boiseparks.com/parks/simplot-sports-complex/): 157.7 acres in Southeast; playground, seasonal restrooms (closed in winter), mostly full sun shade; Parent Score 6/10.
+- [Skyline Park](https://boiseparks.com/parks/skyline-park/): 1.6 acres in West Bench; playground, no restrooms at this park, leafy shade; Parent Score 7/10.
+- [Stewart Gulch Park](https://boiseparks.com/parks/stewart-gulch-park/): 5.9 acres in North River; playground, seasonal restrooms; portable toilet in winter, mostly full sun shade; Parent Score 4.3/10.
+- [Sunset Park](https://boiseparks.com/parks/sunset-park/): 10.1 acres in North River; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 8/10.
+- [Sycamore Park](https://boiseparks.com/parks/sycamore-park/): 7.2 acres in West Bench; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 7.5/10.
+- [Terry Day Park](https://boiseparks.com/parks/terry-day-park/): 7.7 acres in Central Bench; playground, heated restrooms, open year-round, leafy shade; Parent Score 9.3/10.
+- [Veterans Memorial Park](https://boiseparks.com/parks/veterans-memorial-park/): 78.6 acres in North River; playground, heated restrooms, open year-round, some shade shade; Parent Score 8/10.
+- [Warm Springs Park](https://boiseparks.com/parks/warm-springs-park/): 20.2 acres in North River; no playground, heated restrooms, open year-round, mostly full sun shade; Parent Score 1.8/10.
+- [Williams Park](https://boiseparks.com/parks/williams-park/): 7.8 acres in Southeast; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 8/10.
+- [Willow Lane Athletic Complex](https://boiseparks.com/parks/willow-lane-athletic-complex/): 60.2 acres in North River; playground, seasonal restrooms (closed in winter), some shade shade; Parent Score 6/10.
+- [Willow Lane Park](https://boiseparks.com/parks/willow-lane-park/): 4.5 acres in North River; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 7.8/10.
+- [Winstead Park](https://boiseparks.com/parks/winstead-park/): 11.1 acres in West Bench; playground, seasonal restrooms; portable toilet in winter, leafy shade; Parent Score 8/10.
