@@ -60,7 +60,7 @@
     </a>
     <nav class="flex items-center gap-3 text-[13px] font-medium text-bark sm:gap-5 sm:text-sm">
       <a href="#now" class="font-semibold text-meadow-deep hover:text-meadow">Right now</a>
-      <a href="#guides" class="hover:text-meadow-deep">Guides</a>
+      <a href="#picks" class="hidden xs:inline hover:text-meadow-deep">Picks</a>
       <a href="#map" class="hover:text-meadow-deep">Map</a>
       <a href="#faq" class="hidden xs:inline hover:text-meadow-deep">FAQ</a>
       <a href="#parks" class="whitespace-nowrap rounded-full bg-meadow px-3 py-1.5 text-white hover:bg-meadow-dark sm:px-3.5">All parks</a>
@@ -73,10 +73,14 @@
   <div class="mx-auto max-w-7xl px-4 py-8 sm:py-10">
     <h1 class="font-display text-3xl font-bold leading-tight text-meadow-deep sm:text-[2.6rem]">Every Boise park, <span class="text-meadow">rated for parents.</span></h1>
     <p class="mt-2.5 max-w-xl text-[15.5px] leading-relaxed text-ink/80">Filter for what your kid needs today — a splash pad, real shade, a restroom that's open in winter — and see how every park scores.</p>
+    <!-- The counts double as the site's primary navigation: each one is the
+         guide page for that number. A count is a more precise link label than
+         a title ("24 year-round restrooms" says more than "Park restrooms"),
+         and keeping them as chips leaves the title band slim. -->
     <div class="mt-4 flex flex-wrap gap-2 text-[13px] font-semibold">
-      <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🛝 57 playgrounds</span>
-      <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">💦 8 splash pads &amp; fountains</span>
-      <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🚻 24 year-round restrooms</span>
+      <a href="/best-playgrounds/" class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card hover:bg-meadow-light">🛝 57 playgrounds <span class="text-meadow/60" aria-hidden="true">→</span></a>
+      <a href="/splash-pads/" class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card hover:bg-meadow-light">💦 8 splash pads &amp; fountains <span class="text-meadow/60" aria-hidden="true">→</span></a>
+      <a href="/restrooms/" class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card hover:bg-meadow-light">🚻 24 year-round restrooms <span class="text-meadow/60" aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
@@ -157,26 +161,6 @@
       </ul>
       <button class="mt-4 self-start rounded-lg bg-meadow-light px-3 py-1.5 text-[13px] font-semibold text-meadow-deep hover:bg-meadow/15" onclick="applyPreset('accessible')">See all on map →</button>
     </div>
-  </div>
-</section>
-
-<!-- Guides — standalone pages that answer one question completely -->
-<section id="guides" class="mx-auto max-w-7xl px-4 pt-10">
-  <h2 class="font-display text-2xl font-bold text-meadow-deep sm:text-3xl">Guides</h2>
-  <p class="mt-1 text-[14.5px] text-ink/70">Full lists for the three things parents look up most.</p>
-  <div class="mt-5 grid gap-4 sm:grid-cols-3">
-    <a href="/best-playgrounds/" class="card-lift flex items-start gap-3 rounded-2xl border border-meadow/20 bg-white p-5 shadow-card">
-      <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-meadow-light text-xl">🛝</span>
-      <span><span class="block font-display text-[17px] font-bold leading-tight text-meadow-deep">Playgrounds ranked</span><span class="mt-1 block text-[13.5px] leading-snug text-bark">All 57, scored on equipment, shade, restrooms and open grass.</span></span>
-    </a>
-    <a href="/splash-pads/" class="card-lift flex items-start gap-3 rounded-2xl border border-sky/20 bg-white p-5 shadow-card">
-      <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-light text-xl">💦</span>
-      <span><span class="block font-display text-[17px] font-bold leading-tight text-meadow-deep">Splash pads and fountains</span><span class="mt-1 block text-[13.5px] leading-snug text-bark">All 8 water features, with hours, restrooms and shade.</span></span>
-    </a>
-    <a href="/restrooms/" class="card-lift flex items-start gap-3 rounded-2xl border border-sun/30 bg-white p-5 shadow-card">
-      <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sun-light text-xl">🚻</span>
-      <span><span class="block font-display text-[17px] font-bold leading-tight text-meadow-deep">Restrooms open in winter</span><span class="mt-1 block text-[13.5px] leading-snug text-bark">24 of 94 parks have heated year-round restrooms.</span></span>
-    </a>
   </div>
 </section>
 
@@ -424,7 +408,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mrth3obb"></script>
+<script src="/js/parks-data.js?v=mrthf1il"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
