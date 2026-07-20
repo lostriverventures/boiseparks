@@ -18,6 +18,19 @@ Data last refreshed from city sources: July 2026. Most recent page update: 2026-
 - [Splash pads and fountains](https://boiseparks.com/splash-pads/): All 8 water features grouped by type (ground-jet splash pads, interactive fountains, misting stations) plus the 3 outdoor pools, with hours, restroom status and shade for each.
 - [Park restrooms open in winter](https://boiseparks.com/restrooms/): Which of the 94 parks have restrooms available in the cold months — 24 heated year-round, 29 with a winter portable toilet — grouped by area.
 - [Playgrounds ranked](https://boiseparks.com/best-playgrounds/): All 57 playgrounds scored on equipment and age range, tree cover, open grass and restrooms, with shortlists for toddler equipment, shade and year-round restrooms.
+- [Dog off-leash areas](https://boiseparks.com/dog-parks/): The 18 city parks with a designated off-leash area for dogs.
+- [Picnic shelters](https://boiseparks.com/picnic-shelters/): 14 parks with shelters reservable through Boise Parks and Recreation, plus 31 more with first-come covered picnic areas.
+- [Sport courts](https://boiseparks.com/sport-courts/): Tennis, basketball, pickleball, volleyball, horseshoe and bocce courts by sport, plus the 17 parks with sports fields.
+- [Fishing](https://boiseparks.com/fishing/): The 13 city parks with fishing access — ponds, lakes and river frontage.
+- [Greenbelt access](https://boiseparks.com/greenbelt-parks/): The 11 parks connecting directly to the Boise River Greenbelt.
+
+## Parks by area
+
+- [Parks in North & NW Boise](https://boiseparks.com/areas/north-boise/): All 46 City of Boise parks in North & NW Boise, ranked, with 20 playgrounds and 13 year-round restrooms.
+- [Parks in Downtown Boise](https://boiseparks.com/areas/downtown-boise/): All 3 City of Boise parks in Downtown Boise, ranked, with 0 playgrounds and 1 year-round restroom.
+- [Parks in Central Bench](https://boiseparks.com/areas/central-bench/): All 12 City of Boise parks in Central Bench, ranked, with 10 playgrounds and 3 year-round restrooms.
+- [Parks in West Boise](https://boiseparks.com/areas/west-boise/): All 21 City of Boise parks in West Boise, ranked, with 18 playgrounds and 4 year-round restrooms.
+- [Parks in Southeast Boise](https://boiseparks.com/areas/southeast-boise/): All 12 City of Boise parks in Southeast Boise, ranked, with 9 playgrounds and 3 year-round restrooms.
 
 ## Reference
 

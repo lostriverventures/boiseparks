@@ -11,179 +11,16 @@
  *
  * Called from scripts/gen.js, which owns the shared chrome and helpers.
  */
-const fs = require('fs');
-const path = require('path');
+const createKit = require('./page-kit');
+const { AREAS } = require('./page-kit');
 
 module.exports = function buildGuides(ctx) {
-  const { ROOT, SITE, parks, esc, header, footer, gaSnippet,
-          RESTROOM_LABEL, SHADE_LABEL, scoreClasses, fmtScore,
-          ORG, webPageSchema } = ctx;
+  const { parks, esc, RESTROOM_LABEL, SHADE_LABEL, scoreClasses, fmtScore } = ctx;
+  const { writePage, parkTable } = createKit(ctx);
 
   const byScore = (a, b) => b.score - a.score || a.name.localeCompare(b.name);
-  const AREA_ORDER = ['North River', 'Downtown', 'Central Bench', 'West Bench', 'Southeast'];
-
-  // Guides cross-link to each other from every page — internal links are most of
-  // the SEO value here, and a parent reading one list usually wants a second.
-  const GUIDES = [
-    { slug: 'splash-pads', icon: '💦', label: 'Splash pads and fountains', blurb: 'Locations, hours and restrooms for all 8 water features.' },
-    { slug: 'restrooms', icon: '🚻', label: 'Park restrooms', blurb: 'Which restrooms stay open through the winter.' },
-    { slug: 'best-playgrounds', icon: '🛝', label: 'Playgrounds ranked', blurb: 'All 57 playgrounds, scored on equipment, shade and restrooms.' },
-  ];
-
-  function relatedGuides(currentSlug) {
-    const others = GUIDES.filter(g => g.slug !== currentSlug);
-    return `
-  <section class="mt-14">
-    <h2 class="font-display text-xl font-bold text-meadow-deep">Other guides</h2>
-    <div class="mt-4 grid gap-3 sm:grid-cols-2">
-      ${others.map(g => `<a href="/${g.slug}/" class="card-lift flex items-start gap-3 rounded-2xl border border-meadow/15 bg-white p-4 shadow-card">
-        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-meadow-light text-xl">${g.icon}</span>
-        <span><span class="block font-display text-[16px] font-bold text-meadow-deep">${esc(g.label)}</span><span class="mt-0.5 block text-[13.5px] text-bark">${esc(g.blurb)}</span></span>
-      </a>`).join('\n      ')}
-      <a href="/#map" class="card-lift flex items-start gap-3 rounded-2xl border border-meadow/15 bg-white p-4 shadow-card">
-        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-light text-xl">🗺️</span>
-        <span><span class="block font-display text-[16px] font-bold text-meadow-deep">The full map</span><span class="mt-0.5 block text-[13.5px] text-bark">All 94 parks, with filters for amenities and area.</span></span>
-      </a>
-    </div>
-  </section>`;
-  }
-
-  // ---------- shared page shell ----------
-  function writeGuide({ slug, title, metaDesc, h1, lede, body, faq, itemList }) {
-    const url = `${SITE}/${slug}/`;
-    const schemas = [
-      { '@context': 'https://schema.org', ...ORG },
-      webPageSchema({ url, name: title, description: metaDesc, breadcrumbId: url + '#breadcrumb' }),
-      {
-        '@context': 'https://schema.org', '@type': 'BreadcrumbList',
-        '@id': url + '#breadcrumb',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Boise Parks', item: SITE + '/' },
-          { '@type': 'ListItem', position: 2, name: h1, item: url },
-        ],
-      },
-    ];
-    if (itemList) {
-      schemas.push({
-        '@context': 'https://schema.org', '@type': 'ItemList', name: h1, url,
-        numberOfItems: itemList.length,
-        itemListElement: itemList.map((p, i) => ({
-          '@type': 'ListItem', position: i + 1, name: p.name, url: `${SITE}/parks/${p.slug}/`,
-        })),
-      });
-    }
-    if (faq && faq.length) {
-      schemas.push({
-        '@context': 'https://schema.org', '@type': 'FAQPage',
-        mainEntity: faq.map(([q, a]) => ({
-          '@type': 'Question', name: q,
-          acceptedAnswer: { '@type': 'Answer', text: a.replace(/<[^>]+>/g, '') },
-        })),
-      });
-    }
-
-    const faqHtml = faq && faq.length ? `
-  <section id="faq" class="mt-14">
-    <h2 class="font-display text-2xl font-bold text-meadow-deep">Common questions</h2>
-    <div class="mt-4 divide-y divide-meadow/10 rounded-2xl border border-meadow/15 bg-white px-5 shadow-card">
-      ${faq.map(([q, a]) => `<div class="py-4">
-        <h3 class="font-display text-[16.5px] font-bold text-meadow-deep">${esc(q)}</h3>
-        <p class="mt-1.5 text-[14.5px] leading-relaxed text-ink/85">${a}</p>
-      </div>`).join('\n      ')}
-    </div>
-  </section>` : '';
-
-    const html = `<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  ${gaSnippet}
-  <title>${esc(title)}</title>
-  <meta name="description" content="${esc(metaDesc)}">
-  <link rel="canonical" href="${url}">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <meta property="og:title" content="${esc(title)}">
-  <meta property="og:description" content="${esc(metaDesc)}">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="${url}">
-  <meta property="og:image" content="${SITE}/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${esc(title)}">
-  <meta name="twitter:description" content="${esc(metaDesc)}">
-  <meta name="twitter:image" content="${SITE}/og-image.png">
-  <meta name="geo.region" content="US-ID">
-  <meta name="geo.placename" content="Boise">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
-${schemas.map(s => `  <script type="application/ld+json">${JSON.stringify(s)}</script>`).join('\n')}
-</head>
-<body class="bg-cream font-sans text-ink">
-${header}
-<main class="mx-auto max-w-4xl px-4 pb-8 pt-8">
-  <nav class="text-[13px] text-bark" aria-label="Breadcrumb"><a href="/" class="hover:text-meadow-deep">Boise Parks</a> <span class="mx-1 text-bark/50">/</span> <span class="font-medium text-meadow-deep">${esc(h1)}</span></nav>
-  <h1 class="mt-3 font-display text-3xl font-bold leading-tight text-meadow-deep sm:text-4xl">${h1}</h1>
-  <div class="mt-3 max-w-2xl text-[15.5px] leading-relaxed text-ink/80">${lede}</div>
-${body}
-${faqHtml}
-${relatedGuides(slug)}
-  <p class="mt-10 text-[13px] leading-relaxed text-bark">Built from <a class="underline hover:text-meadow-deep" href="https://opendata.cityofboise.org/" rel="noopener">City of Boise open data</a> and Boise Parks and Recreation pages. boiseparks.com is not affiliated with the City of Boise. Amenities change; check the park's official city page before relying on a specific one.</p>
-</main>
-${footer}
-</body>
-</html>
-`;
-    const dir = path.join(ROOT, slug);
-    fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, 'index.html'), html);
-  }
-
-  // ---------- shared bits ----------
-  const scorePill = p =>
-    `<span class="inline-block rounded-lg px-2 py-0.5 text-[13px] font-bold ${scoreClasses(p.score)}">${fmtScore(p.score)}</span>`;
-
-  const SHADE_SHORT = { leafy: '🌳 Leafy', some: '⛅ Some shade', 'full-sun': '☀️ Full sun' };
-  const RESTROOM_SHORT = {
-    'year-round': '✅ Year-round',
-    'seasonal+portable': '🚻 Seasonal + portable',
-    'seasonal': '⚠️ Seasonal only',
-    'none': '— None',
-  };
-
-  // Compact scannable table — the format that actually survives being read on a
-  // phone in a parking lot. Wrapped in an overflow container so it never forces
-  // the page to scroll sideways.
-  function parkTable(list, { showRestroom = true, showShade = true, showArea = true, rank = false } = {}) {
-    if (!list.length) return '';
-    return `<div class="mt-4 overflow-x-auto rounded-2xl border border-meadow/15 bg-white shadow-card">
-    <table class="w-full min-w-[${showArea ? 34 : 26}rem] text-left text-[14px]">
-      <thead class="border-b border-meadow/15 text-[12.5px] uppercase tracking-wide text-bark">
-        <tr>
-          ${rank ? '<th class="px-3 py-2.5 font-semibold">#</th>' : ''}
-          <th class="px-4 py-2.5 font-semibold">Park</th>
-          ${showArea ? '<th class="px-3 py-2.5 font-semibold">Area</th>' : ''}
-          ${showShade ? '<th class="px-3 py-2.5 font-semibold">Shade</th>' : ''}
-          ${showRestroom ? '<th class="px-3 py-2.5 font-semibold">Restrooms</th>' : ''}
-          <th class="px-3 py-2.5 text-right font-semibold">Score</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-meadow/10">
-        ${list.map((p, i) => `<tr class="align-middle">
-          ${rank ? `<td class="px-3 py-2.5 text-[13px] font-bold text-bark/70">${i + 1}</td>` : ''}
-          <td class="px-4 py-2.5"><a class="font-semibold text-meadow-deep underline decoration-meadow/30 underline-offset-2 hover:text-meadow" href="/parks/${p.slug}/">${esc(p.name)}</a>${p.playground ? '' : ' <span class="text-[12px] text-bark">(no playground)</span>'}</td>
-          ${showArea ? `<td class="px-3 py-2.5 text-[13.5px] text-bark">${esc(p.area)}</td>` : ''}
-          ${showShade ? `<td class="px-3 py-2.5 text-[13.5px] whitespace-nowrap">${SHADE_SHORT[p.shade]}</td>` : ''}
-          ${showRestroom ? `<td class="px-3 py-2.5 text-[13.5px] whitespace-nowrap">${RESTROOM_SHORT[p.restroom]}</td>` : ''}
-          <td class="px-3 py-2.5 text-right">${scorePill(p)}</td>
-        </tr>`).join('\n        ')}
-      </tbody>
-    </table>
-  </div>`;
-  }
+  const AREA_ORDER = AREAS.map(a => a.key);
+  const list = fn => parks.filter(fn).sort(byScore);
 
   /* =====================================================================
    * 1. /splash-pads/
@@ -262,8 +99,8 @@ ${footer}
     </ul>
   </section>`;
 
-    writeGuide({
-      slug: 'splash-pads',
+    writePage({
+      pathname: '/splash-pads/',
       title: 'Boise Splash Pads, Fountains and Misters — Locations and Hours | Boise Parks',
       metaDesc: `All ${water.length} splash pads, fountains and misting stations in Boise parks, plus ${pools.length} outdoor pools. Hours, restroom status, shade and playgrounds for each. Free, Memorial Day through Labor Day.`,
       h1: 'Boise splash pads and fountains',
@@ -283,7 +120,7 @@ ${footer}
       ],
       body,
     });
-    return 'splash-pads';
+    return '/splash-pads/';
   }
 
   /* =====================================================================
@@ -337,8 +174,8 @@ ${footer}
     <p class="mt-4 text-[14.5px] leading-relaxed text-ink/85">${none.map(p => `<a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/parks/${p.slug}/">${esc(p.name)}</a>`).join(' · ')}</p>
   </section>`;
 
-    writeGuide({
-      slug: 'restrooms',
+    writePage({
+      pathname: '/restrooms/',
       title: 'Boise Park Restrooms — Which Are Open in Winter | Boise Parks',
       metaDesc: `Restroom status for all 94 Boise parks: ${yearRound.length} heated and open year-round, ${portable.length} with a portable toilet in winter, ${seasonal.length} seasonal only, ${none.length} with none. Grouped by area.`,
       h1: 'Boise parks with restrooms open in winter',
@@ -358,7 +195,7 @@ ${footer}
       ],
       body,
     });
-    return 'restrooms';
+    return '/restrooms/';
   }
 
   /* =====================================================================
@@ -462,8 +299,8 @@ ${footer}
     ${parkTable(pgs, { rank: true })}
   </section>`;
 
-    writeGuide({
-      slug: 'best-playgrounds',
+    writePage({
+      pathname: '/best-playgrounds/',
       title: 'Boise Playgrounds Ranked — All 57, Scored for Parents | Boise Parks',
       metaDesc: `All 57 Boise parks with playground equipment, ranked by equipment and age range, tree cover, restrooms and open grass. Includes shortlists for toddlers, shade and year-round restrooms.`,
       h1: 'Boise playgrounds, ranked',
@@ -483,8 +320,207 @@ ${footer}
       ],
       body,
     });
-    return 'best-playgrounds';
+    return '/best-playgrounds/';
   }
 
-  return [splashPads(), restrooms(), bestPlaygrounds()];
+  /* =====================================================================
+   * 4. Single-list amenity guides
+   * Same shape each time — a filtered, ranked table with an intro and an FAQ —
+   * so they share one builder rather than three near-identical copies.
+   * ===================================================================== */
+  function simpleGuide({ pathname, filter, chips, title, metaDesc, h1, lede, notes, faq, extraCol }) {
+    const matches = list(filter);
+    const body = `
+  <div class="mt-6 flex flex-wrap gap-2 text-[13px] font-semibold">
+    ${chips(matches).map(c => `<span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${c}</span>`).join('\n    ')}
+  </div>
+
+  <section class="mt-10">
+    ${parkTable(matches, { extraCol })}
+  </section>
+${notes ? `
+  <section class="mt-12">
+    <h2 class="font-display text-2xl font-bold text-meadow-deep">Practical notes</h2>
+    <ul class="mt-4 space-y-2.5 rounded-2xl border border-sun/40 bg-sun-light px-5 py-4 text-[14.5px] leading-relaxed">
+      ${notes.map(n => `<li class="flex gap-2.5"><span class="text-sun">·</span> <span>${n}</span></li>`).join('\n      ')}
+    </ul>
+  </section>` : ''}`;
+    writePage({ pathname, title, metaDesc, h1, lede, body, faq, itemList: matches });
+    return pathname;
+  }
+
+  const dogParks = () => simpleGuide({
+    pathname: '/dog-parks/',
+    filter: p => p.dogPark,
+    chips: m => [`🐕 ${m.length} off-leash areas`, '🆓 Free to use'],
+    title: 'Boise Dog Parks — Every Off-Leash Area in a City Park | Boise Parks',
+    metaDesc: 'Every Boise city park with a designated off-leash dog area, with location, restroom status and shade for each. Built from City of Boise park amenity data.',
+    h1: 'Boise parks with off-leash dog areas',
+    lede: `${parks.filter(p => p.dogPark).length} City of Boise parks have a designated off-leash area for dogs. They are listed below with the area of town, shade rating and restroom status. Dogs are expected to be leashed in the rest of the park system.`,
+    notes: [
+      'These are designated off-leash areas inside city parks, not separate fenced dog parks in every case. Fencing is not recorded in the city data, so check the park before letting a dog off leash.',
+      'Shade ratings are for the whole park, not specifically the off-leash area.',
+      'Rules, hours and any closures are on the <a class="underline hover:text-meadow-deep" href="https://www.cityofboise.org/departments/parks-and-recreation/" rel="noopener">Boise Parks and Recreation</a> site.',
+    ],
+    faq: [
+      ['How many Boise parks have off-leash dog areas?',
+       `${parks.filter(p => p.dogPark).length} City of Boise parks have a designated off-leash area. The full list, with the area of town for each, is above.`],
+      ['Are Boise dog parks fenced?',
+       'The city\'s open data does not record fencing for off-leash areas, so this site does not state it either way. Check the specific park before relying on it.'],
+      ['Do Boise dog parks cost anything?',
+       'No. Off-leash areas in city parks are free and open to the public.'],
+      ['Can dogs go off leash in other Boise parks?',
+       'No. Off-leash use is limited to the designated areas listed above; dogs are expected to be leashed elsewhere in the park system. Some parks, such as Esther Simplot Park, do not allow pets at all.'],
+    ],
+  });
+
+  const fishing = () => simpleGuide({
+    pathname: '/fishing/',
+    filter: p => p.fishing,
+    chips: m => [`🎣 ${m.length} parks with fishing`],
+    title: 'Fishing in Boise City Parks — Every Pond and Access Point | Boise Parks',
+    metaDesc: 'Every Boise city park with fishing access, including ponds and river access, with restroom status, shade and parking for each. From City of Boise park data.',
+    h1: 'Boise parks with fishing',
+    lede: `${parks.filter(p => p.fishing).length} City of Boise parks have fishing access — a stocked pond, a lake, or river frontage. Restroom status and shade matter more than usual for a fishing trip with kids, so both are listed for each.`,
+    notes: [
+      'An Idaho fishing licence is required for anglers 14 and older. Licences, seasons and limits are handled by <a class="underline hover:text-meadow-deep" href="https://idfg.idaho.gov/" rel="noopener">Idaho Fish and Game</a>, not the city.',
+      'Some of these ponds are part of the Fish and Game community pond stocking programme; stocking schedules are published by Idaho Fish and Game.',
+    ],
+    faq: [
+      ['Which Boise parks have fishing ponds?',
+       `${parks.filter(p => p.fishing).length} city parks have fishing access, listed above with the area of town, restroom status and shade for each.`],
+      ['Do you need a fishing licence in Boise city parks?',
+       'Yes. Idaho requires a fishing licence for anglers aged 14 and older, including in city park ponds. Licences are issued by Idaho Fish and Game.'],
+      ['Are Boise park ponds stocked?',
+       'Several are stocked through Idaho Fish and Game\'s community pond programme. Stocking schedules and species are published by Idaho Fish and Game rather than the city.'],
+    ],
+  });
+
+  const greenbelt = () => simpleGuide({
+    pathname: '/greenbelt-parks/',
+    filter: p => p.greenbelt,
+    chips: m => [`🚲 ${m.length} parks on the Greenbelt`],
+    title: 'Boise Greenbelt Parks — Every Park on the Path | Boise Parks',
+    metaDesc: 'Every Boise city park with direct Boise River Greenbelt access, with parking, restroom status and shade — useful for planning a ride or walk with kids.',
+    h1: 'Boise parks on the Greenbelt',
+    lede: `${parks.filter(p => p.greenbelt).length} City of Boise parks connect directly to the Boise River Greenbelt. These are the practical stopping points on a ride or walk: the table shows which have restrooms, how much shade to expect and what the parking is like.`,
+    notes: [
+      'Parking type for each park is listed on its own page — several Greenbelt parks have dedicated lots that work as trailheads.',
+      'Restroom status is the thing to check before a long ride with kids. Only some of these stay open through the winter.',
+    ],
+    faq: [
+      ['Which Boise parks are on the Greenbelt?',
+       `${parks.filter(p => p.greenbelt).length} city parks have direct Boise River Greenbelt access. They are listed above with restroom status and shade.`],
+      ['Where can you park to get on the Boise Greenbelt?',
+       'Several Greenbelt parks have dedicated parking lots that work as trailheads. Each park page lists its parking type — dedicated lot, on-street, or downtown metered.'],
+      ['Which Greenbelt parks have restrooms open in winter?',
+       'Restroom status is shown for each park above. Parks marked year-round have heated buildings that stay open through the winter; the full citywide list is in the park restrooms guide.'],
+    ],
+  });
+
+  /* =====================================================================
+   * 5. /picnic-shelters/
+   * ===================================================================== */
+  function picnicShelters() {
+    const reservable = list(p => p.reservable);
+    const firstCome = list(p => p.shelter && !p.reservable);
+    const body = `
+  <div class="mt-6 flex flex-wrap gap-2 text-[13px] font-semibold">
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">📅 ${reservable.length} reservable</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🪑 ${firstCome.length} first-come</span>
+  </div>
+
+  <section id="reservable" class="mt-12">
+    <h2 class="font-display text-2xl font-bold text-meadow-deep">Reservable shelters (${reservable.length} parks)</h2>
+    <p class="mt-1.5 max-w-2xl text-[14.5px] leading-relaxed text-ink/75">These take bookings through Boise Parks and Recreation. Summer weekends at the larger parks book out well in advance.</p>
+    ${parkTable(reservable)}
+  </section>
+
+  <section id="first-come" class="mt-12">
+    <h2 class="font-display text-2xl font-bold text-meadow-deep">First-come shelters (${firstCome.length} parks)</h2>
+    <p class="mt-1.5 max-w-2xl text-[14.5px] leading-relaxed text-ink/75">Covered picnic areas that are not reservable. Free to use, but nothing is held for you.</p>
+    ${parkTable(firstCome)}
+  </section>`;
+    writePage({
+      pathname: '/picnic-shelters/',
+      title: 'Boise Park Picnic Shelters — Reservable and First-Come | Boise Parks',
+      metaDesc: `Boise city parks with picnic shelters: ${reservable.length} reservable through Boise Parks and Recreation and ${firstCome.length} first-come, with restroom status and shade for each.`,
+      h1: 'Boise parks with picnic shelters',
+      lede: `Boise park shelters fall into two groups: ${reservable.length} parks take reservations through the city, and ${firstCome.length} more have covered picnic areas on a first-come basis. For a birthday party or a group, the reservable list is the one that matters — and restroom status is worth checking before you commit.`,
+      itemList: reservable,
+      faq: [
+        ['Which Boise parks have reservable picnic shelters?',
+         `${reservable.length} city parks take shelter reservations through Boise Parks and Recreation. They are listed above with restroom status and shade.`],
+        ['How do you reserve a picnic shelter in Boise?',
+         'Reservations are handled by Boise Parks and Recreation, not by this site. Their park pages carry the current booking process, fees and availability.'],
+        ['Are Boise picnic shelters free?',
+         `The ${firstCome.length} first-come shelters listed above are free to use. Reserved shelters are booked through the city and their fees are set by Boise Parks and Recreation.`],
+        ['Which park is best for a kids\' birthday party?',
+         'Look for a reservable shelter alongside a playground, a restroom and shade. The table above shows restroom status and shade for every reservable park, and the Parent Score reflects the playground.'],
+      ],
+      body,
+    });
+    return '/picnic-shelters/';
+  }
+
+  /* =====================================================================
+   * 6. /sport-courts/
+   * ===================================================================== */
+  function sportCourts() {
+    const SPORTS = [
+      ['tennis', '🎾', 'Tennis courts'],
+      ['basketball', '🏀', 'Basketball courts'],
+      ['pickleball', '🥒', 'Pickleball courts'],
+      ['volleyball', '🏐', 'Volleyball courts'],
+      ['horseshoes', '🧲', 'Horseshoe pits'],
+      ['bocce', '🎯', 'Bocce courts'],
+    ].map(([key, icon, heading]) => ({ key, icon, heading, list: list(p => p.courts.includes(key)) }))
+      .filter(s => s.list.length);
+
+    const withFields = list(p => p.fields.length);
+    const cap1 = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+    const body = `
+  <div class="mt-6 flex flex-wrap gap-2 text-[13px] font-semibold">
+    ${SPORTS.map(s => `<a href="#${s.key}" class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card hover:bg-meadow-light">${s.icon} ${s.list.length} ${esc(s.heading.toLowerCase())}</a>`).join('\n    ')}
+  </div>
+
+  ${SPORTS.map(s => `
+  <section id="${s.key}" class="mt-12">
+    <h2 class="font-display text-2xl font-bold text-meadow-deep"><span aria-hidden="true">${s.icon}</span> ${esc(s.heading)} (${s.list.length} parks)</h2>
+    ${parkTable(s.list, { showShade: false })}
+  </section>`).join('\n')}
+
+  <section id="fields" class="mt-12">
+    <h2 class="font-display text-2xl font-bold text-meadow-deep"><span aria-hidden="true">⚽</span> Sports fields (${withFields.length} parks)</h2>
+    <p class="mt-1.5 max-w-2xl text-[14.5px] leading-relaxed text-ink/75">Grass fields for softball, baseball, soccer and multi-use play. Many are booked by leagues in season.</p>
+    ${parkTable(withFields, { showShade: false, extraCol: { heading: 'Fields', value: p => p.fields.map(cap1).join(', ') } })}
+  </section>`;
+
+    writePage({
+      pathname: '/sport-courts/',
+      title: 'Boise Park Sport Courts — Tennis, Pickleball, Basketball | Boise Parks',
+      metaDesc: `Every sport court in a Boise city park by type: ${SPORTS.map(s => `${s.list.length} ${s.heading.toLowerCase()}`).join(', ')}. Plus ${withFields.length} parks with sports fields.`,
+      h1: 'Sport courts in Boise parks',
+      lede: `Courts in City of Boise parks, listed by sport. ${SPORTS.map(s => `${s.list.length} parks have ${s.heading.toLowerCase()}`).join(', ')}. Courts are free and first-come unless a league or the city has them booked.`,
+      itemList: SPORTS[0] ? SPORTS[0].list : [],
+      faq: [
+        ['Which Boise parks have pickleball courts?',
+         (() => { const s = SPORTS.find(x => x.key === 'pickleball'); return s ? `${s.list.length} city parks have pickleball courts: ${s.list.map(p => p.name).join(', ')}.` : 'No pickleball courts are recorded in the city park data.'; })()],
+        ['Which Boise parks have tennis courts?',
+         (() => { const s = SPORTS.find(x => x.key === 'tennis'); return s ? `${s.list.length} city parks have tennis courts. The full list, with the area of town for each, is above.` : 'No tennis courts are recorded in the city park data.'; })()],
+        ['Are Boise park courts free to use?',
+         'Yes. Courts in city parks are free and generally first-come, first-served. Some are reserved for league play or city programming at certain times.'],
+        ['Can you reserve a court in a Boise park?',
+         'Court reservations and league bookings are handled by Boise Parks and Recreation. This site lists which parks have courts, not their booking calendars.'],
+      ],
+      body,
+    });
+    return '/sport-courts/';
+  }
+
+  return [
+    splashPads(), restrooms(), bestPlaygrounds(),
+    dogParks(), picnicShelters(), sportCourts(), fishing(), greenbelt(),
+  ];
 };

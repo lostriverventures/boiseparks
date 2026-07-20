@@ -11,6 +11,8 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const buildGuides = require('./guides');
+const buildAreas = require('./areas');
+const { areaFor } = require('./page-kit');
 
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://boiseparks.com';
@@ -256,6 +258,14 @@ const header = `
   </div>
 </header>`;
 
+// Sitewide footer links. Kept to the guides most people want plus the area
+// hubs — every generated page also carries the full cross-link block.
+const { GUIDE_LINKS, AREAS } = require('./page-kit');
+const FOOTER_LINKS = [
+  ...GUIDE_LINKS,
+  ...AREAS.map(a => [`/areas/${a.slug}/`, a.label]),
+];
+
 const footer = `
 <footer class="mt-16 border-t border-meadow/15 bg-meadow-deep py-10 text-sm text-white/80">
   <div class="mx-auto max-w-6xl px-4">
@@ -264,9 +274,7 @@ const footer = `
         <p class="font-display text-base font-bold text-white">boiseparks.com</p>
         <p class="mt-2">The parent's guide to every park in Boise — playgrounds, splash pads, restrooms, shade and more, built from official City of Boise data.</p>
         <ul class="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 font-medium text-white">
-          <li><a class="underline decoration-white/40 underline-offset-2 hover:decoration-white" href="/best-playgrounds/">Best playgrounds</a></li>
-          <li><a class="underline decoration-white/40 underline-offset-2 hover:decoration-white" href="/splash-pads/">Splash pads</a></li>
-          <li><a class="underline decoration-white/40 underline-offset-2 hover:decoration-white" href="/restrooms/">Park restrooms</a></li>
+          ${FOOTER_LINKS.map(([href, label]) => `<li><a class="underline decoration-white/40 underline-offset-2 hover:decoration-white" href="${href}">${label}</a></li>`).join('\n          ')}
         </ul>
       </div>
       <div class="text-white/70">
@@ -311,12 +319,16 @@ for (const p of parks) {
     isAccessibleForFree: true,
     ...(p.photo ? { image: SITE + p.photo.file } : {}),
   };
+  // Three-level breadcrumb (site → area → park) so the area pages sit in the
+  // hierarchy as a real hub rather than a floating list.
+  const area = areaFor(p.area);
   const breadcrumb = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     '@id': url + '#breadcrumb',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Boise Parks', item: SITE + '/' },
-      { '@type': 'ListItem', position: 2, name: p.name, item: url },
+      ...(area ? [{ '@type': 'ListItem', position: 2, name: `Parks in ${area.label}`, item: `${SITE}/areas/${area.slug}/` }] : []),
+      { '@type': 'ListItem', position: area ? 3 : 2, name: p.name, item: url },
     ],
   };
   const faqs = parkFaq(p);
@@ -376,7 +388,7 @@ for (const p of parks) {
 <body class="bg-cream font-sans text-ink">
 ${header}
 <main class="mx-auto max-w-4xl px-4 pb-8 pt-8">
-  <nav class="text-[13px] text-bark" aria-label="Breadcrumb"><a href="/" class="hover:text-meadow-deep">Boise Parks</a> <span class="mx-1 text-bark/50">/</span> <span class="font-medium text-meadow-deep">${esc(p.name)}</span></nav>
+  <nav class="text-[13px] text-bark" aria-label="Breadcrumb"><a href="/" class="hover:text-meadow-deep">Boise Parks</a> <span class="mx-1 text-bark/50">/</span> ${area ? `<a href="/areas/${area.slug}/" class="hover:text-meadow-deep">${esc(area.label)}</a> <span class="mx-1 text-bark/50">/</span> ` : ''}<span class="font-medium text-meadow-deep">${esc(p.name)}</span></nav>
   <h1 class="mt-3 font-display text-3xl font-bold text-meadow-deep sm:text-4xl">${esc(p.name)}</h1>
   <p class="mt-1.5 text-[15px] text-bark"><a href="${mapsUrl(p)}" rel="noopener" class="underline decoration-meadow/40 underline-offset-2 hover:text-meadow-deep">${esc(p.address)}, Boise, ID ${esc(p.zip)}</a> · ${p.acres} acres · ${esc(p.area)}</p>
 
@@ -439,7 +451,7 @@ ${header}
 
   <section class="mt-12">
     <h2 class="font-display text-2xl font-bold text-meadow-deep">Parks near ${esc(p.name)}</h2>
-    <p class="mt-1.5 text-[14.5px] text-ink/75">The closest other parks, by straight-line distance.</p>
+    <p class="mt-1.5 text-[14.5px] text-ink/75">The closest other parks, by straight-line distance.${area ? ` See all <a class="underline decoration-meadow/40 underline-offset-2 hover:text-meadow-deep" href="/areas/${area.slug}/">parks in ${esc(area.label)}</a>.` : ''}</p>
     <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       ${nearbyParks(p).map(({ p: n, mi }) => `<a href="/parks/${n.slug}/" class="card-lift rounded-2xl border border-meadow/15 bg-white p-4 shadow-card">
         <span class="flex items-start justify-between gap-2">
@@ -471,11 +483,14 @@ ${footer}
 }
 
 // ---------- guide pages (/splash-pads/, /restrooms/, /best-playgrounds/) ----------
-const guideSlugs = buildGuides({
+const pageCtx = {
   ROOT, SITE, parks, esc, cap, header, footer, gaSnippet,
   RESTROOM_LABEL, SHADE_LABEL, scoreClasses, fmtScore,
   ORG, webPageSchema,
-});
+};
+const guidePaths = buildGuides(pageCtx);
+const areaPaths = buildAreas(pageCtx);
+const generatedPaths = [...guidePaths, ...areaPaths];
 
 // ---------- static park list for the homepage ----------
 // Mirrors what render() draws client-side, minus the photos and interactive
@@ -509,6 +524,10 @@ let idxHtml = fs.readFileSync(idxPath, 'utf8')
   .replace(/js\/parks-data\.js\?v=[a-z0-9]+/, `js/parks-data.js?v=${stamp}`)
   .replace(/<!-- ga:start -->[\s\S]*?<!-- ga:end -->/, `<!-- ga:start -->\n  ${gaSnippet}\n  <!-- ga:end -->`)
   .replace(/<!-- parks:start -->[\s\S]*?<!-- parks:end -->/, `<!-- parks:start -->\n        ${staticCards}\n        <!-- parks:end -->`)
+  .replace(/<!-- footer-links:start -->[\s\S]*?<!-- footer-links:end -->/,
+    '<!-- footer-links:start -->\n        <ul class="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 font-medium text-white">\n          '
+    + FOOTER_LINKS.map(([href, label]) => `<li><a class="underline decoration-white/40 underline-offset-2 hover:decoration-white" href="${href}">${esc(label)}</a></li>`).join('\n          ')
+    + '\n        </ul>\n        <!-- footer-links:end -->')
   .replace(/<!-- webpage:start -->[\s\S]*?<!-- webpage:end -->/,
     '<!-- webpage:start -->\n  <script type="application/ld+json">'
     + JSON.stringify(webPageSchema({
@@ -536,7 +555,7 @@ const prevHashes = fs.existsSync(HASH_FILE) ? JSON.parse(fs.readFileSync(HASH_FI
 
 const pageFiles = [
   ['/', 'index.html'],
-  ...guideSlugs.map(s => [`/${s}/`, `${s}/index.html`]),
+  ...generatedPaths.map(pn => [pn, pn.replace(/^\/|\/$/g, '') + '/index.html']),
   ...parks.map(p => [`/parks/${p.slug}/`, `parks/${p.slug}/index.html`]),
 ];
 
@@ -584,6 +603,12 @@ const counts = {
   yearRound: parks.filter(p => p.restroom === 'year-round').length,
   portable: parks.filter(p => p.restroom === 'seasonal+portable').length,
   leafy: parks.filter(p => p.shade === 'leafy').length,
+  dog: parks.filter(p => p.dogPark).length,
+  reservable: parks.filter(p => p.reservable).length,
+  firstCome: parks.filter(p => p.shelter && !p.reservable).length,
+  fishing: parks.filter(p => p.fishing).length,
+  greenbelt: parks.filter(p => p.greenbelt).length,
+  fields: parks.filter(p => p.fields.length).length,
 };
 const llms = `# boiseparks.com
 
@@ -605,6 +630,21 @@ Data last refreshed from city sources: July 2026. Most recent page update: ${Obj
 - [Splash pads and fountains](${SITE}/splash-pads/): All ${counts.water} water features grouped by type (ground-jet splash pads, interactive fountains, misting stations) plus the ${counts.pools} outdoor pools, with hours, restroom status and shade for each.
 - [Park restrooms open in winter](${SITE}/restrooms/): Which of the ${parks.length} parks have restrooms available in the cold months — ${counts.yearRound} heated year-round, ${counts.portable} with a winter portable toilet — grouped by area.
 - [Playgrounds ranked](${SITE}/best-playgrounds/): All ${counts.playgrounds} playgrounds scored on equipment and age range, tree cover, open grass and restrooms, with shortlists for toddler equipment, shade and year-round restrooms.
+- [Dog off-leash areas](${SITE}/dog-parks/): The ${counts.dog} city parks with a designated off-leash area for dogs.
+- [Picnic shelters](${SITE}/picnic-shelters/): ${counts.reservable} parks with shelters reservable through Boise Parks and Recreation, plus ${counts.firstCome} more with first-come covered picnic areas.
+- [Sport courts](${SITE}/sport-courts/): Tennis, basketball, pickleball, volleyball, horseshoe and bocce courts by sport, plus the ${counts.fields} parks with sports fields.
+- [Fishing](${SITE}/fishing/): The ${counts.fishing} city parks with fishing access — ponds, lakes and river frontage.
+- [Greenbelt access](${SITE}/greenbelt-parks/): The ${counts.greenbelt} parks connecting directly to the Boise River Greenbelt.
+
+## Parks by area
+
+${AREAS.map(a => {
+  const n = parks.filter(p => p.area === a.key);
+  const pg = n.filter(p => p.playground).length;
+  const yr = n.filter(p => p.restroom === 'year-round').length;
+  const q = (c, s, pl = s + 's') => `${c} ${c === 1 ? s : pl}`;
+  return `- [Parks in ${a.label}](${SITE}/areas/${a.slug}/): All ${q(n.length, 'City of Boise park')} in ${a.label}, ranked, with ${q(pg, 'playground')} and ${q(yr, 'year-round restroom')}.`;
+}).join('\n')}
 
 ## Reference
 
@@ -626,5 +666,5 @@ ${[...parks].sort((a, b) => a.name.localeCompare(b.name)).map(p => {
 `;
 fs.writeFileSync(path.join(ROOT, 'llms.txt'), llms);
 
-console.log(`✓ ${parks.length} park pages, ${guideSlugs.length} guides (${guideSlugs.join(', ')}), js/parks-data.js, llms.txt`);
+console.log(`✓ ${parks.length} park pages, ${guidePaths.length} guides, ${areaPaths.length} area pages, js/parks-data.js, llms.txt`);
 console.log(`✓ sitemap.xml — ${changed} of ${pageFiles.length} pages changed content, rest kept their previous lastmod`);
