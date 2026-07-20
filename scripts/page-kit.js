@@ -85,13 +85,13 @@ module.exports = function createKit(ctx) {
 
   // Compact link rows rather than cards: with 13 generated pages, a card grid at
   // the foot of every one would outweigh the content above it.
-  function crossLinks(currentPath) {
+  function crossLinks(currentPath, { id } = {}) {
     const row = items => items
       .filter(([href]) => href !== currentPath)
       .map(([href, label]) => `<a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="${href}">${esc(label)}</a>`)
       .join(' <span class="text-bark/40">·</span> ');
     return `
-  <section class="mt-14 rounded-2xl border border-meadow/15 bg-white px-5 py-5 shadow-card">
+  <section${id ? ` id="${id}"` : ''} class="mt-14 rounded-2xl border border-meadow/15 bg-white px-5 py-5 shadow-card">
     <h2 class="font-display text-lg font-bold text-meadow-deep">Other guides</h2>
     <p class="mt-2 text-[14px] leading-relaxed text-ink/85">${row(GUIDE_LINKS)}</p>
     <h2 class="mt-5 font-display text-lg font-bold text-meadow-deep">Parks by area</h2>

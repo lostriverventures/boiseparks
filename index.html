@@ -62,7 +62,7 @@
       <a href="#now" class="font-semibold text-meadow-deep hover:text-meadow">Right now</a>
       <a href="#picks" class="hidden xs:inline hover:text-meadow-deep">Picks</a>
       <a href="#map" class="hover:text-meadow-deep">Map</a>
-      <a href="#faq" class="hidden xs:inline hover:text-meadow-deep">FAQ</a>
+      <a href="#guides" class="hover:text-meadow-deep">Guides</a>
       <a href="#parks" class="whitespace-nowrap rounded-full bg-meadow px-3 py-1.5 text-white hover:bg-meadow-dark sm:px-3.5">All parks</a>
     </nav>
   </div>
@@ -163,6 +163,22 @@
     </div>
   </div>
 </section>
+
+<!-- Index of every generated guide and area page. Filled by scripts/gen.js with
+     the same cross-link block that sits at the foot of each of those pages, so
+     the homepage can't drift out of sync when a new one is added. Link rows
+     rather than cards, deliberately: a card grid here would read as a second
+     "parent favorites" and send people to a page when they wanted a filter.
+     Sits here rather than above the footer, which repeats the same links. -->
+<div class="mx-auto max-w-7xl px-4"><!-- guides:start -->
+  <section id="guides" class="mt-14 rounded-2xl border border-meadow/15 bg-white px-5 py-5 shadow-card">
+    <h2 class="font-display text-lg font-bold text-meadow-deep">Other guides</h2>
+    <p class="mt-2 text-[14px] leading-relaxed text-ink/85"><a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/best-playgrounds/">Playgrounds ranked</a> <span class="text-bark/40">·</span> <a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/splash-pads/">Splash pads &amp; fountains</a> <span class="text-bark/40">·</span> <a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/restrooms/">Park restrooms</a> <span class="text-bark/40">·</span> <a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/dog-parks/">Dog off-leash areas</a> <span class="text-bark/40">·</span> <a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/picnic-shelters/">Picnic shelters</a> <span class="text-bark/40">·</span> <a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/sport-courts/">Sport courts</a> <span class="text-bark/40">·</span> <a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/fishing/">Fishing spots</a> <span class="text-bark/40">·</span> <a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/greenbelt-parks/">Greenbelt access</a></p>
+    <h2 class="mt-5 font-display text-lg font-bold text-meadow-deep">Parks by area</h2>
+    <p class="mt-2 text-[14px] leading-relaxed text-ink/85"><a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/areas/north-boise/">North &amp; NW Boise</a> <span class="text-bark/40">·</span> <a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/areas/downtown-boise/">Downtown Boise</a> <span class="text-bark/40">·</span> <a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/areas/central-bench/">Central Bench</a> <span class="text-bark/40">·</span> <a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/areas/west-boise/">West Boise</a> <span class="text-bark/40">·</span> <a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="/areas/southeast-boise/">Southeast Boise</a></p>
+    <p class="mt-5 text-[14px]"><a class="font-semibold text-meadow-deep underline decoration-meadow/30 underline-offset-2 hover:text-meadow" href="/#map">All 94 parks on the map →</a></p>
+  </section>
+  <!-- guides:end --></div>
 
 <!-- Filter bar -->
 <div id="filterbar" class="sticky top-[57px] z-30 mt-6 border-y border-meadow/15 bg-cream/95 backdrop-blur">
@@ -380,6 +396,7 @@
   </script>
 </section>
 
+
 <footer class="border-t border-meadow/15 bg-meadow-deep py-10 text-sm text-white/80">
   <div class="mx-auto max-w-7xl px-4">
     <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
@@ -420,7 +437,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mrtjmccd"></script>
+<script src="/js/parks-data.js?v=mrtk68fq"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;

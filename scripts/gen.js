@@ -12,6 +12,7 @@ const path = require('path');
 const crypto = require('crypto');
 const buildGuides = require('./guides');
 const buildAreas = require('./areas');
+const createKit = require('./page-kit');
 const { areaFor } = require('./page-kit');
 
 const ROOT = path.join(__dirname, '..');
@@ -524,6 +525,8 @@ let idxHtml = fs.readFileSync(idxPath, 'utf8')
   .replace(/js\/parks-data\.js\?v=[a-z0-9]+/, `js/parks-data.js?v=${stamp}`)
   .replace(/<!-- ga:start -->[\s\S]*?<!-- ga:end -->/, `<!-- ga:start -->\n  ${gaSnippet}\n  <!-- ga:end -->`)
   .replace(/<!-- parks:start -->[\s\S]*?<!-- parks:end -->/, `<!-- parks:start -->\n        ${staticCards}\n        <!-- parks:end -->`)
+  .replace(/<!-- guides:start -->[\s\S]*?<!-- guides:end -->/,
+    '<!-- guides:start -->' + createKit(pageCtx).crossLinks('/', { id: 'guides' }) + '\n  <!-- guides:end -->')
   .replace(/<!-- footer-links:start -->[\s\S]*?<!-- footer-links:end -->/,
     '<!-- footer-links:start -->\n        <ul class="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 font-medium text-white">\n          '
     + FOOTER_LINKS.map(([href, label]) => `<li><a class="underline decoration-white/40 underline-offset-2 hover:decoration-white" href="${href}">${esc(label)}</a></li>`).join('\n          ')
