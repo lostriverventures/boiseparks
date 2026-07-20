@@ -9,11 +9,17 @@
  */
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const buildGuides = require('./guides');
 
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://boiseparks.com';
 const BUILD_DATE = new Date().toISOString().slice(0, 10);
+// Placeholder for each page's real last-modified date. Pages are generated with
+// the token in place, hashed, and only then is the token resolved (see
+// "honest lastmod" below) — so a page whose content didn't change keeps its old
+// date instead of claiming it changed on every deploy.
+const DATE_TOKEN = '@@DATEMOD@@';
 
 // Publisher identity, emitted on every page. Answer engines and search engines
 // both weigh "who says this and where did it come from" — naming the publisher
@@ -34,7 +40,7 @@ const webPageSchema = ({ url, name, description, breadcrumbId }) => ({
   inLanguage: 'en-US',
   isPartOf: { '@type': 'WebSite', '@id': SITE + '/#website', name: 'Boise Parks', url: SITE },
   publisher: { '@id': SITE + '/#org' },
-  dateModified: BUILD_DATE,
+  dateModified: DATE_TOKEN,
   license: 'https://opendata.cityofboise.org/',
   ...(breadcrumbId ? { breadcrumb: { '@id': breadcrumbId } } : {}),
 });
@@ -135,6 +141,35 @@ const PARKING_LABEL = { lot: 'Dedicated parking lot', street: 'On-street parking
 const parkingText = p => p.parking ? (p.parking.note || PARKING_LABEL[p.parking.type]) : null;
 const scoreClasses = s => s >= 8 ? 'bg-meadow text-white' : s >= 6 ? 'bg-meadow-light text-meadow-deep' : s >= 4 ? 'bg-sun-light text-sun' : 'bg-stone-100 text-bark';
 const fmtScore = s => (s % 1 === 0 ? s.toFixed(0) : s.toFixed(1));
+
+// ---------- nearby parks ----------
+// Park pages used to link only to the homepage and the guides, which made all
+// 94 of them dead ends: no park linked to any other park. This gives every page
+// lateral links to its actual neighbours, which is both the obvious next
+// question for a reader ("what else is near here?") and the geographic
+// relationship an answer engine needs to handle "parks near the North End".
+const EARTH_MI = 3958.8;
+const toRad = d => d * Math.PI / 180;
+function distanceMi(a, b) {
+  const dLat = toRad(b.lat - a.lat);
+  const dLon = toRad(b.lon - a.lon);
+  const h = Math.sin(dLat / 2) ** 2
+    + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLon / 2) ** 2;
+  return 2 * EARTH_MI * Math.asin(Math.sqrt(h));
+}
+const nearbyParks = (p, n = 6) => parks
+  .filter(o => o.slug !== p.slug)
+  .map(o => ({ p: o, mi: distanceMi(p, o) }))
+  .sort((a, b) => a.mi - b.mi)
+  .slice(0, n);
+
+const RESTROOM_SHORT = {
+  'year-round': 'Year-round restroom',
+  'seasonal+portable': 'Seasonal restroom',
+  'seasonal': 'Seasonal restroom',
+  'none': 'No restroom',
+};
+const SHADE_SHORT = { 'leafy': 'Leafy', 'some': 'Some shade', 'full-sun': 'Full sun' };
 
 // Google Maps place link (shows the park's location, not directions).
 function mapsUrl(p) {
@@ -401,6 +436,21 @@ ${header}
       </div>
     </aside>
   </div>
+
+  <section class="mt-12">
+    <h2 class="font-display text-2xl font-bold text-meadow-deep">Parks near ${esc(p.name)}</h2>
+    <p class="mt-1.5 text-[14.5px] text-ink/75">The closest other parks, by straight-line distance.</p>
+    <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      ${nearbyParks(p).map(({ p: n, mi }) => `<a href="/parks/${n.slug}/" class="card-lift rounded-2xl border border-meadow/15 bg-white p-4 shadow-card">
+        <span class="flex items-start justify-between gap-2">
+          <span class="font-display text-[16px] font-bold leading-snug text-meadow-deep">${esc(n.name)}</span>
+          <span class="shrink-0 rounded-lg px-1.5 py-0.5 text-[12px] font-bold ${scoreClasses(n.score)}">${fmtScore(n.score)}</span>
+        </span>
+        <span class="mt-0.5 block text-[12.5px] text-bark">${mi.toFixed(1)} mi · ${esc(n.area)}</span>
+        <span class="mt-1.5 block text-[13px] text-ink/80">${esc([n.playground ? 'Playground' : 'No playground', RESTROOM_SHORT[n.restroom], SHADE_SHORT[n.shade]].join(' · '))}</span>
+      </a>`).join('\n      ')}
+    </div>
+  </section>
 </main>
 ${footer}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -469,16 +519,55 @@ let idxHtml = fs.readFileSync(idxPath, 'utf8')
     + '</script>\n  <!-- webpage:end -->');
 fs.writeFileSync(idxPath, idxHtml);
 
-// ---------- sitemap ----------
-const today = new Date().toISOString().slice(0, 10);
-const urls = [
-  `${SITE}/`,
-  ...guideSlugs.map(s => `${SITE}/${s}/`),
-  ...parks.map(p => `${SITE}/parks/${p.slug}/`),
+// ---------- honest lastmod ----------
+// Every page used to be stamped with the build date, so a one-word fix in one
+// guide told Google that all 94 park pages had changed. Google only honours
+// lastmod when it's consistently accurate, so a sitemap that cries wolf on
+// every deploy is worse than no lastmod at all.
+//
+// Instead: hash each generated page (with volatile bits — the cache-bust query
+// and the date token itself — normalised out), compare against the hashes
+// committed in data/page-hashes.json, and only move the date when the content
+// genuinely changed. The build is deterministic apart from those two things, so
+// Netlify rebuilding from a clean clone reproduces the same hashes and leaves
+// the dates alone.
+const HASH_FILE = path.join(ROOT, 'data/page-hashes.json');
+const prevHashes = fs.existsSync(HASH_FILE) ? JSON.parse(fs.readFileSync(HASH_FILE, 'utf8')) : {};
+
+const pageFiles = [
+  ['/', 'index.html'],
+  ...guideSlugs.map(s => [`/${s}/`, `${s}/index.html`]),
+  ...parks.map(p => [`/parks/${p.slug}/`, `parks/${p.slug}/index.html`]),
 ];
+
+const normalise = html => html
+  .replace(/parks-data\.js\?v=[a-z0-9]+/g, 'parks-data.js')
+  .replace(new RegExp(DATE_TOKEN, 'g'), '');
+
+const nextHashes = {};
+const lastmod = {};
+for (const [urlPath, relFile] of pageFiles) {
+  const file = path.join(ROOT, relFile);
+  const html = fs.readFileSync(file, 'utf8');
+  const hash = crypto.createHash('sha256').update(normalise(html)).digest('hex').slice(0, 16);
+  const prev = prevHashes[urlPath];
+  const date = prev && prev.hash === hash ? prev.lastmod : BUILD_DATE;
+  nextHashes[urlPath] = { hash, lastmod: date };
+  lastmod[urlPath] = date;
+  fs.writeFileSync(file, html.split(DATE_TOKEN).join(date));
+}
+// Sorted keys so the committed file diffs cleanly.
+fs.writeFileSync(HASH_FILE, JSON.stringify(
+  Object.fromEntries(Object.keys(nextHashes).sort().map(k => [k, nextHashes[k]])), null, 2) + '\n');
+
+// Compare against the stored hash, not the resolved date — on a day when the
+// content did change, "date === today" is true for untouched pages too.
+const changed = pageFiles.filter(([u]) => !prevHashes[u] || prevHashes[u].hash !== nextHashes[u].hash).length;
+
+// ---------- sitemap ----------
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(u => `  <url><loc>${u}</loc><lastmod>${today}</lastmod></url>`).join('\n')}
+${pageFiles.map(([u]) => `  <url><loc>${SITE}${u}</loc><lastmod>${lastmod[u]}</lastmod></url>`).join('\n')}
 </urlset>
 `;
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap);
@@ -509,7 +598,7 @@ fountains or misters, ${counts.pools} contain city outdoor pools, ${counts.yearR
 year-round, ${counts.portable} keep a portable toilet once the building is winterized, and ${counts.leafy}
 are rated leafy for dense mature tree cover.
 
-Data last refreshed from city sources: July 2026. Page data regenerated: ${BUILD_DATE}.
+Data last refreshed from city sources: July 2026. Most recent page update: ${Object.values(lastmod).sort().pop()}.
 
 ## Guides
 
@@ -537,4 +626,5 @@ ${[...parks].sort((a, b) => a.name.localeCompare(b.name)).map(p => {
 `;
 fs.writeFileSync(path.join(ROOT, 'llms.txt'), llms);
 
-console.log(`✓ ${parks.length} park pages, ${guideSlugs.length} guides (${guideSlugs.join(', ')}), js/parks-data.js, sitemap.xml, llms.txt`);
+console.log(`✓ ${parks.length} park pages, ${guideSlugs.length} guides (${guideSlugs.join(', ')}), js/parks-data.js, llms.txt`);
+console.log(`✓ sitemap.xml — ${changed} of ${pageFiles.length} pages changed content, rest kept their previous lastmod`);
