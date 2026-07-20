@@ -3,11 +3,13 @@
  * Build-time generator for boiseparks.com. Produces:
  *   js/parks-data.js        — window.BOISE_PARKS bundle (parks.json merged with tips.json)
  *   parks/<slug>/index.html — static SEO page per park with schema.org Park JSON-LD
- *   sitemap.xml             — homepage + every park page, lastmod = today
+ *   <guide>/index.html      — topic guide pages (see scripts/guides.js)
+ *   sitemap.xml             — homepage + every park page + guides, lastmod = today
  * Data pipeline that creates data/parks.json lives in scripts/fetch-data.py.
  */
 const fs = require('fs');
 const path = require('path');
+const buildGuides = require('./guides');
 
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://boiseparks.com';
@@ -136,9 +138,9 @@ const header = `
       <span class="font-display text-lg font-bold text-meadow-deep">boise<span class="text-meadow">parks</span>.com</span>
     </a>
     <nav class="flex items-center gap-3 text-[13px] font-medium text-bark sm:gap-5 sm:text-sm">
-      <a href="/#picks" class="hover:text-meadow-deep">Picks</a>
+      <a href="/best-playgrounds/" class="hidden xs:inline hover:text-meadow-deep">Playgrounds</a>
+      <a href="/splash-pads/" class="hover:text-meadow-deep">Splash pads</a>
       <a href="/#map" class="hover:text-meadow-deep">Map</a>
-      <a href="/#faq" class="hover:text-meadow-deep">FAQ</a>
       <a href="/#parks" class="whitespace-nowrap rounded-full bg-meadow px-3 py-1.5 text-white hover:bg-meadow-dark sm:px-3.5">All parks</a>
     </nav>
   </div>
@@ -151,6 +153,11 @@ const footer = `
       <div class="max-w-md">
         <p class="font-display text-base font-bold text-white">boiseparks.com</p>
         <p class="mt-2">The parent's guide to every park in Boise — playgrounds, splash pads, restrooms, shade and more, built from official City of Boise data.</p>
+        <ul class="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 font-medium text-white">
+          <li><a class="underline decoration-white/40 underline-offset-2 hover:decoration-white" href="/best-playgrounds/">Best playgrounds</a></li>
+          <li><a class="underline decoration-white/40 underline-offset-2 hover:decoration-white" href="/splash-pads/">Splash pads</a></li>
+          <li><a class="underline decoration-white/40 underline-offset-2 hover:decoration-white" href="/restrooms/">Park restrooms</a></li>
+        </ul>
       </div>
       <div class="text-white/70">
         <p>Park data: <a class="underline hover:text-white" href="https://opendata.cityofboise.org/" rel="noopener">City of Boise Open Data</a> &amp; <a class="underline hover:text-white" href="https://www.cityofboise.org/departments/parks-and-recreation/" rel="noopener">Boise Parks and Recreation</a>.</p>
@@ -317,6 +324,12 @@ ${footer}
   fs.writeFileSync(path.join(dir, 'index.html'), html);
 }
 
+// ---------- guide pages (/splash-pads/, /restrooms/, /best-playgrounds/) ----------
+const guideSlugs = buildGuides({
+  ROOT, SITE, parks, esc, cap, header, footer, gaSnippet,
+  RESTROOM_LABEL, SHADE_LABEL, scoreClasses, fmtScore,
+});
+
 // ---------- cache-bust the data bundle + stamp analytics into index.html ----------
 const idxPath = path.join(ROOT, 'index.html');
 const stamp = Date.now().toString(36);
@@ -327,7 +340,11 @@ fs.writeFileSync(idxPath, idxHtml);
 
 // ---------- sitemap ----------
 const today = new Date().toISOString().slice(0, 10);
-const urls = [`${SITE}/`, ...parks.map(p => `${SITE}/parks/${p.slug}/`)];
+const urls = [
+  `${SITE}/`,
+  ...guideSlugs.map(s => `${SITE}/${s}/`),
+  ...parks.map(p => `${SITE}/parks/${p.slug}/`),
+];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(u => `  <url><loc>${u}</loc><lastmod>${today}</lastmod></url>`).join('\n')}
@@ -335,4 +352,4 @@ ${urls.map(u => `  <url><loc>${u}</loc><lastmod>${today}</lastmod></url>`).join(
 `;
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap);
 
-console.log(`✓ ${parks.length} park pages, js/parks-data.js, sitemap.xml`);
+console.log(`✓ ${parks.length} park pages, ${guideSlugs.length} guides (${guideSlugs.join(', ')}), js/parks-data.js, sitemap.xml`);
