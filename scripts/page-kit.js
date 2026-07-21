@@ -34,8 +34,22 @@ const AREAS = [
 ];
 const areaFor = key => AREAS.find(a => a.key === key);
 
+// What each guide actually contains, computed from the data so the numbers
+// can't drift. Shown under the link — a count tells you whether the page is
+// worth opening in a way the title alone doesn't.
+const guideCounts = parks => ({
+  '/best-playgrounds/': `All ${parks.filter(p => p.playground).length}, ranked`,
+  '/splash-pads/': `${parks.filter(p => p.water).length} water features`,
+  '/restrooms/': `${parks.filter(p => p.restroom === 'year-round').length} open year-round`,
+  '/dog-parks/': `${parks.filter(p => p.dogPark).length} parks`,
+  '/picnic-shelters/': `${parks.filter(p => p.reservable).length} reservable`,
+  '/sport-courts/': `${parks.filter(p => p.courts.length).length} parks`,
+  '/fishing/': `${parks.filter(p => p.fishing).length} parks`,
+  '/greenbelt-parks/': `${parks.filter(p => p.greenbelt).length} parks`,
+});
+
 module.exports = function createKit(ctx) {
-  const { ROOT, SITE, esc, header, footer, gaSnippet, ORG, webPageSchema,
+  const { ROOT, SITE, parks, esc, header, footer, gaSnippet, ORG, webPageSchema,
           scoreClasses, fmtScore } = ctx;
 
   const SHADE_SHORT = { 'leafy': 'Leafy', 'some': 'Some shade', 'full-sun': 'Full sun' };
@@ -83,20 +97,33 @@ module.exports = function createKit(ctx) {
   </div>`;
   }
 
-  // Compact link rows rather than cards: with 13 generated pages, a card grid at
-  // the foot of every one would outweigh the content above it.
+  // A tinted panel with a two-line entry per guide, rather than a run of
+  // underlined text. On the homepage the plain version sat under four colourful
+  // cards and read as a footnote; the tint separates it from the cream page and
+  // the counts give each link a reason to be clicked.
   function crossLinks(currentPath, { id } = {}) {
-    const row = items => items
-      .filter(([href]) => href !== currentPath)
-      .map(([href, label]) => `<a class="underline decoration-meadow/30 underline-offset-2 hover:text-meadow-deep" href="${href}">${esc(label)}</a>`)
-      .join(' <span class="text-bark/40">·</span> ');
+    const counts = guideCounts(parks);
+    const areaCount = a => parks.filter(p => p.area === a.key).length;
+
+    const tile = (href, label, meta) => `<a href="${href}" class="group block">
+        <span class="block font-semibold text-meadow-deep underline decoration-meadow/30 underline-offset-2 group-hover:decoration-meadow">${esc(label)}</span>
+        <span class="mt-0.5 block text-[13px] text-bark">${esc(meta)}</span>
+      </a>`;
+
+    const guides = GUIDE_LINKS.filter(([href]) => href !== currentPath);
+    const areas = AREAS.filter(a => `/areas/${a.slug}/` !== currentPath);
+
     return `
-  <section${id ? ` id="${id}"` : ''} class="mt-14 rounded-2xl border border-meadow/15 bg-white px-5 py-5 shadow-card">
-    <h2 class="font-display text-lg font-bold text-meadow-deep">Other guides</h2>
-    <p class="mt-2 text-[14px] leading-relaxed text-ink/85">${row(GUIDE_LINKS)}</p>
-    <h2 class="mt-5 font-display text-lg font-bold text-meadow-deep">Parks by area</h2>
-    <p class="mt-2 text-[14px] leading-relaxed text-ink/85">${row(AREAS.map(a => [`/areas/${a.slug}/`, a.label]))}</p>
-    <p class="mt-5 text-[14px]"><a class="font-semibold text-meadow-deep underline decoration-meadow/30 underline-offset-2 hover:text-meadow" href="/#map">All 94 parks on the map →</a></p>
+  <section${id ? ` id="${id}"` : ''} class="mt-14 rounded-2xl border border-meadow/25 bg-meadow-light px-5 py-6 shadow-card sm:px-7">
+    <h2 class="font-display text-xl font-bold text-meadow-deep">Guides</h2>
+    <div class="mt-4 grid gap-x-6 gap-y-4 text-[14.5px] sm:grid-cols-2 lg:grid-cols-4">
+      ${guides.map(([href, label]) => tile(href, label, counts[href] || '')).join('\n      ')}
+    </div>
+    <h2 class="mt-7 font-display text-xl font-bold text-meadow-deep">Parks by area</h2>
+    <div class="mt-4 grid gap-x-6 gap-y-4 text-[14.5px] sm:grid-cols-3 lg:grid-cols-5">
+      ${areas.map(a => tile(`/areas/${a.slug}/`, a.label, `${areaCount(a)} parks`)).join('\n      ')}
+    </div>
+    <p class="mt-7 text-[14.5px]"><a class="font-semibold text-meadow-deep underline decoration-meadow/40 underline-offset-2 hover:decoration-meadow" href="/#map">All ${parks.length} parks on the map</a></p>
   </section>`;
   }
 
