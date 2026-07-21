@@ -40,7 +40,7 @@
   {"@context":"https://schema.org","@type":"Organization","@id":"https://boiseparks.com/#org","name":"boiseparks.com","url":"https://boiseparks.com/","description":"Independent guide to Boise, Idaho city parks for families, built from City of Boise open data."}
   </script>
   <!-- webpage:start -->
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","@id":"https://boiseparks.com/#webpage","url":"https://boiseparks.com/","name":"Boise Parks for Families — Playground, Splash Pad & Shade Finder","description":"Every Boise park rated for parents: 57 playgrounds, 8 splash pads and fountains, 24 year-round restrooms, shade ratings and an interactive map.","inLanguage":"en-US","isPartOf":{"@type":"WebSite","@id":"https://boiseparks.com/#website","name":"Boise Parks","url":"https://boiseparks.com"},"publisher":{"@id":"https://boiseparks.com/#org"},"dateModified":"2026-07-20","license":"https://opendata.cityofboise.org/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","@id":"https://boiseparks.com/#webpage","url":"https://boiseparks.com/","name":"Boise Parks for Families — Playground, Splash Pad & Shade Finder","description":"Every Boise park rated for parents: 57 playgrounds, 8 splash pads and fountains, 24 year-round restrooms, shade ratings and an interactive map.","inLanguage":"en-US","isPartOf":{"@type":"WebSite","@id":"https://boiseparks.com/#website","name":"Boise Parks","url":"https://boiseparks.com"},"publisher":{"@id":"https://boiseparks.com/#org"},"dateModified":"2026-07-21","license":"https://opendata.cityofboise.org/"}</script>
   <!-- webpage:end -->
   <!-- Declares the underlying park data as a citable dataset: what it covers,
        where it came from, and that it's freely usable. Answer engines weigh
@@ -440,7 +440,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mrtv1kyo"></script>
+<script src="/js/parks-data.js?v=mruw7h9h"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
@@ -515,7 +515,9 @@ function buildMarkers(list){
       radius: Math.max(6, Math.min(13, 4+Math.sqrt(p.acres||1)*1.15)),
       color:'#fff', weight:1.5, fillColor:markerColor(p), fillOpacity:.92,
     });
-    m.bindPopup('<b style="color:#14532D">'+escHtml(p.name)+'</b><br>'+badges(p).slice(0,4).join(' · ')+
+    // Name links to the park page, "Details" opens the modal — same rule as the
+    // cards and the "also good right now" row.
+    m.bindPopup('<a href="/parks/'+p.slug+'/" style="color:#14532D;font-weight:700;text-decoration:underline">'+escHtml(p.name)+'</a><br>'+badges(p).slice(0,4).join(' · ')+
       '<br><a href="javascript:showPark(\''+p.slug+'\')" style="color:#2E7D32;font-weight:600">Details →</a>');
     m.addTo(markerLayer); markers[p.slug]=m;
   }
