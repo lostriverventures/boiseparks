@@ -40,10 +40,10 @@ module.exports = function buildAreas(ctx) {
 
     const body = `
   <div class="mt-6 flex flex-wrap gap-2 text-[13px] font-semibold">
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🌳 ${qty(inArea.length, 'park')}</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🛝 ${qty(withPlayground.length, 'playground')}</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🚻 ${qty(yearRound.length, 'year-round restroom')}</span>
-    ${water.length ? `<span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">💦 ${water.length} with water play</span>` : ''}
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${qty(inArea.length, 'park')}</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${qty(withPlayground.length, 'playground')}</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${qty(yearRound.length, 'year-round restroom')}</span>
+    ${water.length ? `<span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${water.length} with water play</span>` : ''}
   </div>
 ${picks.length >= 3 ? `
   <section class="mt-12">

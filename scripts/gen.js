@@ -409,7 +409,7 @@ ${header}
       ${pgBits ? `
       <h2 class="mt-8 font-display text-xl font-bold text-meadow-deep">Playground</h2>
       <ul class="mt-3 space-y-2 rounded-2xl border border-meadow/15 bg-white px-5 py-4 text-[14.5px] shadow-card">
-        ${pgBits.map(b => `<li class="flex gap-2"><span class="text-meadow">✓</span> ${esc(b)}</li>`).join('\n        ')}
+        ${pgBits.map(b => `<li class="flex gap-2"><span class="text-meadow">·</span> ${esc(b)}</li>`).join('\n        ')}
       </ul>` : `<p class="mt-8 rounded-2xl border border-meadow/15 bg-white px-5 py-4 text-[14.5px] text-bark shadow-card">No playground at this park.</p>`}
       <h2 class="mt-8 font-display text-xl font-bold text-meadow-deep">Common questions about ${esc(p.name)}</h2>
       <div class="mt-3 divide-y divide-meadow/10 rounded-2xl border border-meadow/15 bg-white px-5 shadow-card">
@@ -424,7 +424,7 @@ ${header}
     <aside class="sm:col-span-2">
       <div class="mb-4 overflow-hidden rounded-2xl border border-meadow/15 bg-white shadow-card">
         <div id="locmap" class="h-48 w-full"></div>
-        <p class="px-5 py-3 text-[13px] leading-snug"><span aria-hidden="true">📍 </span><a href="${mapsUrl(p)}" rel="noopener" class="underline hover:text-meadow-deep">${esc(p.address)}, Boise, ID ${esc(p.zip)}</a> <span class="text-bark">— view on Google Maps</span></p>
+        <p class="px-5 py-3 text-[13px] leading-snug"><a href="${mapsUrl(p)}" rel="noopener" class="underline hover:text-meadow-deep">${esc(p.address)}, Boise, ID ${esc(p.zip)}</a> <span class="text-bark">— view on Google Maps</span></p>
       </div>
       <div class="mb-4 rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
         <div class="flex items-center justify-between gap-3">

@@ -81,9 +81,9 @@
          a title ("24 year-round restrooms" says more than "Park restrooms"),
          and keeping them as chips leaves the title band slim. -->
     <div class="mt-4 flex flex-wrap gap-2 text-[13px] font-semibold">
-      <a href="/best-playgrounds/" class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card hover:bg-meadow-light">🛝 57 playgrounds <span class="text-meadow/60" aria-hidden="true">→</span></a>
-      <a href="/splash-pads/" class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card hover:bg-meadow-light">💦 8 splash pads &amp; fountains <span class="text-meadow/60" aria-hidden="true">→</span></a>
-      <a href="/restrooms/" class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card hover:bg-meadow-light">🚻 24 year-round restrooms <span class="text-meadow/60" aria-hidden="true">→</span></a>
+      <a href="/best-playgrounds/" class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card hover:bg-meadow-light">57 playgrounds <span class="text-meadow/60" aria-hidden="true">→</span></a>
+      <a href="/splash-pads/" class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card hover:bg-meadow-light">8 splash pads &amp; fountains <span class="text-meadow/60" aria-hidden="true">→</span></a>
+      <a href="/restrooms/" class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card hover:bg-meadow-light">24 year-round restrooms <span class="text-meadow/60" aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
@@ -114,7 +114,6 @@
   <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
     <div class="card-lift flex flex-col rounded-2xl border border-sky/20 bg-white p-5 shadow-card">
       <div class="flex items-center gap-2.5">
-        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-light text-xl">💦</span>
         <div><h3 class="font-display text-[17px] font-bold leading-tight text-sky">Water play</h3><p class="text-[11.5px] text-bark">Memorial Day–Labor Day</p></div>
       </div>
       <ul class="mt-3.5 flex-1 space-y-1.5 text-[14px] font-medium">
@@ -127,7 +126,6 @@
     </div>
     <div class="card-lift flex flex-col rounded-2xl border border-meadow/20 bg-white p-5 shadow-card">
       <div class="flex items-center gap-2.5">
-        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-meadow-light text-xl">🌳</span>
         <div><h3 class="font-display text-[17px] font-bold leading-tight text-meadow">Leafiest playgrounds</h3><p class="text-[11.5px] text-bark">Real shade on hot days</p></div>
       </div>
       <ul class="mt-3.5 flex-1 space-y-1.5 text-[14px] font-medium">
@@ -140,7 +138,6 @@
     </div>
     <div class="card-lift flex flex-col rounded-2xl border border-sun/20 bg-white p-5 shadow-card">
       <div class="flex items-center gap-2.5">
-        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-sun-light text-xl">🆕</span>
         <div><h3 class="font-display text-[17px] font-bold leading-tight text-sun">Newest playgrounds</h3><p class="text-[11.5px] text-bark">New gear, softer landings</p></div>
       </div>
       <ul class="mt-3.5 flex-1 space-y-1.5 text-[14px] font-medium">
@@ -153,7 +150,6 @@
     </div>
     <div class="card-lift flex flex-col rounded-2xl border border-meadow/20 bg-white p-5 shadow-card">
       <div class="flex items-center gap-2.5">
-        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-meadow-light text-xl">♿</span>
         <div><h3 class="font-display text-[17px] font-bold leading-tight text-meadow-deep">Accessible playgrounds</h3><p class="text-[11.5px] text-bark">Stroller- &amp; wheelchair-friendly</p></div>
       </div>
       <ul class="mt-3.5 flex-1 space-y-1.5 text-[14px] font-medium">
@@ -440,7 +436,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mruw7h9h"></script>
+<script src="/js/parks-data.js?v=mrux1hfl"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
@@ -448,31 +444,31 @@ const $ = id => document.getElementById(id);
 
 // ---------- filter definitions ----------
 const CHIPS = [
-  ['playground','🛝 Playground', p => !!p.playground],
-  ['toddler','🧸 Toddler play (2–5)', p => p.playground && p.playground.toddler],
-  ['swings','🤸 Swings', p => p.playground && p.playground.features.includes('swings')],
-  ['water','💦 Splash pad / water', p => !!p.water || p.pool],
-  ['restroom','🚻 Restrooms', p => p.restroom !== 'none'],
-  ['parkinglot','🅿️ Parking lot', p => p.parking && p.parking.type === 'lot'],
-  ['rrYear','🔥 Year-round restrooms', p => p.restroom === 'year-round'],
-  ['leafy','🌳 Leafy shade', p => p.shade === 'leafy'],
-  ['shelter','⛱️ Picnic shelter', p => p.shelter],
-  ['accessible','♿ Accessible playground', p => p.playground && (p.playground.rubberSurface || p.playground.ada)],
-  ['greenbelt','🚴 Greenbelt access', p => p.greenbelt],
-  ['fishing','🎣 Fishing', p => p.fishing],
-  ['dog','🐕 Dog off-leash', p => p.dogPark],
-  ['sports','🏀 Courts & fields', p => p.courts.length || p.fields.length],
+  ['playground','Playground', p => !!p.playground],
+  ['toddler','Toddler play (2–5)', p => p.playground && p.playground.toddler],
+  ['swings','Swings', p => p.playground && p.playground.features.includes('swings')],
+  ['water','Splash pad / water', p => !!p.water || p.pool],
+  ['restroom','Restrooms', p => p.restroom !== 'none'],
+  ['parkinglot','Parking lot', p => p.parking && p.parking.type === 'lot'],
+  ['rrYear','Year-round restrooms', p => p.restroom === 'year-round'],
+  ['leafy','Leafy shade', p => p.shade === 'leafy'],
+  ['shelter','Picnic shelter', p => p.shelter],
+  ['accessible','Accessible playground', p => p.playground && (p.playground.rubberSurface || p.playground.ada)],
+  ['greenbelt','Greenbelt access', p => p.greenbelt],
+  ['fishing','Fishing', p => p.fishing],
+  ['dog','Dog off-leash', p => p.dogPark],
+  ['sports','Courts & fields', p => p.courts.length || p.fields.length],
 ];
 const CHIP_FN = Object.fromEntries(CHIPS.map(c => [c[0], c[2]]));
 const state = { q:'', area:'all', sort:'name', chips:new Set(), loc:null };
 
 const RR = {
-  'year-round': ['🚻 Restrooms open year-round','text-meadow-deep bg-meadow-light'],
-  'seasonal+portable': ['🚻 Seasonal restrooms · winter portable','text-sky bg-sky-light'],
-  'seasonal': ['🚻 Seasonal restrooms (closed winter)','text-sky bg-sky-light'],
-  'none': ['🚫 No restrooms','text-bark bg-stone-100'],
+  'year-round': ['Restrooms open year-round','text-meadow-deep bg-meadow-light'],
+  'seasonal+portable': ['Seasonal restrooms · winter portable','text-sky bg-sky-light'],
+  'seasonal': ['Seasonal restrooms (closed winter)','text-sky bg-sky-light'],
+  'none': ['No restrooms','text-bark bg-stone-100'],
 };
-const SHADE = { leafy:'🌳 Leafy', some:'🌤️ Some shade', 'full-sun':'☀️ Full sun' };
+const SHADE = { leafy:'Leafy', some:'Some shade', 'full-sun':'Full sun' };
 const PARKING = { lot:'Dedicated parking lot', street:'On-street parking', downtown:'Metered street parking & paid garages nearby' };
 const parkingText = p => p.parking ? (p.parking.note || PARKING[p.parking.type]) : null;
 const scoreClasses = s => s>=8 ? 'bg-meadow text-white' : s>=6 ? 'bg-meadow-light text-meadow-deep' : s>=4 ? 'bg-sun-light text-sun' : 'bg-stone-100 text-bark';
@@ -482,17 +478,17 @@ function badges(p){
   const b=[];
   if(p.playground){
     let ages = p.playground.toddler && p.playground.bigKid ? '2–12' : p.playground.toddler ? '2–5' : p.playground.bigKid ? '5–12' : '';
-    b.push('🛝 Playground'+(ages?' · ages '+ages:''));
+    b.push('Playground'+(ages?' · ages '+ages:''));
   }
-  if(p.water) b.push('💦 '+p.water.type);
-  if(p.pool) b.push('🏊 Pool');
+  if(p.water) b.push(p.water.type);
+  if(p.pool) b.push('Pool');
   b.push(SHADE[p.shade]);
-  if(p.shelter) b.push('⛱️ Shelter');
-  if(p.greenbelt) b.push('🚴 Greenbelt');
-  if(p.fishing) b.push('🎣 Fishing');
-  if(p.dogPark) b.push('🐕 Off-leash');
-  if(p.playground && p.playground.rubberSurface) b.push('♿ Rubber surface');
-  if(p.parking && p.parking.type==='lot') b.push('🅿️ Lot');
+  if(p.shelter) b.push('Shelter');
+  if(p.greenbelt) b.push('Greenbelt');
+  if(p.fishing) b.push('Fishing');
+  if(p.dogPark) b.push('Off-leash');
+  if(p.playground && p.playground.rubberSurface) b.push('Rubber surface');
+  if(p.parking && p.parking.type==='lot') b.push('Lot');
   return b;
 }
 const escHtml = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -637,10 +633,10 @@ function showPark(slug){
     if(pg.features.length) bits.push(pg.features.join(', '));
     if(pg.surface) bits.push(pg.surface+' surfacing'+(pg.rubberSurface?' — stroller & wheelchair friendly':''));
     if(pg.newestYear) bits.push('newest structure installed '+pg.newestYear);
-    pgHtml = '<div class="mt-4 rounded-2xl bg-meadow-light px-4 py-3"><p class="text-[13px] font-bold text-meadow-deep">🛝 Playground</p><p class="mt-1 text-[13.5px] leading-relaxed text-ink/85">'+escHtml(bits.join(' · '))+'</p></div>';
+    pgHtml = '<div class="mt-4 rounded-2xl bg-meadow-light px-4 py-3"><p class="text-[13px] font-bold text-meadow-deep">Playground</p><p class="mt-1 text-[13.5px] leading-relaxed text-ink/85">'+escHtml(bits.join(' · '))+'</p></div>';
   }
-  const water = p.water ? '<div class="mt-3 rounded-2xl bg-sky-light px-4 py-3"><p class="text-[13px] font-bold text-sky">💦 '+escHtml(p.water.type)+'</p><p class="mt-1 text-[13.5px] text-ink/85">'+escHtml(p.water.hours)+'</p></div>' : '';
-  const parkingRow = p.parking ? '<p class="mt-3 text-[13.5px] text-ink/85"><span class="font-semibold text-meadow-deep">🅿️ Parking:</span> '+escHtml(parkingText(p))+'</p>' : '';
+  const water = p.water ? '<div class="mt-3 rounded-2xl bg-sky-light px-4 py-3"><p class="text-[13px] font-bold text-sky">'+escHtml(p.water.type)+'</p><p class="mt-1 text-[13.5px] text-ink/85">'+escHtml(p.water.hours)+'</p></div>' : '';
+  const parkingRow = p.parking ? '<p class="mt-3 text-[13.5px] text-ink/85"><span class="font-semibold text-meadow-deep">Parking:</span> '+escHtml(parkingText(p))+'</p>' : '';
   const scoreBlock =
     '<div class="mt-4 rounded-2xl border border-meadow/15 bg-white px-4 py-3">'
     + '<div class="flex items-center justify-between gap-3"><p class="text-[13px] font-bold text-meadow-deep">Parent Score</p>'
@@ -661,7 +657,7 @@ function showPark(slug){
     + (p.tip?'<div class="mt-4 rounded-2xl border border-sun/40 bg-sun-light px-4 py-3"><p class="text-[12px] font-bold uppercase tracking-wide text-sun">Parent notes</p><p class="mt-1 text-[14px] leading-relaxed">'+escHtml(p.tip)+'</p></div>':'')
     + pgHtml + water + parkingRow + scoreBlock
     + '<div class="mt-4"><div id="modal-loc" class="h-44 w-full overflow-hidden rounded-2xl border border-meadow/15"></div>'
-    + '<p class="mt-1.5 text-[12px] text-bark"><a href="'+mapsUrl(p)+'" rel="noopener" class="underline hover:text-meadow-deep">📍 View '+escHtml(p.name)+' on Google Maps</a></p></div>'
+    + '<p class="mt-1.5 text-[12px] text-bark"><a href="'+mapsUrl(p)+'" rel="noopener" class="underline hover:text-meadow-deep">View '+escHtml(p.name)+' on Google Maps</a></p></div>'
     + '<div class="mt-5 grid gap-2 sm:grid-cols-2">'
     + '<a href="/parks/'+p.slug+'/" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-meadow-dark">Full details</a>'
     + (p.cityUrl?'<a href="'+escHtml(p.cityUrl)+'" target="_blank" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">City page</a>':'')
@@ -765,13 +761,13 @@ function sunFactor(ctx){
   return Math.max(0.1, Math.min(1.3, f));
 }
 const STRATEGY = {
-  hot:    ['🔥','Heat’s on','shade and water win — skip the sun-baked playgrounds.'],
-  warm:   ['😎','Warm out','shade and an open splash pad keep it comfortable.'],
-  nice:   ['✨','Perfect park weather','go for the best playgrounds — conditions are ideal.'],
-  cool:   ['🧥','Cool out','sunny, open spots feel warmest; pack a layer.'],
-  cold:   ['🥶','Cold out','keep it short — a sunny spot and a heated restroom help.'],
-  wet:    ['🌧️','Wet out','parks are a tough sell; these at least have a shelter for cover.'],
-  unknown:['🌤️','Right now','ranked by season, time of day and what’s open.'],
+  hot:    ['Heat’s on','shade and water win — skip the sun-baked playgrounds.'],
+  warm:   ['Warm out','shade and an open splash pad keep it comfortable.'],
+  nice:   ['Perfect park weather','go for the best playgrounds — conditions are ideal.'],
+  cool:   ['Cool out','sunny, open spots feel warmest; pack a layer.'],
+  cold:   ['Cold out','keep it short — a sunny spot and a heated restroom help.'],
+  wet:    ['Wet out','parks are a tough sell; these at least have a shelter for cover.'],
+  unknown:['Right now','ranked by season, time of day and what’s open.'],
 };
 
 function nowScore(p, ctx){
@@ -789,43 +785,43 @@ function nowScore(p, ctx){
   const poolOn = p.pool && ctx.pool && ctx.isDay;
 
   function shadeAdjust(weight){
-    if(shade==='leafy'){ const v=weight*sf; if(v>0.3){ s+=v; reasons.push(['🌳 Leafy shade',true]); } }
+    if(shade==='leafy'){ const v=weight*sf; if(v>0.3){ s+=v; reasons.push(['Leafy shade',true]); } }
     else if(shade==='some'){ s += weight*0.4*sf; }
-    else { const pen=weight*sf; if(pen>0.4){ s-=pen; reasons.push(['☀️ No shade',false]); } }
+    else { const pen=weight*sf; if(pen>0.4){ s-=pen; reasons.push(['No shade',false]); } }
   }
 
   if(reg==='hot'){
-    if(waterOn){ s+=3.0; reasons.push(['💦 '+w.type+' on',true]); }
-    else if(waterToday){ s+=0.8; reasons.push(['💦 Splash pad (10a–8p)',true]); }
-    if(poolOn){ s+=1.6; reasons.push(['🏊 Pool',true]); }
+    if(waterOn){ s+=3.0; reasons.push([w.type+' on',true]); }
+    else if(waterToday){ s+=0.8; reasons.push(['Splash pad (10a–8p)',true]); }
+    if(poolOn){ s+=1.6; reasons.push(['Pool',true]); }
     shadeAdjust(2.4);
   } else if(reg==='warm'){
-    if(waterOn){ s+=1.6; reasons.push(['💦 '+w.type,true]); }
-    if(poolOn){ s+=0.8; reasons.push(['🏊 Pool',true]); }
+    if(waterOn){ s+=1.6; reasons.push([w.type,true]); }
+    if(poolOn){ s+=0.8; reasons.push(['Pool',true]); }
     shadeAdjust(1.1);
   } else if(reg==='nice'){
-    if(waterOn){ s+=0.5; reasons.push(['💦 '+w.type,true]); }
+    if(waterOn){ s+=0.5; reasons.push([w.type,true]); }
     shadeAdjust(0.4);
-    if(pg && p.score>=8.5) reasons.unshift(['🛝 Top playground',true]);
+    if(pg && p.score>=8.5) reasons.unshift(['Top playground',true]);
   } else if(reg==='cool'){
-    if(shade==='full-sun'){ s+=0.6*sf; reasons.push(['☀️ Sunny & open',true]); }
+    if(shade==='full-sun'){ s+=0.6*sf; reasons.push(['Sunny & open',true]); }
     else if(shade==='leafy'){ s-=0.2; }
     if(p.restroom==='year-round') s+=0.4;
-    if(pg && p.score>=8) reasons.push(['🛝 Top playground',true]);
+    if(pg && p.score>=8) reasons.push(['Top playground',true]);
   } else if(reg==='cold'){
-    if(p.restroom==='year-round'){ s+=1.2; reasons.push(['🚻 Heated restroom',true]); }
+    if(p.restroom==='year-round'){ s+=1.2; reasons.push(['Heated restroom',true]); }
     else if(p.restroom==='seasonal+portable'){ s+=0.3; }
     else if(p.restroom==='none'){ s-=0.6; }
-    if(shade==='full-sun'){ s+=0.7; reasons.push(['☀️ Sun to warm up',true]); }
+    if(shade==='full-sun'){ s+=0.7; reasons.push(['Sun to warm up',true]); }
     else if(shade==='leafy'){ s-=0.3; }
   } else if(reg==='wet'){
-    if(p.shelter||p.reservable){ s+=1.6; reasons.push(['⛱️ Shelter for cover',true]); }
-    if(p.restroom==='year-round'){ s+=0.6; reasons.push(['🚻 Open restroom',true]); }
+    if(p.shelter||p.reservable){ s+=1.6; reasons.push(['Shelter for cover',true]); }
+    if(p.restroom==='year-round'){ s+=0.6; reasons.push(['Open restroom',true]); }
     else if(p.restroom==='none'){ s-=0.6; }
   } else { // unknown weather → season + quality
-    if(waterOn){ s+=0.8; reasons.push(['💦 '+w.type,true]); }
-    if(shade==='leafy'){ s+=0.3; reasons.push(['🌳 Leafy shade',true]); }
-    if(pg && p.score>=8) reasons.push(['🛝 Top playground',true]);
+    if(waterOn){ s+=0.8; reasons.push([w.type,true]); }
+    if(shade==='leafy'){ s+=0.3; reasons.push(['Leafy shade',true]); }
+    if(pg && p.score>=8) reasons.push(['Top playground',true]);
   }
 
   // Bathrooms matter with little kids, outside the cases already handled.
@@ -853,7 +849,7 @@ function nowCard(entry, rank){
     + '<h3 class="font-display text-[17px] font-bold leading-tight text-meadow-deep"><a href="/parks/'+p.slug+'/" class="hover:text-meadow">'+escHtml(p.name)+'</a></h3>'
     + '<p class="mt-0.5 text-[12px] text-bark">'+mi+escHtml(p.area)+'</p></div>'
     + '<span class="shrink-0 rounded-lg px-1.5 py-0.5 text-[12px] font-bold '+scoreClasses(p.score)+'" title="Parent Score">'+fmtScore(p.score)+'</span></div>'
-    + '<div class="mt-2.5 flex flex-1 flex-wrap content-start gap-1">'+(chips||'<span class="pill bg-meadow-light text-meadow-deep">🛝 Solid pick</span>')+'</div>'
+    + '<div class="mt-2.5 flex flex-1 flex-wrap content-start gap-1">'+(chips||'<span class="pill bg-meadow-light text-meadow-deep">Solid pick</span>')+'</div>'
     + '<div class="mt-3 flex gap-2">'
     + '<button onclick="showPark(\''+p.slug+'\')" class="rounded-lg bg-meadow px-3 py-1.5 text-[13px] font-semibold text-white hover:bg-meadow-dark">Details</button>'
     + '<button onclick="panTo(\''+p.slug+'\')" class="rounded-lg border border-meadow/25 px-3 py-1.5 text-[13px] font-semibold text-meadow-deep hover:bg-meadow-light">Map</button></div>'
@@ -864,14 +860,14 @@ function renderNow(){
   const ctx = buildContext(NOW.weather);
   const ranked = P.map(p => ({ p, r: nowScore(p, ctx) })).sort((a,b) => b.r.s - a.r.s);
   const top = ranked.slice(0,3), more = ranked.slice(3,6);
-  const [sEmoji,sTitle,sMsg] = STRATEGY[regime(ctx)];
+  const [sTitle,sMsg] = STRATEGY[regime(ctx)];
   const w = NOW.weather;
   let cond;
   if(w){
     const [e,t] = wxText(w.weather_code, w.is_day===1);
     const feels = Math.abs(w.apparent_temperature - w.temperature_2m) >= 3 ? ', feels '+Math.round(w.apparent_temperature)+'°' : '';
     cond = e+' '+Math.round(w.temperature_2m)+'°'+feels+' · '+t;
-  } else cond = '🌤️ Live weather unavailable';
+  } else cond = 'Live weather unavailable';
   const time = ctx.now.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
 
   const caveats = [];
@@ -884,13 +880,13 @@ function renderNow(){
     +   '<span class="text-bark/50">·</span><span class="text-bark">'+escHtml(time)+'</span>'
     +   '<span class="text-bark/50">·</span><span class="text-bark">'+escHtml(NOW.label)+'</span>'
     + '</div>'
-    + '<p class="mt-2 text-[14px] leading-relaxed text-ink/85"><span class="font-semibold text-meadow-deep">'+sEmoji+' '+sTitle+'</span> — '+sMsg+'</p>'
+    + '<p class="mt-2 text-[14px] leading-relaxed text-ink/85"><span class="font-semibold text-meadow-deep">'+sTitle+'</span> — '+sMsg+'</p>'
     + '<div class="mt-4 grid gap-3 sm:grid-cols-3">'+top.map((e,i)=>nowCard(e,i+1)).join('')+'</div>'
     // Links to the park page, matching the card titles above — a park name
     // should go to that park's page everywhere on the site, not sometimes open
     // a modal instead.
     + (more.length ? '<p class="mt-3 text-[13px] text-bark">Also good right now: '+more.map(e=>'<a class="font-semibold text-meadow-deep underline decoration-meadow/30 hover:text-meadow" href="/parks/'+e.p.slug+'/">'+escHtml(e.p.name)+'</a>').join(' <span class="text-bark/40">·</span> ')+'</p>' : '')
-    + caveats.map(c=>'<p class="mt-2 text-[12px] leading-relaxed text-bark">ⓘ '+escHtml(c)+'</p>').join('')
+    + caveats.map(c=>'<p class="mt-2 text-[12px] leading-relaxed text-bark">'+escHtml(c)+'</p>').join('')
     + '<details class="mt-2 text-[12px] text-bark"><summary class="cursor-pointer font-semibold text-meadow-deep">How we pick</summary>'
     +   '<p class="mt-1.5 leading-relaxed">We weigh live Boise weather (temperature and feels-like, sun vs. cloud, rain), the time of day, and the season against each park’s shade, water features, restrooms and playground. A hot afternoon pushes shade and an open splash pad to the top; a cold morning favors a sunny spot with a heated restroom. Guidance, not a guarantee — <a href="#about" class="underline hover:text-meadow-deep">full methodology</a>.</p></details>';
 }

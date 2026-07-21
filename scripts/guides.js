@@ -33,17 +33,17 @@ module.exports = function buildGuides(ctx) {
     // so the page groups by what you'll actually find.
     const groups = [
       {
-        key: 'pads', icon: '💦', heading: 'Splash pads and spray pads',
+        key: 'pads', heading: 'Splash pads and spray pads',
         note: 'Ground-level jets kids run through. Bring towels and dry clothes.',
         list: water.filter(p => /splash|spray/i.test(p.water.type)).sort(byScore),
       },
       {
-        key: 'fountains', icon: '⛲', heading: 'Interactive fountains',
+        key: 'fountains', heading: 'Interactive fountains',
         note: 'Fountains designed to be played in, in a larger park or plaza.',
         list: water.filter(p => /fountain/i.test(p.water.type)).sort(byScore),
       },
       {
-        key: 'misters', icon: '🌫️', heading: 'Misting stations',
+        key: 'misters', heading: 'Misting stations',
         note: 'Overhead misters that put out a fine spray. No jets, and kids will not get soaked.',
         list: water.filter(p => /mister/i.test(p.water.type)).sort(byScore),
       },
@@ -69,14 +69,14 @@ module.exports = function buildGuides(ctx) {
 
     const body = `
   <div class="mt-6 flex flex-wrap gap-2 text-[13px] font-semibold">
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">💦 ${water.length} water features</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🏊 ${pools.length} outdoor pools</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🆓 Free to use</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${water.length} water features</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${pools.length} outdoor pools</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">Free to use</span>
   </div>
 
   ${groups.filter(g => g.list.length).map(g => `
   <section id="${g.key}" class="mt-12">
-    <h2 class="font-display text-2xl font-bold text-meadow-deep"><span aria-hidden="true">${g.icon}</span> ${esc(g.heading)}</h2>
+    <h2 class="font-display text-2xl font-bold text-meadow-deep">${esc(g.heading)}</h2>
     <p class="mt-1.5 max-w-2xl text-[14.5px] leading-relaxed text-ink/75">${esc(g.note)}</p>
     <div class="mt-4 grid gap-4 sm:grid-cols-2">
       ${g.list.map(card).join('\n      ')}
@@ -84,7 +84,7 @@ module.exports = function buildGuides(ctx) {
   </section>`).join('\n')}
 
   <section id="pools" class="mt-12">
-    <h2 class="font-display text-2xl font-bold text-meadow-deep"><span aria-hidden="true">🏊</span> Outdoor pools</h2>
+    <h2 class="font-display text-2xl font-bold text-meadow-deep">Outdoor pools</h2>
     <p class="mt-1.5 max-w-2xl text-[14.5px] leading-relaxed text-ink/75">City-run swimming pools, not splash pads. They have a separate season, hours and admission, listed on the city page for each.</p>
     ${parkTable(pools.sort(byScore))}
   </section>
@@ -142,14 +142,14 @@ module.exports = function buildGuides(ctx) {
 
     const body = `
   <div class="mt-6 flex flex-wrap gap-2 text-[13px] font-semibold">
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">✅ ${yearRound.length} open year-round</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🚻 ${portable.length} with a winter portable</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">⚠️ ${seasonal.length} closed in winter</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">— ${none.length} with none at all</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${yearRound.length} open year-round</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${portable.length} with a winter portable</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${seasonal.length} closed in winter</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${none.length} with none at all</span>
   </div>
 
   <section id="year-round" class="mt-12">
-    <h2 class="font-display text-2xl font-bold text-meadow-deep"><span aria-hidden="true">✅</span> Open year-round (${yearRound.length} parks)</h2>
+    <h2 class="font-display text-2xl font-bold text-meadow-deep">Open year-round (${yearRound.length} parks)</h2>
     <p class="mt-1.5 max-w-2xl text-[14.5px] leading-relaxed text-ink/75">Heated restroom buildings that stay open through the winter. Grouped by area.</p>
     ${byArea.map(a => `
     <h3 class="mt-7 font-display text-[17px] font-bold text-meadow">${esc(a.area)} <span class="font-sans text-[13px] font-medium text-bark">· ${a.list.length} ${a.list.length === 1 ? 'park' : 'parks'}</span></h3>
@@ -157,13 +157,13 @@ module.exports = function buildGuides(ctx) {
   </section>
 
   <section id="portable" class="mt-12">
-    <h2 class="font-display text-2xl font-bold text-meadow-deep"><span aria-hidden="true">🚻</span> Winterized, but with a portable toilet (${portable.length} parks)</h2>
+    <h2 class="font-display text-2xl font-bold text-meadow-deep">Winterized, but with a portable toilet (${portable.length} parks)</h2>
     <p class="mt-1.5 max-w-2xl text-[14.5px] leading-relaxed text-ink/75">The permanent building is closed for the season and the city leaves a portable toilet on site. Portable units have no running water or sink.</p>
     ${parkTable(portable, { showRestroom: false })}
   </section>
 
   <section id="seasonal" class="mt-12">
-    <h2 class="font-display text-2xl font-bold text-meadow-deep"><span aria-hidden="true">⚠️</span> Seasonal only — nothing in winter (${seasonal.length} parks)</h2>
+    <h2 class="font-display text-2xl font-bold text-meadow-deep">Seasonal only — nothing in winter (${seasonal.length} parks)</h2>
     <p class="mt-1.5 max-w-2xl text-[14.5px] leading-relaxed text-ink/75">Open in the warm months, winterized after that, with no portable toilet as backup.</p>
     ${parkTable(seasonal, { showRestroom: false })}
   </section>
@@ -210,20 +210,20 @@ module.exports = function buildGuides(ctx) {
     // constraint (a napping-schedule-sized window, a toddler, 100° heat) and
     // just want the one answer, not a ranking.
     const picks = [
-      { icon: '🧸', label: 'Toddler equipment', why: 'Equipment for ages 2–5, with shade and a restroom.',
+      { label: 'Toddler equipment', why: 'Equipment for ages 2–5, with shade and a restroom.',
         list: pgs.filter(p => p.playground.toddler && p.restroom !== 'none' && p.shade !== 'full-sun').slice(0, 5) },
-      { icon: '🌳', label: 'Most shade', why: 'Rated leafy — dense mature tree cover.',
+      { label: 'Most shade', why: 'Rated leafy — dense mature tree cover.',
         list: pgs.filter(p => p.shade === 'leafy').slice(0, 5) },
-      { icon: '🚻', label: 'Year-round restroom', why: 'Heated restrooms, open in winter.',
+      { label: 'Year-round restroom', why: 'Heated restrooms, open in winter.',
         list: pgs.filter(p => p.restroom === 'year-round').slice(0, 5) },
       // Sorted by install year rather than score, so the trailing label shows the
       // year — a "· 7.3" next to a list ordered by date just looks broken.
-      { icon: '✨', label: 'Newest equipment', why: 'Most recent install year on record.',
+      { label: 'Newest equipment', why: 'Most recent install year on record.',
         meta: p => p.playground.newestYear,
         list: pgs.filter(p => p.playground.newestYear >= 2019).sort((a, b) => b.playground.newestYear - a.playground.newestYear).slice(0, 5) },
-      { icon: '💦', label: 'Water in the same park', why: 'A splash pad, fountain or pool on site.',
+      { label: 'Water in the same park', why: 'A splash pad, fountain or pool on site.',
         list: pgs.filter(p => p.water || p.pool).slice(0, 5) },
-      { icon: '🛞', label: 'Zip lines and merry-go-rounds', why: 'Track rides, spinners and merry-go-rounds.',
+      { label: 'Zip lines and merry-go-rounds', why: 'Track rides, spinners and merry-go-rounds.',
         list: pgs.filter(p => p.playground.features.some(f => /zipline|track ride|merry|spinner/i.test(f))).slice(0, 5) },
     ].filter(p => p.list.length);
 
@@ -257,7 +257,7 @@ module.exports = function buildGuides(ctx) {
           </div>
           ${p.tip ? `<p class="mt-3 text-[14.5px] leading-relaxed text-ink/85">${esc(p.tip)}</p>` : ''}
           <ul class="mt-3 grid gap-x-5 gap-y-1 text-[13.5px] text-ink/80 sm:grid-cols-2">
-            ${reasons(p).map(r => `<li class="flex gap-1.5"><span class="text-meadow">✓</span> <span>${esc(r)}</span></li>`).join('\n            ')}
+            ${reasons(p).map(r => `<li class="flex gap-1.5"><span class="text-meadow">·</span> <span>${esc(r)}</span></li>`).join('\n            ')}
           </ul>
         </div>
       </div>
@@ -265,9 +265,9 @@ module.exports = function buildGuides(ctx) {
 
     const body = `
   <div class="mt-6 flex flex-wrap gap-2 text-[13px] font-semibold">
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🛝 ${pgs.length} playgrounds ranked</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">📊 Scored from city data</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🔍 <a class="underline" href="/#about">Methodology</a></span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${pgs.length} playgrounds ranked</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">Scored from city data</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card"><a class="underline" href="/#about">Methodology</a></span>
   </div>
 
   <section id="picks" class="mt-12">
@@ -275,7 +275,6 @@ module.exports = function buildGuides(ctx) {
     <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       ${picks.map(pk => `<div class="flex flex-col rounded-2xl border border-meadow/20 bg-white p-5 shadow-card">
         <div class="flex items-center gap-2.5">
-          <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-meadow-light text-xl">${pk.icon}</span>
           <div><h3 class="font-display text-[16px] font-bold leading-tight text-meadow-deep">${esc(pk.label)}</h3><p class="text-[11.5px] text-bark">${esc(pk.why)}</p></div>
         </div>
         <ol class="mt-3.5 flex-1 space-y-1.5 text-[14px] font-medium">
@@ -352,7 +351,7 @@ ${notes ? `
   const dogParks = () => simpleGuide({
     pathname: '/dog-parks/',
     filter: p => p.dogPark,
-    chips: m => [`🐕 ${m.length} off-leash areas`, '🆓 Free to use'],
+    chips: m => [`${m.length} off-leash areas`, 'Free to use'],
     title: 'Boise Dog Parks — Every Off-Leash Area in a City Park | Boise Parks',
     metaDesc: 'Every Boise city park with a designated off-leash dog area, with location, restroom status and shade for each. Built from City of Boise park amenity data.',
     h1: 'Boise parks with off-leash dog areas',
@@ -377,7 +376,7 @@ ${notes ? `
   const fishing = () => simpleGuide({
     pathname: '/fishing/',
     filter: p => p.fishing,
-    chips: m => [`🎣 ${m.length} parks with fishing`],
+    chips: m => [`${m.length} parks with fishing`],
     title: 'Fishing in Boise City Parks — Every Pond and Access Point | Boise Parks',
     metaDesc: 'Every Boise city park with fishing access, including ponds and river access, with restroom status, shade and parking for each. From City of Boise park data.',
     h1: 'Boise parks with fishing',
@@ -399,7 +398,7 @@ ${notes ? `
   const greenbelt = () => simpleGuide({
     pathname: '/greenbelt-parks/',
     filter: p => p.greenbelt,
-    chips: m => [`🚲 ${m.length} parks on the Greenbelt`],
+    chips: m => [`${m.length} parks on the Greenbelt`],
     title: 'Boise Greenbelt Parks — Every Park on the Path | Boise Parks',
     metaDesc: 'Every Boise city park with direct Boise River Greenbelt access, with parking, restroom status and shade — useful for planning a ride or walk with kids.',
     h1: 'Boise parks on the Greenbelt',
@@ -426,8 +425,8 @@ ${notes ? `
     const firstCome = list(p => p.shelter && !p.reservable);
     const body = `
   <div class="mt-6 flex flex-wrap gap-2 text-[13px] font-semibold">
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">📅 ${reservable.length} reservable</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">🪑 ${firstCome.length} first-come</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${reservable.length} reservable</span>
+    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${firstCome.length} first-come</span>
   </div>
 
   <section id="reservable" class="mt-12">
@@ -468,13 +467,13 @@ ${notes ? `
    * ===================================================================== */
   function sportCourts() {
     const SPORTS = [
-      ['tennis', '🎾', 'Tennis courts'],
-      ['basketball', '🏀', 'Basketball courts'],
-      ['pickleball', '🥒', 'Pickleball courts'],
-      ['volleyball', '🏐', 'Volleyball courts'],
-      ['horseshoes', '🧲', 'Horseshoe pits'],
-      ['bocce', '🎯', 'Bocce courts'],
-    ].map(([key, icon, heading]) => ({ key, icon, heading, list: list(p => p.courts.includes(key)) }))
+      ['tennis', 'Tennis courts'],
+      ['basketball', 'Basketball courts'],
+      ['pickleball', 'Pickleball courts'],
+      ['volleyball', 'Volleyball courts'],
+      ['horseshoes', 'Horseshoe pits'],
+      ['bocce', 'Bocce courts'],
+    ].map(([key, heading]) => ({ key, heading, list: list(p => p.courts.includes(key)) }))
       .filter(s => s.list.length);
 
     const withFields = list(p => p.fields.length);
@@ -482,17 +481,17 @@ ${notes ? `
 
     const body = `
   <div class="mt-6 flex flex-wrap gap-2 text-[13px] font-semibold">
-    ${SPORTS.map(s => `<a href="#${s.key}" class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card hover:bg-meadow-light">${s.icon} ${s.list.length} ${esc(s.heading.toLowerCase())}</a>`).join('\n    ')}
+    ${SPORTS.map(s => `<a href="#${s.key}" class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card hover:bg-meadow-light">${s.list.length} ${esc(s.heading.toLowerCase())}</a>`).join('\n    ')}
   </div>
 
   ${SPORTS.map(s => `
   <section id="${s.key}" class="mt-12">
-    <h2 class="font-display text-2xl font-bold text-meadow-deep"><span aria-hidden="true">${s.icon}</span> ${esc(s.heading)} (${s.list.length} parks)</h2>
+    <h2 class="font-display text-2xl font-bold text-meadow-deep">${esc(s.heading)} (${s.list.length} parks)</h2>
     ${parkTable(s.list, { showShade: false })}
   </section>`).join('\n')}
 
   <section id="fields" class="mt-12">
-    <h2 class="font-display text-2xl font-bold text-meadow-deep"><span aria-hidden="true">⚽</span> Sports fields (${withFields.length} parks)</h2>
+    <h2 class="font-display text-2xl font-bold text-meadow-deep">Sports fields (${withFields.length} parks)</h2>
     <p class="mt-1.5 max-w-2xl text-[14.5px] leading-relaxed text-ink/75">Grass fields for softball, baseball, soccer and multi-use play. Many are booked by leagues in season.</p>
     ${parkTable(withFields, { showShade: false, extraCol: { heading: 'Fields', value: p => p.fields.map(cap1).join(', ') } })}
   </section>`;

@@ -38,12 +38,12 @@ module.exports = function createKit(ctx) {
   const { ROOT, SITE, esc, header, footer, gaSnippet, ORG, webPageSchema,
           scoreClasses, fmtScore } = ctx;
 
-  const SHADE_SHORT = { 'leafy': '🌳 Leafy', 'some': '⛅ Some shade', 'full-sun': '☀️ Full sun' };
+  const SHADE_SHORT = { 'leafy': 'Leafy', 'some': 'Some shade', 'full-sun': 'Full sun' };
   const RESTROOM_SHORT = {
-    'year-round': '✅ Year-round',
-    'seasonal+portable': '🚻 Seasonal + portable',
-    'seasonal': '⚠️ Seasonal only',
-    'none': '— None',
+    'year-round': 'Year-round',
+    'seasonal+portable': 'Seasonal + portable',
+    'seasonal': 'Seasonal only',
+    'none': 'None',
   };
 
   const scorePill = p =>
