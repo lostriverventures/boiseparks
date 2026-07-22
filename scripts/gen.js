@@ -14,6 +14,7 @@ const buildGuides = require('./guides');
 const buildAreas = require('./areas');
 const createKit = require('./page-kit');
 const { areaFor } = require('./page-kit');
+const { icon, iconPaths, RIDGE } = require('./visuals');
 
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://boiseparks.com';
@@ -296,17 +297,19 @@ for (const p of parks) {
   const descText = p.tip || `${p.name} in Boise, Idaho: amenities, playground details, restrooms and more.`;
   const metaDesc = esc(descText.replace(/\s+/g, ' ').slice(0, 158));
 
+  // [iconKey, label] pairs — iconKey may be null where no glyph fits (extras
+  // like disc golf / skate park just show as a text pill).
   const amenities = [];
-  if (p.playground) amenities.push('Playground');
-  if (p.water) amenities.push(p.water.type);
-  if (p.pool) amenities.push('Outdoor pool');
-  if (p.restroom !== 'none') amenities.push('Restrooms');
-  if (p.shelter) amenities.push('Picnic shelter');
-  if (p.greenbelt) amenities.push('Greenbelt access');
-  if (p.fishing) amenities.push('Fishing');
-  if (p.dogPark) amenities.push('Dog off-leash area');
-  if (p.openPlay) amenities.push('Open play areas');
-  amenities.push(...p.courts.map(cap), ...p.fields.map(cap), ...p.extras.map(cap));
+  if (p.playground) amenities.push(['playground', 'Playground']);
+  if (p.water) amenities.push(['water', p.water.type]);
+  if (p.pool) amenities.push(['pool', 'Outdoor pool']);
+  if (p.restroom !== 'none') amenities.push(['restroom', 'Restrooms']);
+  if (p.shelter) amenities.push(['shelter', 'Picnic shelter']);
+  if (p.greenbelt) amenities.push(['greenbelt', 'Greenbelt access']);
+  if (p.fishing) amenities.push(['fishing', 'Fishing']);
+  if (p.dogPark) amenities.push(['dog', 'Dog off-leash area']);
+  if (p.openPlay) amenities.push(['grass', 'Open play areas']);
+  amenities.push(...p.courts.map(c => ['courts', cap(c)]), ...p.fields.map(f => ['grass', cap(f)]), ...p.extras.map(e => [null, cap(e)]));
 
   const schema = {
     '@context': 'https://schema.org',
@@ -316,7 +319,7 @@ for (const p of parks) {
     address: { '@type': 'PostalAddress', streetAddress: p.address, addressLocality: 'Boise', addressRegion: 'ID', postalCode: p.zip, addressCountry: 'US' },
     geo: { '@type': 'GeoCoordinates', latitude: p.lat, longitude: p.lon },
     description: descText.replace(/\s+/g, ' ').slice(0, 300),
-    amenityFeature: amenities.map(a => ({ '@type': 'LocationFeatureSpecification', name: a, value: true })),
+    amenityFeature: amenities.map(([, name]) => ({ '@type': 'LocationFeatureSpecification', name, value: true })),
     isAccessibleForFree: true,
     ...(p.photo ? { image: SITE + p.photo.file } : {}),
   };
@@ -396,7 +399,8 @@ ${header}
   ${p.photo ? `<figure class="mt-6">
     <img src="${esc(p.photo.file)}" alt="${esc(p.name)} in Boise, Idaho" class="aspect-[16/8] w-full rounded-2xl object-cover shadow-card" loading="lazy">
     <figcaption class="mt-1.5 text-2xs text-bark">Photo: <a href="${esc(p.photo.source)}" rel="noopener" class="underline hover:text-meadow-deep">${esc(p.photo.author)}</a> · <a href="${esc(p.photo.licenseUrl)}" rel="noopener" class="underline hover:text-meadow-deep">${esc(p.photo.license)}</a> via Wikimedia Commons</figcaption>
-  </figure>` : ''}
+  </figure>`
+  : `<div class="relative mt-6 aspect-[16/6] w-full overflow-hidden rounded-2xl border border-meadow/15 bg-meadow-light">${RIDGE}</div>`}
 
   ${p.tip ? `<div class="mt-6 rounded-2xl border border-sun/40 bg-sun-light px-5 py-4"><p class="text-xs font-bold uppercase tracking-wide text-sun">Parent notes</p><p class="mt-1.5 text-base leading-relaxed">${esc(p.tip)}</p></div>` : ''}
 
@@ -440,7 +444,7 @@ ${header}
       <div class="mt-4 rounded-2xl border border-meadow/15 p-5">
         <h2 class="font-display text-lg font-bold text-meadow-deep">Everything here</h2>
         <ul class="mt-3 flex flex-wrap gap-1.5 text-2xs font-medium">
-          ${amenities.map(a => `<li class="rounded-md bg-meadow-light px-2 py-1 text-meadow-deep">${esc(a)}</li>`).join('\n          ')}
+          ${amenities.map(([k, label]) => `<li class="inline-flex items-center gap-1 rounded-md bg-meadow-light px-2 py-1 text-meadow-deep">${k ? icon(k) : ''}${esc(label)}</li>`).join('\n          ')}
         </ul>
         <div class="mt-5 grid gap-2">
           <a href="/?park=${p.slug}#map" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white shadow-card hover:bg-meadow-dark">See on the full map</a>
@@ -521,9 +525,17 @@ const staticCards = [...parks]
 // ---------- cache-bust the data bundle + stamp analytics into index.html ----------
 const idxPath = path.join(ROOT, 'index.html');
 const stamp = Date.now().toString(36);
+// Client-side visuals helper: the icon set + ridge motif, so the homepage's
+// JS-rendered park cards draw the same glyphs as the server-rendered pages.
+const visualsJs = `<!-- visuals:js --><script>window.__IC=${JSON.stringify(iconPaths)};`
+  + `window.iconSvg=function(n,c){var p=window.__IC[n];return p?'<svg class="ico'+(c?' '+c:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+p+'</svg>':''};`
+  + `window.__RIDGE=${JSON.stringify(RIDGE)};</script><!-- /visuals:js -->`;
+
 let idxHtml = fs.readFileSync(idxPath, 'utf8')
   .replace(/js\/parks-data\.js\?v=[a-z0-9]+/, `js/parks-data.js?v=${stamp}`)
   .replace(/<!-- ga:start -->[\s\S]*?<!-- ga:end -->/, `<!-- ga:start -->\n  ${gaSnippet}\n  <!-- ga:end -->`)
+  .replace(/<!-- visuals:ridge -->[\s\S]*?<!-- \/visuals:ridge -->/, `<!-- visuals:ridge -->${RIDGE}<!-- /visuals:ridge -->`)
+  .replace(/<!-- visuals:js -->[\s\S]*?<!-- \/visuals:js -->/, visualsJs)
   .replace(/<!-- parks:start -->[\s\S]*?<!-- parks:end -->/, `<!-- parks:start -->\n        ${staticCards}\n        <!-- parks:end -->`)
   .replace(/<!-- guides:start -->[\s\S]*?<!-- guides:end -->/,
     '<!-- guides:start -->' + createKit(pageCtx).crossLinks('/', { id: 'guides' }) + '\n  <!-- guides:end -->')

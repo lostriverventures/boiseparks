@@ -25,6 +25,11 @@ section[id], main[id] { scroll-margin-top: 6.5rem; }
 /* Amenity badge pills on cards — on the type scale (2xs) like every other size */
 .pill { @apply inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-2xs font-medium leading-4; }
 
+/* Amenity icon system (see scripts/visuals.js). Sized in em so it tracks its
+   label; stroke = currentColor so it inherits the label's colour. */
+.ico { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor;
+       stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.18em; }
+
 /* Leaflet popup styling */
 .leaflet-popup-content-wrapper { border-radius: 12px; font-family: Inter, sans-serif; box-shadow: 0 12px 32px -12px rgba(20,61,42,0.4); }
 .leaflet-popup-content { margin: 12px 14px; font-size: 13px; line-height: 1.45; }
