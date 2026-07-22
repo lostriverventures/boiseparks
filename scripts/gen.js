@@ -403,16 +403,16 @@ ${header}
   <div class="mt-8 grid gap-8 sm:grid-cols-5">
     <div class="sm:col-span-3">
       <h2 class="font-display text-xl font-bold text-meadow-deep">The essentials</h2>
-      <dl class="mt-3 divide-y divide-meadow/10 rounded-2xl border border-meadow/15 bg-white px-5 shadow-card">
+      <dl class="mt-3 divide-y divide-meadow/10 border-y border-meadow/15">
         ${factRows.map(([k, v]) => `<div class="flex gap-4 py-3 text-base"><dt class="w-28 shrink-0 font-semibold text-meadow-deep">${esc(k)}</dt><dd class="text-ink/90">${esc(v)}</dd></div>`).join('\n        ')}
       </dl>
       ${pgBits ? `
-      <h2 class="mt-8 font-display text-xl font-bold text-meadow-deep">Playground</h2>
-      <ul class="mt-3 space-y-2 rounded-2xl border border-meadow/15 bg-white px-5 py-4 text-base shadow-card">
-        ${pgBits.map(b => `<li class="flex gap-2"><span class="text-meadow">·</span> ${esc(b)}</li>`).join('\n        ')}
-      </ul>` : `<p class="mt-8 rounded-2xl border border-meadow/15 bg-white px-5 py-4 text-base text-bark shadow-card">No playground at this park.</p>`}
-      <h2 class="mt-8 font-display text-xl font-bold text-meadow-deep">Common questions about ${esc(p.name)}</h2>
-      <div class="mt-3 divide-y divide-meadow/10 rounded-2xl border border-meadow/15 bg-white px-5 shadow-card">
+      <h2 class="mt-9 font-display text-xl font-bold text-meadow-deep">Playground</h2>
+      <ul class="mt-3 space-y-2 text-base">
+        ${pgBits.map(b => `<li class="flex gap-2.5"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-meadow"></span> <span>${esc(b)}</span></li>`).join('\n        ')}
+      </ul>` : `<p class="mt-9 text-base text-bark">No playground at this park.</p>`}
+      <h2 class="mt-9 font-display text-xl font-bold text-meadow-deep">Common questions about ${esc(p.name)}</h2>
+      <div class="mt-2 divide-y divide-meadow/10 border-t border-meadow/15">
         ${faqs.map(([q, a]) => `<div class="py-3.5">
           <h3 class="text-base font-bold text-meadow-deep">${esc(q)}</h3>
           <p class="mt-1 text-base leading-relaxed text-ink/85">${esc(a)}</p>
@@ -421,30 +421,30 @@ ${header}
       ${p.cityUrl ? `
       <p class="mt-8 text-xs text-bark">For the city's official write-up and any current alerts, see the <a href="${esc(p.cityUrl)}" class="underline hover:text-meadow-deep" rel="noopener">${esc(p.name)} page at Boise Parks and Recreation</a>.</p>` : ''}
     </div>
-    <aside class="sm:col-span-2">
-      <div class="mb-4 overflow-hidden rounded-2xl border border-meadow/15 bg-white shadow-card">
+    <aside class="sm:col-span-2 sm:sticky sm:top-24 sm:self-start">
+      <div class="overflow-hidden rounded-2xl border border-meadow/15">
         <div id="locmap" class="h-48 w-full"></div>
-        <p class="px-5 py-3 text-xs leading-snug"><a href="${mapsUrl(p)}" rel="noopener" class="underline hover:text-meadow-deep">${esc(p.address)}, Boise, ID ${esc(p.zip)}</a> <span class="text-bark">— view on Google Maps</span></p>
+        <p class="bg-white px-4 py-3 text-xs leading-snug"><a href="${mapsUrl(p)}" rel="noopener" class="underline hover:text-meadow-deep">${esc(p.address)}, Boise, ID ${esc(p.zip)}</a> <span class="text-bark">— view on Google Maps</span></p>
       </div>
-      <div class="mb-4 rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
+      <div class="mt-4 rounded-2xl border border-meadow/25 bg-meadow-light/60 p-5">
         <div class="flex items-center justify-between gap-3">
           <h2 class="font-display text-lg font-bold text-meadow-deep">Parent Score</h2>
           <span class="rounded-xl px-2.5 py-1 text-lg font-bold ${scoreClasses(p.score)}">${fmtScore(p.score)}<span class="text-2xs font-semibold opacity-70">/10</span></span>
         </div>
         <ul class="mt-3 space-y-1.5 text-xs text-ink/85">
           ${p.scoreRows.map(r => `<li class="flex items-baseline justify-between gap-2"><span>${esc(r.label)}</span><span class="font-semibold ${r.got === 0 ? 'text-bark/50' : 'text-meadow-deep'}">${fmtScore(r.got)}<span class="font-normal text-bark/60">/${fmtScore(r.max)}</span></span></li>`).join('\n          ')}
-          <li class="flex items-baseline justify-between gap-2 border-t border-meadow/10 pt-1.5"><span>Bonus features${p.bonus.items.length ? ` <span class="text-bark/60">(${esc(p.bonus.items.join(', '))})</span>` : ''}</span><span class="font-semibold ${p.bonus.got === 0 ? 'text-bark/50' : 'text-meadow-deep'}">+${fmtScore(p.bonus.got)}<span class="font-normal text-bark/60">/1</span></span></li>
+          <li class="flex items-baseline justify-between gap-2 border-t border-meadow/15 pt-1.5"><span>Bonus features${p.bonus.items.length ? ` <span class="text-bark/60">(${esc(p.bonus.items.join(', '))})</span>` : ''}</span><span class="font-semibold ${p.bonus.got === 0 ? 'text-bark/50' : 'text-meadow-deep'}">+${fmtScore(p.bonus.got)}<span class="font-normal text-bark/60">/1</span></span></li>
         </ul>
         <p class="mt-3 text-2xs leading-snug text-bark">How good a visit is with kids — playground, tree cover and grass count most; water, shelters and trails are bonuses; parking never counts against a park. <a href="/#about" class="underline">Methodology</a>.</p>
       </div>
-      <div class="rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
+      <div class="mt-4 rounded-2xl border border-meadow/15 p-5">
         <h2 class="font-display text-lg font-bold text-meadow-deep">Everything here</h2>
         <ul class="mt-3 flex flex-wrap gap-1.5 text-2xs font-medium">
           ${amenities.map(a => `<li class="rounded-md bg-meadow-light px-2 py-1 text-meadow-deep">${esc(a)}</li>`).join('\n          ')}
         </ul>
         <div class="mt-5 grid gap-2">
-          <a href="/?park=${p.slug}#map" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-meadow-dark">See on the full map</a>
-          ${p.cityUrl ? `<a href="${esc(p.cityUrl)}" target="_blank" rel="noopener" class="rounded-xl border border-meadow/30 bg-white px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">Official city page</a>` : ''}
+          <a href="/?park=${p.slug}#map" class="rounded-xl bg-meadow px-4 py-2.5 text-center text-sm font-semibold text-white shadow-card hover:bg-meadow-dark">See on the full map</a>
+          ${p.cityUrl ? `<a href="${esc(p.cityUrl)}" target="_blank" rel="noopener" class="rounded-xl border border-meadow/30 px-4 py-2.5 text-center text-sm font-semibold text-meadow-deep hover:bg-meadow-light">Official city page</a>` : ''}
         </div>
       </div>
     </aside>

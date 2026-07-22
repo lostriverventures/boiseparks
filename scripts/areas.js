@@ -40,17 +40,17 @@ module.exports = function buildAreas(ctx) {
 
     const body = `
   <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold">
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${qty(inArea.length, 'park')}</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${qty(withPlayground.length, 'playground')}</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${qty(yearRound.length, 'year-round restroom')}</span>
-    ${water.length ? `<span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${water.length} with water play</span>` : ''}
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${qty(inArea.length, 'park')}</span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${qty(withPlayground.length, 'playground')}</span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${qty(yearRound.length, 'year-round restroom')}</span>
+    ${water.length ? `<span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${water.length} with water play</span>` : ''}
   </div>
 ${picks.length >= 3 ? `
   <section class="mt-12">
     <h2 class="font-display text-2xl font-bold text-meadow-deep">Best with kids in ${esc(area.label)}</h2>
     <p class="mt-1.5 max-w-2xl text-base leading-relaxed text-ink/75">The highest Parent Scores in this part of town — the score weighs playground equipment, tree cover, open grass and restrooms.</p>
     <ol class="mt-4 space-y-2.5">
-      ${picks.map((p, i) => `<li class="flex items-start gap-3 rounded-2xl border border-meadow/15 bg-white p-4 shadow-card">
+      ${picks.map((p, i) => `<li class="flex items-start gap-3 rounded-2xl border border-meadow/15 bg-white p-4">
         <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-meadow-light font-display text-base font-bold text-meadow-deep">${i + 1}</span>
         <span class="min-w-0 flex-1">
           <a class="font-display text-lg font-bold text-meadow-deep hover:text-meadow" href="/parks/${p.slug}/">${esc(p.name)}</a>

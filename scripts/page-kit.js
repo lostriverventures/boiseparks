@@ -69,9 +69,9 @@ module.exports = function createKit(ctx) {
   function parkTable(list, { showRestroom = true, showShade = true, showArea = true, rank = false, extraCol = null } = {}) {
     if (!list.length) return '';
     const minW = 20 + (showArea ? 7 : 0) + (showShade ? 7 : 0) + (showRestroom ? 9 : 0) + (extraCol ? 9 : 0);
-    return `<div class="mt-4 overflow-x-auto rounded-2xl border border-meadow/15 bg-white shadow-card">
+    return `<div class="mt-4 overflow-x-auto rounded-2xl border border-meadow/15 bg-white">
     <table class="w-full min-w-[${minW}rem] text-left text-sm">
-      <thead class="border-b border-meadow/15 text-2xs uppercase tracking-wide text-bark">
+      <thead class="border-b border-meadow/15 bg-meadow-light/40 text-2xs uppercase tracking-wide text-bark">
         <tr>
           ${rank ? '<th class="px-3 py-2.5 font-semibold">#</th>' : ''}
           <th class="px-4 py-2.5 font-semibold">Park</th>
@@ -114,7 +114,7 @@ module.exports = function createKit(ctx) {
     const areas = AREAS.filter(a => `/areas/${a.slug}/` !== currentPath);
 
     return `
-  <section${id ? ` id="${id}"` : ''} class="mt-14 rounded-2xl border border-meadow/25 bg-meadow-light px-5 py-6 shadow-card sm:px-7">
+  <section${id ? ` id="${id}"` : ''} class="mt-14 rounded-2xl border border-meadow/25 bg-meadow-light px-5 py-6 sm:px-7">
     <h2 class="font-display text-xl font-bold text-meadow-deep">Guides</h2>
     <div class="mt-4 grid gap-x-6 gap-y-4 text-base sm:grid-cols-2 lg:grid-cols-4">
       ${guides.map(([href, label]) => tile(href, label, counts[href] || '')).join('\n      ')}
@@ -165,7 +165,7 @@ module.exports = function createKit(ctx) {
     const faqHtml = faq && faq.length ? `
   <section id="faq" class="mt-14">
     <h2 class="font-display text-2xl font-bold text-meadow-deep">Common questions</h2>
-    <div class="mt-4 divide-y divide-meadow/10 rounded-2xl border border-meadow/15 bg-white px-5 shadow-card">
+    <div class="mt-2 divide-y divide-meadow/10 border-t border-meadow/15">
       ${faq.map(([q, a]) => `<div class="py-4">
         <h3 class="font-display text-lg font-bold text-meadow-deep">${esc(q)}</h3>
         <p class="mt-1.5 text-base leading-relaxed text-ink/85">${a}</p>

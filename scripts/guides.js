@@ -49,7 +49,7 @@ module.exports = function buildGuides(ctx) {
       },
     ];
 
-    const card = p => `<div class="rounded-2xl border border-sky/20 bg-white p-5 shadow-card">
+    const card = p => `<div class="rounded-2xl border border-sky/20 bg-white p-5">
       <div class="flex items-start justify-between gap-3">
         <div>
           <h3 class="font-display text-xl font-bold text-meadow-deep"><a class="hover:text-meadow" href="/parks/${p.slug}/">${esc(p.name)}</a></h3>
@@ -69,9 +69,9 @@ module.exports = function buildGuides(ctx) {
 
     const body = `
   <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold">
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${water.length} water features</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${pools.length} outdoor pools</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">Free to use</span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${water.length} water features</span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${pools.length} outdoor pools</span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">Free to use</span>
   </div>
 
   ${groups.filter(g => g.list.length).map(g => `
@@ -142,10 +142,10 @@ module.exports = function buildGuides(ctx) {
 
     const body = `
   <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold">
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${yearRound.length} open year-round</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${portable.length} with a winter portable</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${seasonal.length} closed in winter</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${none.length} with none at all</span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${yearRound.length} open year-round</span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${portable.length} with a winter portable</span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${seasonal.length} closed in winter</span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${none.length} with none at all</span>
   </div>
 
   <section id="year-round" class="mt-12">
@@ -244,7 +244,7 @@ module.exports = function buildGuides(ctx) {
       return r;
     };
 
-    const rankedCard = (p, i) => `<article class="rounded-2xl border border-meadow/15 bg-white p-5 shadow-card">
+    const rankedCard = (p, i) => `<article class="rounded-2xl border border-meadow/15 bg-white p-5">
       <div class="flex items-start gap-4">
         <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-meadow-light font-display text-lg font-bold text-meadow-deep">${i + 1}</span>
         <div class="min-w-0 flex-1">
@@ -265,15 +265,15 @@ module.exports = function buildGuides(ctx) {
 
     const body = `
   <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold">
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${pgs.length} playgrounds ranked</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">Scored from city data</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card"><a class="underline" href="/#about">Methodology</a></span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${pgs.length} playgrounds ranked</span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">Scored from city data</span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep"><a class="underline" href="/#about">Methodology</a></span>
   </div>
 
   <section id="picks" class="mt-12">
     <h2 class="font-display text-2xl font-bold text-meadow-deep">Shortlists</h2>
     <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      ${picks.map(pk => `<div class="flex flex-col rounded-2xl border border-meadow/20 bg-white p-5 shadow-card">
+      ${picks.map(pk => `<div class="flex flex-col rounded-2xl border border-meadow/20 bg-white p-5">
         <div class="flex items-center gap-2.5">
           <div><h3 class="font-display text-base font-bold leading-tight text-meadow-deep">${esc(pk.label)}</h3><p class="text-2xs text-bark">${esc(pk.why)}</p></div>
         </div>
@@ -331,7 +331,7 @@ module.exports = function buildGuides(ctx) {
     const matches = list(filter);
     const body = `
   <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold">
-    ${chips(matches).map(c => `<span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${c}</span>`).join('\n    ')}
+    ${chips(matches).map(c => `<span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${c}</span>`).join('\n    ')}
   </div>
 
   <section class="mt-10">
@@ -425,8 +425,8 @@ ${notes ? `
     const firstCome = list(p => p.shelter && !p.reservable);
     const body = `
   <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold">
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${reservable.length} reservable</span>
-    <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${firstCome.length} first-come</span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${reservable.length} reservable</span>
+    <span class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep">${firstCome.length} first-come</span>
   </div>
 
   <section id="reservable" class="mt-12">
@@ -481,7 +481,7 @@ ${notes ? `
 
     const body = `
   <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold">
-    ${SPORTS.map(s => `<a href="#${s.key}" class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card hover:bg-meadow-light">${s.list.length} ${esc(s.heading.toLowerCase())}</a>`).join('\n    ')}
+    ${SPORTS.map(s => `<a href="#${s.key}" class="rounded-full border border-meadow/20 bg-white px-3 py-1.5 text-meadow-deep hover:bg-meadow-light">${s.list.length} ${esc(s.heading.toLowerCase())}</a>`).join('\n    ')}
   </div>
 
   ${SPORTS.map(s => `
