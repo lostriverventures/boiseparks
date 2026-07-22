@@ -26,20 +26,26 @@ module.exports = {
     },
     extend: {
       colors: {
-        meadow: { DEFAULT: '#2E7D32', dark: '#1B5E20', deep: '#14532D', light: '#EAF6EC' },
-        sky: { DEFAULT: '#0369A1', light: '#E0F2FE' },
-        sun: { DEFAULT: '#D97706', light: '#FEF3C7' },
-        bark: '#57534E',
+        // Palette: forest green + warm clay on cream — the "vintage national-park"
+        // family — with a muted teal reserved strictly for water. Each hue has one
+        // job: meadow = brand/structure, sun (clay) = the single warm accent for
+        // callouts and mid-tier scores, sky (teal) = water features only.
+        meadow: { DEFAULT: '#2C6E49', dark: '#1D5537', deep: '#143D2A', light: '#E8F1EA' }, // brand pine/forest green
+        sky: { DEFAULT: '#2C6E7C', light: '#E4EEF0' },   // muted teal — water features only
+        sun: { DEFAULT: '#A8492A', light: '#F7E9DF' },   // warm clay — the one accent
+        bark: { DEFAULT: '#5B5349', light: '#8B8377' },  // warm neutral for muted text
         cream: '#FDFBF7',
-        ink: '#1F2937',
+        ink: '#2A2622',   // warm near-black body text (was cool slate #1F2937)
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
         display: ['"Bricolage Grotesque"', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        card: '0 1px 2px rgba(20,83,45,0.05), 0 8px 24px -12px rgba(20,83,45,0.18)',
-        lift: '0 12px 32px -12px rgba(20,83,45,0.32)',
+        // Shadows carry a faint green tint (the brand deep green, 20/61/42) so
+        // elevation reads warm rather than grey.
+        card: '0 1px 2px rgba(20,61,42,0.05), 0 8px 24px -12px rgba(20,61,42,0.18)',
+        lift: '0 12px 32px -12px rgba(20,61,42,0.30)',
       },
     },
   },

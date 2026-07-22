@@ -490,7 +490,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/parks-data.js?v=mrw9nlww"></script>
+<script src="/js/parks-data.js?v=mrwa70qg"></script>
 <script>
 'use strict';
 const P = window.BOISE_PARKS;
@@ -557,7 +557,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r
 }).addTo(map);
 const markerLayer = L.layerGroup().addTo(map);
 const markers = {};
-function markerColor(p){ return p.water||p.pool ? '#0369A1' : p.playground ? '#2E7D32' : '#8A8073'; }
+function markerColor(p){ return p.water||p.pool ? '#2C6E7C' : p.playground ? '#2C6E49' : '#8B8377'; }
 function buildMarkers(list){
   markerLayer.clearLayers();
   for(const p of list){
@@ -567,8 +567,8 @@ function buildMarkers(list){
     });
     // Name links to the park page, "Details" opens the modal — same rule as the
     // cards and the "also good right now" row.
-    m.bindPopup('<a href="/parks/'+p.slug+'/" style="color:#14532D;font-weight:700;text-decoration:underline">'+escHtml(p.name)+'</a><br>'+badges(p).slice(0,4).join(' · ')+
-      '<br><a href="javascript:showPark(\''+p.slug+'\')" style="color:#2E7D32;font-weight:600">Details →</a>');
+    m.bindPopup('<a href="/parks/'+p.slug+'/" style="color:#143D2A;font-weight:700;text-decoration:underline">'+escHtml(p.name)+'</a><br>'+badges(p).slice(0,4).join(' · ')+
+      '<br><a href="javascript:showPark(\''+p.slug+'\')" style="color:#2C6E49;font-weight:600">Details →</a>');
     m.addTo(markerLayer); markers[p.slug]=m;
   }
 }
@@ -652,7 +652,7 @@ function locate(){
   navigator.geolocation.getCurrentPosition(pos => {
     state.loc=[pos.coords.latitude,pos.coords.longitude];
     state.sort='dist'; $('sort').value='dist';
-    L.circleMarker(state.loc,{radius:7,color:'#fff',weight:2,fillColor:'#D97706',fillOpacity:1}).addTo(map).bindPopup('You are here');
+    L.circleMarker(state.loc,{radius:7,color:'#fff',weight:2,fillColor:'#A8492A',fillOpacity:1}).addTo(map).bindPopup('You are here');
     map.setView(state.loc, 13);
     render();
   }, () => { $('sort').value=state.sort==='dist'?'name':state.sort; if(state.sort==='dist')state.sort='name'; render(); });
@@ -727,7 +727,7 @@ function drawModalMap(p){
   const el=document.getElementById('modal-loc'); if(!el) return;
   modalMap=L.map(el,{scrollWheelZoom:false,attributionControl:false}).setView([p.lat,p.lon],14);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(modalMap);
-  L.circleMarker([p.lat,p.lon],{radius:8,color:'#fff',weight:2,fillColor:'#2E7D32',fillOpacity:.95}).addTo(modalMap);
+  L.circleMarker([p.lat,p.lon],{radius:8,color:'#fff',weight:2,fillColor:'#2C6E49',fillOpacity:.95}).addTo(modalMap);
   setTimeout(()=>modalMap && modalMap.invalidateSize(), 60);
 }
 function closeModal(){
@@ -959,7 +959,7 @@ $('now-locate').addEventListener('click', () => {
   navigator.geolocation.getCurrentPosition(pos => {
     state.loc = [pos.coords.latitude, pos.coords.longitude];
     NOW.label = 'your location';
-    L.circleMarker(state.loc, {radius:7, color:'#fff', weight:2, fillColor:'#D97706', fillOpacity:1}).addTo(map).bindPopup('You are here');
+    L.circleMarker(state.loc, {radius:7, color:'#fff', weight:2, fillColor:'#A8492A', fillOpacity:1}).addTo(map).bindPopup('You are here');
     btn.textContent = '📍 Using your location'; btn.classList.add('opacity-70');
     fetchWeather(state.loc[0], state.loc[1], 'wx-user')
       .then(w => { NOW.weather = w; }).catch(() => {}).finally(renderNow);
