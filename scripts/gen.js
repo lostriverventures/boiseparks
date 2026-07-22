@@ -253,7 +253,7 @@ const header = `
     </a>
     <nav class="flex items-center gap-3 text-xs font-medium text-bark sm:gap-5 sm:text-sm">
       <a href="/best-playgrounds/" class="hidden xs:inline hover:text-meadow-deep">Playgrounds</a>
-      <a href="/splash-pads/" class="hover:text-meadow-deep">Splash pads</a>
+      <a href="/splash-pads/" class="whitespace-nowrap hover:text-meadow-deep">Splash pads</a>
       <a href="/#map" class="hover:text-meadow-deep">Map</a>
       <a href="/#parks" class="whitespace-nowrap rounded-full bg-meadow px-3 py-1.5 text-white hover:bg-meadow-dark sm:px-3.5">All parks</a>
     </nav>
@@ -400,7 +400,7 @@ ${header}
     <img src="${esc(p.photo.file)}" alt="${esc(p.name)} in Boise, Idaho" class="aspect-[16/8] w-full rounded-2xl object-cover shadow-card" loading="lazy">
     <figcaption class="mt-1.5 text-2xs text-bark">Photo: <a href="${esc(p.photo.source)}" rel="noopener" class="underline hover:text-meadow-deep">${esc(p.photo.author)}</a> · <a href="${esc(p.photo.licenseUrl)}" rel="noopener" class="underline hover:text-meadow-deep">${esc(p.photo.license)}</a> via Wikimedia Commons</figcaption>
   </figure>`
-  : `<div class="relative mt-6 aspect-[16/6] w-full overflow-hidden rounded-2xl border border-meadow/15 bg-meadow-light">${RIDGE}</div>`}
+  : ''}
 
   ${p.tip ? `<div class="mt-6 rounded-2xl border border-sun/40 bg-sun-light px-5 py-4"><p class="text-xs font-bold uppercase tracking-wide text-sun">Parent notes</p><p class="mt-1.5 text-base leading-relaxed">${esc(p.tip)}</p></div>` : ''}
 
