@@ -8,7 +8,9 @@
 @tailwind utilities;
 
 html { scroll-behavior: smooth; }
-body { -webkit-font-smoothing: antialiased; }
+/* Anchor untyped text to the scale's body step (15px) instead of the browser's
+   16px default, so anything without an explicit text-* class is still on-system. */
+body { -webkit-font-smoothing: antialiased; @apply text-base; }
 section[id], main[id] { scroll-margin-top: 6.5rem; }
 
 /* Card hover lift */
@@ -16,12 +18,12 @@ section[id], main[id] { scroll-margin-top: 6.5rem; }
 .card-lift:hover { transform: translateY(-3px); box-shadow: 0 12px 32px -12px rgba(20,83,45,0.32); }
 
 /* Filter chips */
-.chip { @apply inline-flex items-center gap-1.5 rounded-full border border-meadow/25 bg-white px-3 py-1.5 text-[13px] font-medium text-meadow-deep cursor-pointer select-none whitespace-nowrap; transition: all .15s ease; }
+.chip { @apply inline-flex items-center gap-1.5 rounded-full border border-meadow/25 bg-white px-3 py-1.5 text-xs font-medium text-meadow-deep cursor-pointer select-none whitespace-nowrap; transition: all .15s ease; }
 .chip:hover { @apply border-meadow bg-meadow-light; }
 .chip[aria-pressed="true"] { @apply bg-meadow text-white border-meadow; }
 
-/* Amenity badge pills on cards */
-.pill { @apply inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11.5px] font-medium leading-4; }
+/* Amenity badge pills on cards — on the type scale (2xs) like every other size */
+.pill { @apply inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-2xs font-medium leading-4; }
 
 /* Leaflet popup styling */
 .leaflet-popup-content-wrapper { border-radius: 12px; font-family: Inter, sans-serif; box-shadow: 0 12px 32px -12px rgba(20,83,45,0.4); }

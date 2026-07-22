@@ -39,7 +39,7 @@ module.exports = function buildAreas(ctx) {
     const picks = withPlayground.slice(0, 5);
 
     const body = `
-  <div class="mt-6 flex flex-wrap gap-2 text-[13px] font-semibold">
+  <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold">
     <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${qty(inArea.length, 'park')}</span>
     <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${qty(withPlayground.length, 'playground')}</span>
     <span class="rounded-full bg-white px-3 py-1.5 text-meadow-deep shadow-card">${qty(yearRound.length, 'year-round restroom')}</span>
@@ -48,14 +48,14 @@ module.exports = function buildAreas(ctx) {
 ${picks.length >= 3 ? `
   <section class="mt-12">
     <h2 class="font-display text-2xl font-bold text-meadow-deep">Best with kids in ${esc(area.label)}</h2>
-    <p class="mt-1.5 max-w-2xl text-[14.5px] leading-relaxed text-ink/75">The highest Parent Scores in this part of town — the score weighs playground equipment, tree cover, open grass and restrooms.</p>
+    <p class="mt-1.5 max-w-2xl text-base leading-relaxed text-ink/75">The highest Parent Scores in this part of town — the score weighs playground equipment, tree cover, open grass and restrooms.</p>
     <ol class="mt-4 space-y-2.5">
       ${picks.map((p, i) => `<li class="flex items-start gap-3 rounded-2xl border border-meadow/15 bg-white p-4 shadow-card">
-        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-meadow-light font-display text-[15px] font-bold text-meadow-deep">${i + 1}</span>
+        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-meadow-light font-display text-base font-bold text-meadow-deep">${i + 1}</span>
         <span class="min-w-0 flex-1">
-          <a class="font-display text-[17px] font-bold text-meadow-deep hover:text-meadow" href="/parks/${p.slug}/">${esc(p.name)}</a>
-          <span class="ml-2 text-[13px] text-bark">${fmtScore(p.score)}/10</span>
-          ${p.tip ? `<span class="mt-1 block text-[13.5px] leading-relaxed text-ink/80">${esc(p.tip)}</span>` : ''}
+          <a class="font-display text-lg font-bold text-meadow-deep hover:text-meadow" href="/parks/${p.slug}/">${esc(p.name)}</a>
+          <span class="ml-2 text-xs text-bark">${fmtScore(p.score)}/10</span>
+          ${p.tip ? `<span class="mt-1 block text-xs leading-relaxed text-ink/80">${esc(p.tip)}</span>` : ''}
         </span>
       </li>`).join('\n      ')}
     </ol>
@@ -63,7 +63,7 @@ ${picks.length >= 3 ? `
 
   <section class="mt-12">
     <h2 class="font-display text-2xl font-bold text-meadow-deep">All ${inArea.length} parks in ${esc(area.label)}</h2>
-    <p class="mt-1.5 max-w-2xl text-[14.5px] leading-relaxed text-ink/75">Ranked by Parent Score. ${acres.toLocaleString()} acres of park land in total.</p>
+    <p class="mt-1.5 max-w-2xl text-base leading-relaxed text-ink/75">Ranked by Parent Score. ${acres.toLocaleString()} acres of park land in total.</p>
     ${parkTable(inArea, { showArea: false, rank: true })}
   </section>`;
 
