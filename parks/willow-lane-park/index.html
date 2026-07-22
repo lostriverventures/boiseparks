@@ -35,14 +35,18 @@
 
 <header class="sticky top-0 z-40 border-b border-meadow/15 bg-cream/90 backdrop-blur">
   <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-    <a href="/" class="flex items-center gap-2.5">
+    <a href="/" class="flex shrink-0 items-center gap-2.5">
       <img src="/favicon.svg" alt="" class="h-8 w-8">
-      <span class="font-display text-lg font-bold text-meadow-deep">boise<span class="text-meadow">parks</span>.com</span>
+      <span class="font-display text-lg font-bold text-meadow-deep">boise<span class="text-meadow">parks</span><span class="hidden xs:inline">.com</span></span>
     </a>
     <nav class="flex items-center gap-3 text-xs font-medium text-bark sm:gap-5 sm:text-sm">
-      <a href="/best-playgrounds/" class="hidden xs:inline hover:text-meadow-deep">Playgrounds</a>
-      <a href="/splash-pads/" class="whitespace-nowrap hover:text-meadow-deep">Splash pads</a>
-      <a href="/#map" class="hover:text-meadow-deep">Map</a>
+      <!-- Same rule as the homepage header: the bar can't fit every link on a
+           phone (the logo + "All parks" alone need ~260px), so secondary links
+           appear only from xs/sm up. Measured, not guessed: at 375px the full
+           set overlapped the wordmark. -->
+      <a href="/best-playgrounds/" class="hidden sm:inline hover:text-meadow-deep">Playgrounds</a>
+      <a href="/splash-pads/" class="hidden whitespace-nowrap xs:inline hover:text-meadow-deep">Splash pads</a>
+      <a href="/#map" class="hidden sm:inline hover:text-meadow-deep">Map</a>
       <a href="/#parks" class="whitespace-nowrap rounded-full bg-meadow px-3 py-1.5 text-white hover:bg-meadow-dark sm:px-3.5">All parks</a>
     </nav>
   </div>
